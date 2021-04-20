@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="341dp"
+    android:layout_height="332dp"
+    android:background="@drawable/device_stop_dialog_background">
+
+    <ImageView
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:src="@drawable/device_stop_dialog_point"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="36dp"/>
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="25dp"
+        android:text="终止监测"
+        android:textColor="#444c72"
+        android:textSize="19sp"
+        android:gravity="left"
+        android:layout_marginTop="28dp"
+        android:layout_marginLeft="65dp"/>
+
+    <RelativeLayout
+        android:id="@+id/device_stop_rl1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:text="是否需要终止监测？"
+            android:textColor="#444c72"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:layout_marginLeft="41dp"
+            android:layout_marginTop="88dp"/>
+
+        <TextView
+            android:layout_width="257dp"
+            android:layout_height="37dp"
+            android:text="*终止监测仅将设备状态转为待回收，您仍需将设备回收，方可再次借出!"
+            android:textColor="#444c72"
+            android:textSize="12sp"
+            android:gravity="left"
+            android:layout_marginTop="264dp"
+            android:layout_marginLeft="42dp"/>
+
+        <Button
+            android:id="@+id/btn_stop_device_true"
+            android:layout_width="99dp"
+            android:layout_height="57dp"
+            android:text="好的"
+            android:textSize="15sp"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="186dp"
+            android:layout_marginTop="155dp"
+            android:background="@drawable/device_stop_button_true"/>
+
+        <Button
+            android:id="@+id/btn_stop_device_false"
+            android:layout_width="99dp"
+            android:layout_height="57dp"
+            android:text="不"
+            android:textSize="15sp"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="56dp"
+            android:layout_marginTop="155dp"
+            android:background="@drawable/device_stop_button_false"/>
+
+        <TextView
+            android:id="@+id/stop_device_item_sn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="123123123123"
+            android:layout_marginLeft="40dp"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/device_stop_rl2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="82dp"
+            android:layout_height="81dp"
+            android:src="@drawable/stop_device_sussce_icon"
+            android:layout_marginLeft="129dp"
+            android:layout_marginTop="77dp"/>
+        <TextView
+            android:layout_width="72dp"
+            android:layout_height="22dp"
+            android:text="操作成功"
+            android:textColor="#444c72"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:layout_marginLeft="135dp"
+            android:layout_marginTop="172dp"/>
+
+        <TextView
+            android:id="@+id/device_stop_intent_recover"
+            android:layout_width="155dp"
+            android:layout_height="42dp"
+            android:text="点击马上回收此设备"
+            android:textColor="#3386f1"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:layout_marginTop="219dp"
+            android:layout_marginLeft="91dp" />
+
+
+        <TextView
+            android:id="@+id/stop_device_dismiss_time"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:text="3s"
+            android:textColor="#444c72"
+            android:textSize="17sp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="273dp"/>
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#f7f7f7">
+
+    <TextView
+        android:id="@+id/fragment_user_title"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
+        android:text="八戒睡眠"
+        android:textColor="#000000"
+        android:textSize="17sp"
+        android:gravity="center"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="170dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_fragment_userinformation"
+        android:layout_width="342dp"
+        android:layout_height="189dp"
+        android:layout_below="@+id/fragment_user_title"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="35dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:cardBackgroundColor="#ffffff">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_user_head"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_marginTop="37dp"
+                android:layout_marginLeft="145dp"
+                android:src="@drawable/fragment_user_head" />
+
+
+            <TextView
+                android:id="@+id/fragment_user_name"
+                android:layout_width="86dp"
+                android:layout_height="29dp"
+
+                android:textColor="#444c72"
+                android:textSize="22sp"
+                android:gravity="center"
+                android:layout_below="@+id/iv_user_head"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="128dp"/>
+
+
+            <TextView
+                android:id="@+id/fragment_hospital_name"
+                android:layout_width="158dp"
+                android:layout_height="17dp"
+
+                android:textColor="#b8444c72"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:layout_below="@+id/fragment_user_name"
+                android:layout_marginLeft="92dp"
+                android:layout_marginTop="9dp"/>
+
+        </RelativeLayout>
+
+
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_fragment_back"
+        android:layout_width="342dp"
+        android:layout_height="236dp"
+        android:layout_below="@+id/cv_fragment_userinformation"
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="35dp"
+        app:cardCornerRadius="10dp"
+        android:background="#dfdfdf"
+        app:cardElevation="10dp"
+        app:cardBackgroundColor="#ffffff">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <ImageView
+                android:id="@+id/fragment_user_info_icon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/info_icon"
+                android:layout_marginTop="106dp"
+                android:layout_marginLeft="37dp"/>
+
+            <ImageView
+                android:id="@+id/fragment_user_path_icon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/path_icon"
+                android:layout_marginTop="162dp"
+                android:layout_marginLeft="39dp"/>
+
+            <ImageView
+                android:id="@+id/fragment_user_push_icon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/user_fragment_push_icon"
+                android:layout_marginTop="51dp"
+                android:layout_marginLeft="39dp"/>
+
+            <TextView
+                android:id="@+id/tv_fragment_user_push"
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:text="推送设置"
+                android:textColor="#241332"
+                android:textSize="15sp"
+                android:gravity="left"
+                android:paddingLeft="40dp"
+                android:paddingTop="10dp"
+                android:layout_marginLeft="33dp"
+
+                android:layout_marginTop="38dp"/>
+
+            <TextView
+                android:id="@+id/tv_fragment_user_info"
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:text="关于"
+                android:textColor="#241332"
+                android:textSize="15sp"
+                android:gravity="left"
+                android:paddingLeft="40dp"
+                android:paddingTop="10dp"
+                android:layout_marginLeft="33dp"
+
+                android:layout_marginTop="94dp"/>
+
+
+            <TextView
+                android:id="@+id/tv_fragment_user_version"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="版本"
+                android:textColor="#bbbbbb"
+                android:textSize="15sp"
+                android:gravity="left"
+
+                android:layout_marginLeft="235dp"
+
+                android:layout_marginTop="104dp"/>
+            <TextView
+                android:id="@+id/tv_fragment_user_path"
+
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:text="退出登录"
+                android:textColor="#241332"
+                android:textSize="15sp"
+                android:gravity="left"
+                android:paddingLeft="40dp"
+                android:paddingTop="10dp"
+                android:layout_marginTop="150dp"
+                android:layout_marginLeft="33dp"/>
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <View
+        android:layout_below="@+id/cv_fragment_back"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"/>
+
+
+
+</RelativeLayout>

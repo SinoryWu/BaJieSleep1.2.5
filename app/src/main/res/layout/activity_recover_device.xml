@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f7f7f7"
+    tools:context=".RecoverDeviceActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="#f7f7f7"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+        <LinearLayout
+            android:id="@+id/recover_liner_left"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="17dp">
+
+            <ImageView
+                android:id="@+id/add_arrow_left"
+                android:layout_width="8dp"
+                android:layout_height="15dp"
+                android:src="@drawable/arrow_left"
+                />
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/recover_cd"
+            android:layout_width="341dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="36dp"
+            android:layout_marginTop="56dp"
+            android:background="#ffffff"
+            app:cardCornerRadius="20dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <ImageView
+                    android:id="@+id/recover_device_point"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:src="@drawable/recover_device_point"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginLeft="41dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dp"
+                    android:text="回收设备"
+                    android:textColor="#444c72"
+                    android:textSize="19sp"
+                    android:gravity="left"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="65dp"
+                    android:layout_marginTop="27dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:text="选择设备"
+                    android:textColor="#444c72"
+                    android:textSize="17sp"
+                    android:gravity="left"
+                    android:layout_marginTop="86dp"
+                    android:layout_marginLeft="47dp"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:text="绑定用户"
+                    android:textColor="#444c72"
+                    android:textSize="17sp"
+                    android:gravity="left"
+                    android:layout_marginTop="153dp"
+                    android:layout_marginLeft="47dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:text="手机号"
+                    android:textColor="#444c72"
+                    android:textSize="17sp"
+                    android:gravity="left"
+                    android:layout_marginTop="210dp"
+                    android:layout_marginLeft="47dp"
+                    />
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:text="设备完好"
+                    android:textColor="#444c72"
+                    android:textSize="17sp"
+                    android:gravity="left"
+                    android:layout_marginTop="268dp"
+                    android:layout_marginLeft="47dp"
+                    />
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:text="睡眠报告"
+                    android:textColor="#444c72"
+                    android:textSize="17sp"
+                    android:gravity="left"
+                    android:layout_marginTop="325dp"
+                    android:layout_marginLeft="47dp"
+                    />
+
+                <TextView
+                    android:id="@+id/recover_tv_report"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="1份"
+                    android:layout_alignParentRight="true"
+                    android:textColor="#dcdcdc"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="325dp"
+                    android:layout_marginRight="42dp"
+                    />
+
+                <TextView
+                    android:id="@+id/recover_device_sn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="S01D190700006D"
+                    android:textColor="#bbbbbb"
+                    android:textSize="15sp"
+                    android:gravity="left"
+                    android:layout_marginTop="88dp"
+                    android:layout_marginLeft="172dp"/>
+
+                <TextView
+                    android:id="@+id/recover_tv_mobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="13569888901"
+                    android:textColor="#bbbbbb"
+                    android:textSize="15sp"
+                    android:gravity="right"
+                    android:layout_marginLeft="204dp"
+                    android:layout_marginTop="212dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/recover_device_false"
+                    android:layout_width="41dp"
+                    android:layout_height="41dp"
+                    android:src="@drawable/device_false_state_button_normal"
+                    android:layout_marginLeft="184dp"
+                    android:layout_marginTop="259dp"/>
+
+                <ImageView
+                    android:id="@+id/recover_device_true"
+                    android:layout_width="41dp"
+                    android:layout_height="41dp"
+                    android:src="@drawable/device_true_state_button_normal"
+                    android:layout_marginLeft="258dp"
+                    android:layout_marginTop="259dp"/>
+
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recover_rv_report_date"
+                    android:layout_width="252dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="47dp"
+                    android:layout_marginTop="376dp">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+
+                <View
+                    android:layout_below="@+id/recover_rv_report_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="71dp"
+                    android:background="#ffffff"
+                    />
+                <View
+                    android:layout_width="258dp"
+                    android:layout_height="0.1dp"
+                    android:background="#998fa2"
+                    android:layout_marginLeft="41dp"
+                    android:layout_marginTop="133dp"/>
+                <View
+                    android:layout_width="258dp"
+                    android:layout_height="0.1dp"
+                    android:background="#998fa2"
+                    android:layout_marginLeft="41dp"
+                    android:layout_marginTop="191dp"/>
+                <View
+                    android:layout_width="258dp"
+                    android:layout_height="0.1dp"
+                    android:background="#998fa2"
+                    android:layout_marginLeft="41dp"
+                    android:layout_marginTop="248dp"/>
+                <View
+                    android:layout_width="258dp"
+                    android:layout_height="0.1dp"
+                    android:background="#998fa2"
+                    android:layout_marginLeft="41dp"
+                    android:layout_marginTop="307dp"/>
+
+                <View
+                    android:layout_width="258dp"
+                    android:layout_height="0.1dp"
+                    android:background="#998fa2"
+                    android:layout_marginLeft="41dp"
+                    android:layout_marginTop="360dp"/>
+
+
+                <TextView
+                    android:id="@+id/recover_tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="155dp"
+                    android:layout_marginRight="42dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_height="20dp"
+                    android:gravity="center_vertical"
+                    android:hint="佳乐  男"
+                    android:maxLength="20"
+                    android:background="@null"/>
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:layout_below="@+id/recover_cd"
+            android:id="@+id/btn_recover_device"
+            android:layout_width="341dp"
+            android:layout_height="57dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="17dp"
+            android:background="@drawable/btn_lend_device_background"
+            android:text="回收"
+            android:textColor="#ffffff"
+            android:textSize="15sp"/>
+        <TextView
+            android:id="@+id/recover_device_tv_state"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+
+            android:text="0"
+            android:layout_marginLeft="50dp" />
+
+
+
+    </RelativeLayout>
+
+</ScrollView>

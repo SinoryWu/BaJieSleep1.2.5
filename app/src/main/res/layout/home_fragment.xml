@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f7f7f7">
+
+    <HorizontalScrollView
+        android:id="@+id/hs_titles"
+        android:layout_width="373dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="18dp"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/home_fragment_horizontal_linear"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+
+    <EditText
+        android:id="@+id/home_search"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="328dp"
+        android:layout_height="38dp"
+        android:background="@drawable/home_search_background"
+        android:paddingLeft="25dp"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:imeOptions="actionSearch"
+        android:cursorVisible="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="搜索 全部"
+        />
+
+
+    <RelativeLayout
+        android:id="@+id/home_search_clean"
+        android:layout_height="38dp"
+        android:layout_width="44dp"
+        android:gravity="center"
+        android:layout_marginLeft="304dp"
+        android:layout_marginTop="26dp"
+        android:visibility="gone">
+        <ImageView
+
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/clean_search_icon"
+
+            />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/search_user_icon"
+        android:layout_width="18dp"
+        android:layout_height="17dp"
+        android:src="@drawable/search_ico"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="37dp"/>
+
+    <RelativeLayout
+        android:id="@+id/home_fragment_hoslist"
+        android:layout_width="64dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="348dp">
+        <ImageView
+
+            android:layout_width="25dp"
+            android:layout_height="24dp"
+            android:src="@drawable/home_hoslist_icon"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"/>
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/home_total_device"
+        android:layout_width="115dp"
+        android:layout_height="29dp"
+        android:text="全部设备0台"
+        android:textColor="#8e8e92"
+        android:textSize="13sp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="73dp"
+        android:paddingLeft="21dp"/>
+
+    <TextView
+        android:id="@+id/home_online_device"
+        android:layout_width="115dp"
+        android:layout_height="29dp"
+        android:text="在线设备0台"
+        android:textColor="#8e8e92"
+        android:textSize="13sp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="156dp"
+        android:layout_marginTop="73dp"
+        android:paddingLeft="23dp"/>
+    <ImageView
+        android:id="@+id/home_iv_total_device"
+        android:layout_width="16dp"
+        android:layout_height="15dp"
+        android:src="@drawable/home_radio_button_false"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="19dp"/>
+    <ImageView
+        android:id="@+id/home_iv_online_device"
+        android:layout_width="16dp"
+        android:layout_height="15dp"
+        android:src="@drawable/home_radio_button_false"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="156dp"/>
+    <com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView
+        android:id="@+id/rv_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="103dp"
+        android:descendantFocusability="blocksDescendants"
+        android:focusable="false">
+
+    </com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView>
+
+
+</RelativeLayout>

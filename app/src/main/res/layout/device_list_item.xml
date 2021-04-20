@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="7dp" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="341dp"
+        android:layout_height="110dp"
+        app:cardCornerRadius="40dp"
+        android:layout_gravity="center_horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/device_list_item_sn"
+                android:layout_width="152dp"
+                android:layout_height="22dp"
+                android:text="S01D190700006A"
+                android:textStyle="bold"
+                android:textColor="#817889"
+                android:textSize="17sp"
+                android:gravity="left"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="28dp"/>
+            <TextView
+                android:id="@+id/device_list_item_name"
+                android:layout_width="91dp"
+                android:layout_height="17dp"
+                android:text="用户：之明明"
+                android:textColor="#8f352641"
+                android:textSize="13sp"
+                android:gravity="left"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="51dp"/>
+            <TextView
+                android:id="@+id/device_list_item_state"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:text="状态：已借出"
+                android:textColor="#817889"
+                android:textSize="13sp"
+                android:gravity="left"
+                android:layout_marginLeft="127dp"
+                android:layout_marginTop="51dp"/>
+            <TextView
+                android:id="@+id/device_list_item_hopitalname"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:text="杭州道奇医疗器械有限公司"
+                android:textColor="#8f352641"
+                android:textSize="11sp"
+                android:gravity="left"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="77dp"/>
+            <TextView
+                android:id="@+id/tv_device_list_item_device_state"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:text=""
+                android:textColor="#8f352641"
+                android:textSize="11sp"
+                android:gravity="left"
+                android:layout_marginLeft="25dp"
+                android:visibility="visible"/>
+
+            <ImageView
+                android:id="@+id/device_list_item_action_lend"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/device_list_lend_icon"
+                android:layout_marginTop="31dp"
+                android:layout_marginLeft="251dp"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/device_list_item_action_edit"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/device_list_edit_icon"
+                android:layout_marginTop="31dp"
+                android:layout_marginLeft="251dp"
+                android:scaleType="centerCrop"/>
+            <ImageView
+                android:id="@+id/device_list_item_action_recover"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/device_list_recover_icon"
+                android:layout_marginTop="31dp"
+                android:layout_marginLeft="251dp"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/device_list_item_action_stop"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/device_list_stop_icon"
+                android:layout_marginTop="31dp"
+                android:layout_marginLeft="251dp"
+                android:scaleType="centerCrop"/>
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+    <View
+
+        android:layout_width="match_parent"
+        android:layout_height="7dp" />
+
+
+</LinearLayout>

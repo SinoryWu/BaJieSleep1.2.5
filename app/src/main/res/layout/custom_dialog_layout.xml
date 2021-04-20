@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="325dp"
+    android:layout_height="225dp"
+    android:background="@drawable/custom_dialog_background">
+
+    <HorizontalScrollView
+        android:id="@+id/hs_dialog"
+        android:layout_width="287dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="15dp"
+        android:fillViewport="true"
+        android:gravity="center"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/dialog_liner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/sv_dialog"
+        android:layout_width="287dp"
+        android:layout_height="81dp"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="67dp"
+        android:background="@drawable/tv_scroll_background"
+
+        >
+
+        <TextView
+            android:id="@+id/tv_scroll"
+            android:layout_width="276dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:lines="3"
+            android:text="温馨提醒：正常检测时，监护仪收发指示灯为橙色闪烁，戒指传感器红灯常亮，使用指南请点击https://t.cn/13234254566温馨提醒：正常检测时，监护仪收发指示灯为橙色闪烁，戒指传感器红灯常亮，使用指南请点击https://t.cn/13234254566"
+            android:textColor="#998fa2"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="80dp"
+        android:layout_height="44dp"
+        android:layout_marginLeft="134dp"
+        android:layout_marginTop="157dp"
+        android:background="@drawable/btn_cancel_background"
+        android:text="取消"
+        android:textColor="#ffffff" />
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="80dp"
+        android:layout_height="44dp"
+        android:layout_marginLeft="222dp"
+        android:layout_marginTop="157dp"
+        android:background="@drawable/btn_send_background"
+        android:text="发送"
+        android:textColor="#ffffff" />
+
+    <TextView
+        android:id="@+id/tv_message_phone_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="210dp"
+        android:text="110" />
+
+
+</RelativeLayout>

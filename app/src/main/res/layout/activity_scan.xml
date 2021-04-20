@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/liner_left"
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="17dp">
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="15dp"
+            android:src="@drawable/arrow_white_left"
+            />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#383838">
+
+        <LinearLayout
+            android:id="@+id/liner_left2"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="17dp">
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="15dp"
+                android:src="@drawable/arrow_white_left"
+                />
+        </LinearLayout>
+        <EditText
+            android:id="@+id/search_1"
+            android:layout_marginTop="56dp"
+            android:layout_marginLeft="36dp"
+            android:layout_width="341dp"
+            android:layout_height="49dp"
+            android:background="@drawable/scan_serch_background"
+            android:paddingLeft="24dp"
+            android:textColor="#444c72"
+            android:textSize="17sp"
+            android:maxLines="1"
+            android:maxLength="14"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
+            />
+        <Button
+            android:id="@+id/button_switch2"
+            android:layout_width="89dp"
+            android:layout_height="41dp"
+            android:background="@drawable/switch_scan"
+            android:text="切换扫码"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:layout_marginLeft="282dp"
+            android:layout_marginTop="60dp"/>
+        <View
+            android:layout_below="@+id/search_1"
+            android:id="@+id/recycler_view1"
+            android:layout_width="match_parent"
+            android:layout_height="7dp"
+            android:background="#383838"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+
+
+            android:id="@+id/scan_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recycler_view1"
+            >
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+    </RelativeLayout>
+
+
+
+
+    <com.journeyapps.barcodescanner.DecoratedBarcodeView
+        android:layout_marginTop="56dp"
+        android:layout_marginLeft="36dp"
+
+        android:id="@+id/dbv"
+        android:layout_width="341dp"
+        android:layout_height="469dp"
+        android:layout_alignParentStart="true"
+        app:zxing_scanner_layout="@layout/content_scan"
+        android:layout_alignParentLeft="true">
+
+
+    </com.journeyapps.barcodescanner.DecoratedBarcodeView>
+
+    <Button
+        android:id="@+id/button_switch"
+        android:layout_marginTop="542dp"
+        android:layout_width="341dp"
+        android:layout_height="57dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginBottom="60dp"
+        android:text="切换输入"
+        android:textColor="#ffffff"
+        android:textSize="15sp"
+        android:background="@drawable/switch_input"
+        />
+
+
+    <TextView
+        android:id="@+id/zxing_status_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="495dp"
+        android:layout_marginLeft="103dp"
+        android:background="@color/zxing_transparent"
+        android:text="请扫描设备二维码，或手动输入"
+        android:textColor="@color/zxing_status_text"
+        android:textSize="15sp"/>
+
+</RelativeLayout>

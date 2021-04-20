@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:background="#f7f7f7"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_recycler_info"
+        android:layout_width="372dp"
+        android:layout_height="176dp"
+        android:layout_marginLeft="20dp"
+
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        android:background="#ffffff">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+            <RelativeLayout
+                android:id="@+id/recycler_rl_device_sn"
+                android:layout_width="195dp"
+                android:layout_height="38dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="9dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:id="@+id/recycler_tv_device_sn"
+                    android:layout_width="195dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="S01D19030006D"
+                    android:textColor="#352641"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/recycler_rl_device_sim"
+                android:layout_width="195dp"
+                android:layout_height="38dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="9dp"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+                <TextView
+                    android:id="@+id/recycler_tv_device_sim"
+                    android:layout_width="195dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:gravity="center_vertical"
+                    android:textColor="#352641"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/recycler_rl_device_versionno"
+                android:layout_width="195dp"
+                android:layout_height="38dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="9dp"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+                <TextView
+                    android:id="@+id/recycler_tv_device_versionno"
+                    android:layout_width="195dp"
+                    android:layout_height="38dp"
+                    android:text=""
+                    android:gravity="center_vertical"
+                    android:textColor="#352641"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/recycler_tv_device_time"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:layout_marginLeft="261dp"
+                android:layout_marginTop="20dp"
+                android:text=""
+                android:textColor="#7c819c"
+                android:textSize="14sp" />
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/recycler_iv_device_light"
+                android:layout_width="6dp"
+                android:layout_height="11dp"
+                android:layout_marginLeft="346dp"
+                android:layout_marginTop="23dp"
+                android:src="@drawable/light_icon"/>
+            <View
+                android:id="@+id/cd_view"
+                android:layout_width="332dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="20dp"
+                android:background="#e7e4e9"/>
+
+            <ImageView
+                android:id="@+id/recycler_iv_device_state"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="68dp"
+                android:layout_marginLeft="19dp"
+                android:src="@drawable/monitor_icon"/>
+
+
+            <ImageView
+                android:id="@+id/recycler_iv_device_no_blood_oxygen"
+                android:layout_width="20dp"
+                android:layout_height="18dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="230dp"
+                android:src="@drawable/no_bloodoxygen_icon"/>
+
+            <TextView
+                android:id="@+id/recycler_tv_user_name"
+                android:layout_width="140dp"
+                android:layout_height="17dp"
+                android:layout_marginLeft="76dp"
+                android:layout_marginTop="67dp"
+                android:text="用户"
+                android:textColor="#352641"
+                android:textSize="13sp"/>
+            <TextView
+
+                android:id="@+id/recycler_tv_device_state"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:layout_marginLeft="76dp"
+                android:layout_marginTop="86dp"
+                android:text="已连接，未监测"
+                android:textColor="#7c819c"
+                android:textSize="12sp"/>
+            
+            <ImageView
+                android:id="@+id/recycler_iv_children"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/children_icon"
+                android:layout_marginTop="84dp"
+                android:layout_toRightOf="@+id/recycler_tv_device_state"
+                android:layout_marginLeft="5dp"
+                />
+
+
+            <ImageView
+                android:id="@+id/iv_phone"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="69dp"
+                android:layout_marginLeft="256dp"
+                android:src="@drawable/phone_icon"/>
+
+            <ImageView
+                android:id="@+id/iv_message"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="69dp"
+                android:layout_marginLeft="321dp"
+                android:src="@drawable/message_icon"/>
+
+            <TextView
+                android:id="@+id/recycler_tv_ring_state"
+                android:layout_width="115dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="118dp"
+                android:text="戒指：已连接,未监测"
+                android:textColor="#7c819c"
+                android:textSize="11sp" />
+
+            <ImageView
+                android:id="@+id/recycler_electric_state_icon"
+                android:gravity="center"
+                android:layout_width="24dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="119dp"
+                android:layout_marginLeft="143dp"
+                android:src="@drawable/electric80_icon"/>
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/recycler_ring_charge"
+                android:gravity="center"
+                android:layout_width="24dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="119dp"
+                android:layout_marginLeft="143dp"
+                android:src="@drawable/ring_charge" />
+            <TextView
+                android:id="@+id/recycler_tv_electric_state"
+                android:layout_width="25dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="178dp"
+                android:layout_marginTop="118dp"
+                android:text="95%"
+                android:textColor="#7c819c"
+                android:textSize="11sp" />
+
+
+            <RelativeLayout
+                android:id="@+id/recycler_rl_ring_sn"
+                android:layout_width="106dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="256dp"
+                android:layout_marginTop="113dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:id="@+id/recycler_tv_ring_sn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="P11F12003000162"
+                    android:textColor="#7c819c"
+                    android:textSize="11sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/recycler_rl_ring_version"
+                android:layout_width="106dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="256dp"
+                android:layout_marginTop="113dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:id="@+id/recycler_tv_ring_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:gravity="center_vertical"
+                    android:textColor="#7c819c"
+                    android:textSize="11sp" />
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/recycler_tv_heart_rate"
+                android:layout_width="46dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="140dp"
+                android:text="心率:81"
+                android:textColor="#7c819c"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/recycler_tv_breathing"
+                android:layout_width="46dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="106dp"
+                android:layout_marginTop="140dp"
+                android:text="呼吸:12"
+                android:textColor="#7c819c"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/recycler_tv_blood_oxygen"
+                android:layout_width="56dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="191dp"
+                android:layout_marginTop="140dp"
+                android:text="血氧:89%"
+                android:textColor="#7c819c"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/recycler_tv_room_temperature"
+                android:layout_width="57dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="295dp"
+                android:layout_marginTop="140dp"
+                android:text="室温:25℃"
+                android:textColor="#7c819c"
+                android:textSize="11sp" />
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:background="#f7f7f7"/>
+</LinearLayout>

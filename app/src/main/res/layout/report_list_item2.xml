@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#f7f7f7"
+    android:orientation="vertical">
+    <View
+        android:id="@+id/report_item_view"
+        android:layout_width="match_parent"
+        android:layout_height="7dp" />
+    <RelativeLayout
+        android:layout_below="@id/report_item_view"
+        android:id="@+id/cv_report_item"
+        android:layout_width="341dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/report_list_item_background"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="36dp">
+
+        <RelativeLayout
+            android:id="@+id/rl_report_item"
+            android:layout_width="341dp"
+            android:layout_height="wrap_content"
+            android:minHeight="110dp">
+
+            <TextView
+                android:id="@+id/report_item_userName"
+                android:layout_width="60dp"
+                android:layout_height="22dp"
+                android:text="王大头"
+                android:textColor="#817889"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:layout_marginTop="28dp"
+                android:layout_marginLeft="35dp"/>
+            <TextView
+                android:id="@+id/report_item_date"
+                android:layout_width="72dp"
+                android:layout_height="17dp"
+                android:text="2020-08-08"
+                android:textColor="#352641"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="51dp"/>
+            <TextView
+                android:id="@+id/report_item_ahi"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:text="AHI：65.3"
+                android:textColor="#f45c50"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:layout_marginTop="28dp"
+                android:layout_marginLeft="140dp"/>
+
+            <ImageView
+                android:id="@+id/report_item_children"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/children_icon"
+                android:layout_marginTop="28dp"
+                android:layout_toRightOf="@+id/report_item_ahi"
+                android:layout_marginLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/report_item_sn"
+                android:layout_width="110dp"
+                android:layout_height="17dp"
+                android:text="S01D190700006A"
+                android:textColor="#352641"
+                android:textSize="13sp"
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="140dp"/>
+
+            <RelativeLayout
+                android:id="@+id/report_list_rlInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="76dp"
+                android:layout_marginTop="79dp"
+                android:layout_marginLeft="35dp">
+                <TextView
+                    android:id="@+id/report_item_sleeptime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:text="睡眠监测时段：21：34 ~ 06：00"
+                    android:textColor="#817889"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/report_item_createTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:layout_marginTop="17dp"
+                    android:text="报告生成时间：2020-07-02 09:55:49"
+                    android:textColor="#817889"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/report_item_quality1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:text="报告完整性："
+                    android:textColor="#817889"
+                    android:textSize="13sp"
+                    android:layout_marginTop="34dp"/>
+                <TextView
+                    android:layout_toRightOf="@+id/report_item_quality1"
+                    android:id="@+id/report_item_quality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:text="缺少血氧"
+                    android:textColor="#f45c50"
+                    android:textSize="13sp"
+                    android:layout_marginTop="34dp"/>
+                <TextView
+                    android:id="@+id/report_item_hospitalName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:text="机构：杭州道奇医疗器械有限公司"
+                    android:textColor="#817889"
+                    android:textSize="13sp"
+                    android:layout_marginTop="51dp"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_below="@+id/report_list_rlInfo"
+                android:id="@+id/report_item_edit"
+                android:layout_width="123dp"
+                android:layout_height="57dp"
+                android:layout_marginTop="2dp">
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/report_edit_icon"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginLeft="35dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_below="@+id/report_list_rlInfo"
+                android:id="@+id/report_item_download"
+                android:layout_width="123dp"
+                android:layout_height="57dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="218dp">
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/report_item_download_icon"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginLeft="64dp"/>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/report_item_down"
+                android:layout_width="76dp"
+                android:layout_height="110dp"
+
+                android:layout_marginLeft="265dp">
+
+                <ImageView
+                    android:id="@+id/report_item_down1"
+                    android:layout_width="17dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/report_down_icon"
+                    android:layout_marginTop="31dp"
+                    android:layout_marginLeft="18dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/report_item_up"
+                android:layout_width="76dp"
+                android:layout_height="110dp"
+                android:visibility="gone"
+                android:layout_marginLeft="265dp">
+
+                <ImageView
+                    android:id="@+id/report_item_up1"
+                    android:layout_width="17dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/report_up_icon"
+                    android:layout_marginTop="31dp"
+                    android:layout_marginLeft="18dp"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+    <View
+
+        android:layout_below="@+id/cv_report_item"
+        android:layout_width="match_parent"
+        android:layout_height="7dp" />
+
+
+</RelativeLayout>

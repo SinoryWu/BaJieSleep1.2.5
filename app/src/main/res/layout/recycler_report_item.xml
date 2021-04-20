@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/rv_item_report_id"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:textColor="#6cc291"
+            android:textSize="17sp"
+            android:text="24-2020-08-09-592"/>
+
+        <TextView
+            android:id="@+id/rv_item_report_state"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:textColor="#b3352641"
+            android:textSize="17sp"
+            android:text="有效"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="#ffffff"
+            android:layout_below="@+id/rv_item_report_state"/>
+    </RelativeLayout>
+
+</LinearLayout>

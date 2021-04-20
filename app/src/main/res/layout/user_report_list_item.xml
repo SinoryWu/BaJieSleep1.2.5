@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="341dp"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/user_list_report_item_data"
+            android:layout_width="92dp"
+            android:layout_height="20dp"
+            android:textColor="#6cc291"
+            android:textSize="17sp"
+            android:text="2020-08-09"
+            android:layout_marginLeft="34dp"/>
+
+
+        <TextView
+            android:id="@+id/user_list_report_item_quality"
+            android:layout_width="70dp"
+            android:layout_height="20dp"
+            android:textColor="#6cc291"
+            android:textSize="17sp"
+            android:layout_marginLeft="160dp"
+            android:text="有效报告"/>
+        <LinearLayout
+            android:id="@+id/user_list_report_item_download_linear"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="265dp">
+            <ImageView
+                android:id="@+id/user_list_report_item_download"
+                android:layout_width="19dp"
+                android:layout_height="20dp"
+                android:src="@drawable/report_item_download_icon"
+                android:layout_marginLeft="15dp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+
+            android:layout_below="@+id/user_list_report_item_quality"/>
+    </RelativeLayout>
+
+</LinearLayout>

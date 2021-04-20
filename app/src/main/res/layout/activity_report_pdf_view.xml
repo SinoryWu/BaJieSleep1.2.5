@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f7f7f7"
+    android:orientation="vertical"
+    tools:context=".ReportPdfView">
+
+
+    <LinearLayout
+        android:id="@+id/pdf_liner_left"
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="17dp">
+
+        <ImageView
+
+            android:layout_width="8dp"
+            android:layout_height="15dp"
+            android:src="@drawable/arrow_left" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="70dp"
+        android:layout_height="22dp"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="10dp"
+        android:text="八戒睡眠"
+        android:textColor="#000000"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_13213"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="48dp">
+
+        <WebView
+
+            android:id="@+id/pdf_webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </WebView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_alignParentBottom="true">
+            <ImageView
+                android:id="@+id/report_btn_send"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="580dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/big_download_icon"
+                android:visibility="visible" />
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

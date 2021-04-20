@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f7f7f7"
+    tools:context=".SearchUserRecyclerView">
+
+
+    <RelativeLayout
+        android:id="@+id/rl_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff">
+
+        <LinearLayout
+            android:id="@+id/liner_left_search_user"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="17dp">
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="15dp"
+                android:src="@drawable/arrow_left"
+                />
+        </LinearLayout>
+        <EditText
+            android:id="@+id/search_user"
+            android:layout_marginTop="56dp"
+            android:layout_marginLeft="36dp"
+            android:layout_width="341dp"
+            android:layout_height="49dp"
+            android:background="@drawable/search_user_edittext_background"
+            android:paddingLeft="48dp"
+            android:textColor="#444c72"
+            android:textSize="17sp"
+            android:maxLines="1"
+            android:maxLength="14"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
+            />
+        <ImageView
+            android:id="@+id/search_user_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/search_ico"
+            android:layout_marginLeft="58dp"
+            android:layout_marginTop="72dp"/>
+
+        <View
+            android:layout_below="@+id/search_user"
+            android:id="@+id/recycler_view1"
+            android:layout_width="match_parent"
+            android:layout_height="7dp"
+            android:background="#ffffff"/>
+
+        <com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView
+
+
+            android:id="@+id/search_user_recycler_pullload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recycler_view1"
+            >
+
+        </com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

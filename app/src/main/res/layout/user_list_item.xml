@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#f7f7f7"
+    android:orientation="vertical">
+    <View
+        android:id="@+id/user_item_view"
+        android:layout_width="match_parent"
+        android:layout_height="7dp" />
+    <RelativeLayout
+        android:layout_below="@id/user_item_view"
+        android:id="@+id/cv_user_item"
+        android:layout_width="341dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/report_list_item_background"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="36dp">
+
+        <RelativeLayout
+            android:layout_width="341dp"
+            android:layout_height="wrap_content"
+            android:minHeight="110dp">
+
+            <TextView
+                android:id="@+id/user_item_userName"
+                android:layout_width="60dp"
+                android:layout_height="22dp"
+                android:text="王大头"
+                android:textColor="#817889"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:layout_marginTop="28dp"
+                android:layout_marginLeft="35dp"/>
+            <TextView
+                android:id="@+id/user_item_date"
+                android:layout_width="72dp"
+                android:layout_height="17dp"
+                android:text="2020-08-08"
+                android:textColor="#352641"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="51dp"/>
+
+
+            <ImageView
+                android:id="@+id/user_open_new_pdf_true"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:src="@drawable/open_new_report_true"
+                android:scaleType="fitXY"
+                android:layout_marginLeft="216dp"
+                android:layout_marginTop="27dp"/>
+
+            <ImageView
+                android:id="@+id/user_open_new_pdf_false"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:src="@drawable/open_new_report_false"
+                android:scaleType="fitXY"
+                android:layout_marginLeft="216dp"
+                android:layout_marginTop="27dp"/>
+
+            <RelativeLayout
+                android:id="@+id/user_list_rlReport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="79dp">
+
+                <TextView
+                    android:id="@+id/user_list_hospital"
+                    android:layout_width="wrap_content"
+                    android:layout_height="15dp"
+                    android:text="机构：杭州道奇医疗器械有限公司"
+                    android:textSize="12sp"
+                    android:textColor="#817889"
+                    android:layout_marginLeft="34dp"/>
+
+                <TextView
+                    android:id="@+id/user_list_report_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="15dp"
+                    android:text="睡眠报告：0份"
+                    android:textSize="12sp"
+                    android:textColor="#817889"
+                    android:layout_marginLeft="34dp"
+                    android:layout_marginTop="18dp"/>
+
+                <View
+                    android:layout_below="@+id/user_list_report_number"
+                    android:id="@+id/user_list_rvReport_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="17dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_below="@+id/user_list_rvReport_view"
+                    android:id="@+id/user_list_rvReport"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </RelativeLayout>
+
+
+
+
+
+
+
+            <RelativeLayout
+                android:id="@+id/user_item_down"
+                android:layout_width="76dp"
+                android:layout_height="80dp"
+
+                android:layout_marginLeft="265dp">
+
+                <ImageView
+                    android:id="@+id/report_item_down1"
+                    android:layout_width="17dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/report_down_icon"
+                    android:layout_marginTop="31dp"
+                    android:layout_marginLeft="20dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/user_item_up"
+                android:layout_width="76dp"
+                android:layout_height="110dp"
+                android:visibility="gone"
+                android:layout_marginLeft="265dp">
+
+                <ImageView
+                    android:id="@+id/report_item_up1"
+                    android:layout_width="17dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/report_up_icon"
+                    android:layout_marginTop="31dp"
+                    android:layout_marginLeft="18dp"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+    <View
+
+        android:layout_below="@+id/cv_report_item"
+        android:layout_width="match_parent"
+        android:layout_height="7dp" />
+
+
+</RelativeLayout>

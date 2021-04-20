@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f7f7f7"
+    tools:context=".UserInterfaceActivity">
+
+    <LinearLayout
+        android:id="@+id/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tab_button"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tab_button"
+        android:layout_width="412dp"
+        android:layout_height="49dp"
+        android:layout_alignParentBottom="true"
+        android:background="#ffffff"
+        android:orientation="horizontal"
+        android:baselineAligned="true">
+
+        <RelativeLayout
+            android:id="@+id/rl_tab_home"
+            android:layout_width="0dp"
+            android:layout_height="49dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_tab_home"
+                android:layout_width="20dp"
+                android:layout_height="23dp"
+                android:src="@drawable/tab_home_icon_normal"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_tab_device"
+            android:layout_width="0dp"
+            android:layout_height="49dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_tab_device"
+                android:layout_width="20dp"
+                android:layout_height="23dp"
+                android:src="@drawable/tab_device_icon_normal"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_tab_user"
+            android:layout_width="0dp"
+            android:layout_height="49dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_tab_user"
+                android:layout_width="20dp"
+                android:layout_height="23dp"
+                android:src="@drawable/tab_user_icon_normal"/>
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

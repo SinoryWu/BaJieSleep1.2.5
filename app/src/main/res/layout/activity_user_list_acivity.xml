@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f7f7f7"
+    tools:context=".UserListAcivity">
+    <LinearLayout
+        android:id="@+id/user_liner_left"
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="7dp"
+        android:paddingLeft="17dp">
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="15dp"
+            android:src="@drawable/arrow_left"
+            />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/user_list_search"
+        android:layout_marginTop="43dp"
+        android:layout_marginLeft="36dp"
+        android:layout_width="341dp"
+        android:layout_height="49dp"
+        android:background="@drawable/report_search_background"
+        android:paddingLeft="48dp"
+        android:textColor="#444c72"
+        android:textSize="17sp"
+        android:maxLines="1"
+        android:maxLength="20"
+        android:singleLine="true"
+        android:imeOptions="actionSearch"
+        />
+
+    <Button
+        android:id="@+id/btn_user_list_search"
+        android:layout_width="89dp"
+        android:layout_height="41dp"
+        android:background="@drawable/report_list_search_btn_background"
+        android:text="搜索"
+        android:textSize="15sp"
+        android:textColor="#ffffff"
+        android:layout_marginLeft="282dp"
+        android:layout_marginTop="47dp"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:id="@+id/user_list_search_clean"
+        android:layout_height="49dp"
+        android:layout_width="49dp"
+        android:gravity="center"
+        android:layout_marginLeft="320.5dp"
+        android:layout_marginTop="43.5dp">
+        <ImageView
+
+            android:layout_width="24dp"
+            android:layout_height="23dp"
+            android:src="@drawable/clean_search_icon"
+
+            />
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/search_user_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/search_ico"
+        android:layout_marginLeft="58dp"
+        android:layout_marginTop="59dp"/>
+
+
+    <TextView
+        android:id="@+id/tv_user_list_member"
+        android:layout_width="match_parent"
+        android:layout_height="17dp"
+        android:layout_marginTop="109dp"
+        android:gravity="center"
+        android:textColor="#352641"
+        android:text="共找到0个用户"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:layout_below="@+id/tv_user_list_member" />
+    <com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView
+        android:id="@+id/user_list_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="142dp"
+        >
+
+    </com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView>
+</RelativeLayout>

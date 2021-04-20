@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f7f7f7"
+    tools:context=".AddPatient">
+
+
+
+    <LinearLayout
+        android:id="@+id/liner_left"
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="17dp">
+
+        <ImageView
+            android:id="@+id/add_arrow_left"
+            android:layout_width="8dp"
+            android:layout_height="15dp"
+            android:src="@drawable/arrow_left"
+            />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_sex"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="12sp"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:id="@+id/tv_btnid"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="25dp"
+        android:textSize="12sp"
+        android:layout_alignParentRight="true"
+        android:text="0"/>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="341dp"
+        android:layout_height="469dp"
+        android:background="#ffffff"
+        android:layout_marginTop="56dp"
+        android:layout_marginLeft="36dp"
+        app:cardCornerRadius="20dp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_marginLeft="41dp"
+                android:layout_marginTop="35dp"
+                android:src="@drawable/addpatient_green_point"/>
+
+            <TextView
+                android:layout_width="78dp"
+                android:layout_height="26dp"
+                android:text="添加患者"
+                android:textColor="#444c72"
+                android:textSize="19sp"
+                android:gravity="left"
+                android:layout_marginTop="27dp"
+                android:layout_marginLeft="65dp"/>
+
+            <ImageView
+                android:layout_width="7dp"
+                android:layout_height="20dp"
+                android:src="@drawable/spoint_icon"
+                android:layout_marginLeft="46dp"
+                android:layout_marginTop="91dp"/>
+            <ImageView
+                android:layout_width="7dp"
+                android:layout_height="20dp"
+                android:src="@drawable/spoint_icon"
+                android:layout_marginLeft="46dp"
+                android:layout_marginTop="150dp"/>
+            <ImageView
+                android:layout_width="7dp"
+                android:layout_height="20dp"
+                android:src="@drawable/spoint_icon"
+                android:layout_marginLeft="46dp"
+                android:layout_marginTop="207dp"/>
+            <ImageView
+                android:layout_width="7dp"
+                android:layout_height="20dp"
+                android:src="@drawable/spoint_icon"
+                android:layout_marginLeft="46dp"
+                android:layout_marginTop="265dp"/>
+            <ImageView
+                android:layout_width="7dp"
+                android:layout_height="20dp"
+                android:src="@drawable/spoint_icon"
+                android:layout_marginLeft="46dp"
+                android:layout_marginTop="331dp"/>
+
+            <ImageView
+                android:layout_width="7dp"
+                android:layout_height="20dp"
+                android:src="@drawable/spoint_icon"
+                android:layout_marginLeft="46dp"
+                android:layout_marginTop="389dp"/>
+
+            <TextView
+                android:layout_width="38dp"
+                android:layout_height="22dp"
+                android:text="姓名"
+                android:textColor="#444c72"
+                android:textSize="17sp"
+                android:gravity="left"
+                android:layout_marginTop="88dp"
+                android:layout_marginLeft="71dp"/>
+            <TextView
+                android:layout_width="38dp"
+                android:layout_height="22dp"
+                android:text="性别"
+                android:textColor="#444c72"
+                android:textSize="17sp"
+                android:gravity="left"
+                android:layout_marginTop="146dp"
+                android:layout_marginLeft="71dp"/>
+            <TextView
+                android:layout_width="38dp"
+                android:layout_height="22dp"
+                android:text="年龄"
+                android:textColor="#444c72"
+                android:textSize="17sp"
+                android:gravity="left"
+                android:layout_marginTop="203dp"
+                android:layout_marginLeft="71dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:text="身高（cm）"
+                android:textColor="#444c72"
+                android:textSize="17sp"
+                android:gravity="left"
+                android:layout_marginTop="260dp"
+                android:layout_marginLeft="71dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:text="体重（kg）"
+                android:textColor="#444c72"
+                android:textSize="17sp"
+                android:gravity="left"
+                android:layout_marginTop="327dp"
+                android:layout_marginLeft="71dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:text="手机号"
+                android:textColor="#444c72"
+                android:textSize="17sp"
+                android:gravity="left"
+                android:layout_marginTop="385dp"
+                android:layout_marginLeft="71dp"/>
+
+
+            <View
+                android:layout_width="285dp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="44dp"
+                android:layout_marginTop="127dp"
+                android:background="#24998fa2"/>
+            <View
+                android:layout_width="285dp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="44dp"
+                android:layout_marginTop="186dp"
+                android:background="#24998fa2"/>
+            <View
+                android:layout_width="285dp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="44dp"
+                android:layout_marginTop="243dp"
+                android:background="#24998fa2"/>
+            <View
+                android:layout_width="285dp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="44dp"
+                android:layout_marginTop="309dp"
+                android:background="#24998fa2"/>
+            <View
+                android:layout_width="285dp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="44dp"
+                android:layout_marginTop="367dp"
+                android:background="#24998fa2"/>
+
+
+            <EditText
+                android:id="@+id/add_et_name"
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="91dp"
+                android:layout_marginRight="33dp"
+                android:layout_height="20dp"
+                android:gravity="right"
+                android:hint="请输入"
+                android:maxLength="20"
+                android:background="@null"/>
+
+            <EditText
+                android:id="@+id/add_et_age"
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="207dp"
+                android:layout_marginRight="33dp"
+                android:layout_height="20dp"
+                android:gravity="right"
+                android:hint="请输入"
+                android:maxLength="3"
+                android:inputType="number"
+                android:background="@null"/>
+
+
+            <EditText
+                android:id="@+id/add_et_height"
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="264dp"
+                android:layout_marginRight="33dp"
+                android:layout_height="20dp"
+                android:gravity="right"
+                android:hint="请输入"
+                android:maxLength="6"
+                android:inputType="number |numberDecimal"
+                android:background="@null"/>
+
+
+            <EditText
+                android:id="@+id/add_et_weight"
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="331dp"
+                android:layout_marginRight="33dp"
+                android:layout_height="20dp"
+                android:gravity="right"
+                android:hint="请输入"
+                android:maxLength="6"
+                android:inputType="number |numberDecimal"
+                android:background="@null"/>
+
+            <EditText
+                android:id="@+id/add_et_phone"
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="388dp"
+                android:layout_marginRight="33dp"
+                android:layout_height="20dp"
+                android:gravity="right"
+                android:hint="请输入"
+                android:maxLength="11"
+                android:inputType="number"
+                android:background="@null"/>
+
+
+            <ImageView
+                android:id="@+id/add_sex_woman"
+                android:layout_width="41dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="136dp"
+                android:layout_marginLeft="186dp"
+                android:src="@drawable/sex_women_normal"/>
+
+            <ImageView
+                android:id="@+id/add_sex_man"
+                android:layout_width="41dp"
+                android:layout_height="41dp"
+                android:layout_marginTop="136dp"
+                android:layout_marginLeft="260dp"
+                android:src="@drawable/sex_men_normal"/>
+
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/add_add"
+        android:layout_width="341dp"
+        android:layout_height="57dp"
+        android:text="添加"
+        android:layout_marginTop="542dp"
+        android:layout_marginLeft="36dp"
+        android:textColor="#ffffff"
+        android:background="@drawable/add_button_background"/>
+
+
+</RelativeLayout>

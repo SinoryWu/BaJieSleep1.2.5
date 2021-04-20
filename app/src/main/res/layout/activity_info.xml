@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f7f7f7"
+    tools:context=".InfoActivity"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:background="#f7f7f7"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+        <LinearLayout
+            android:id="@+id/liner_left_info"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="17dp">
+
+            <ImageView
+                android:id="@+id/add_arrow_left"
+                android:layout_width="8dp"
+                android:layout_height="15dp"
+                android:src="@drawable/arrow_left"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="22dp"
+            android:text="八戒睡眠"
+            android:textSize="17sp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="170dp"/>
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/iv_info_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="80dp"
+
+        android:layout_gravity="center"
+        android:src="@drawable/app_info_icon" />
+
+    <TextView
+
+
+        android:layout_gravity="center"
+
+        android:id="@+id/tv_info_versionName"
+        android:layout_width="wrap_content"
+        android:layout_height="14dp"
+        android:text="当前版本：v1.0"
+        android:textSize="12sp"
+        />
+
+</LinearLayout>

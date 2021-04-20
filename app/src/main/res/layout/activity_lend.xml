@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f7f7f7"
+    tools:context=".LendActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="#f7f7f7"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+        <LinearLayout
+            android:id="@+id/liner_left"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="17dp">
+
+            <ImageView
+                android:id="@+id/add_arrow_left"
+                android:layout_width="8dp"
+                android:layout_height="15dp"
+                android:src="@drawable/arrow_left"
+                />
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="341dp"
+            android:layout_height="469dp"
+            android:layout_marginLeft="36dp"
+            android:layout_marginTop="56dp"
+            android:background="#ffffff"
+            app:cardCornerRadius="20dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <ImageView
+                    android:id="@+id/lend_device_point"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:src="@drawable/lenddevice_point"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginLeft="41dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dp"
+                    android:text="借出设备"
+                    android:textColor="#444c72"
+                    android:textSize="19sp"
+                    android:gravity="left"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="65dp"
+                    android:layout_marginTop="27dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:text="选择设备"
+                    android:textColor="#444c72"
+                    android:textSize="17sp"
+                    android:gravity="left"
+                    android:layout_marginTop="86dp"
+                    android:layout_marginLeft="47dp"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:text="选择用户"
+                    android:textColor="#444c72"
+                    android:textSize="17sp"
+                    android:gravity="left"
+                    android:layout_marginTop="153dp"
+                    android:layout_marginLeft="47dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:text="手机号"
+                    android:textColor="#444c72"
+                    android:textSize="17sp"
+                    android:gravity="left"
+                    android:layout_marginTop="210dp"
+                    android:layout_marginLeft="47dp"
+                    />
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:text="监测时段"
+                    android:textColor="#444c72"
+                    android:textSize="17sp"
+                    android:gravity="left"
+                    android:layout_marginTop="268dp"
+                    android:layout_marginLeft="47dp"
+                    />
+
+                <TextView
+                    android:id="@+id/survey_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:text="请选择监测时间段"
+                    android:layout_alignParentRight="true"
+                    android:textColor="#352641"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="258dp"
+                    android:layout_marginRight="42dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:text="借出"
+                    android:textColor="#444c72"
+                    android:textSize="17sp"
+                    android:gravity="left"
+                    android:layout_marginTop="325dp"
+                    android:layout_marginLeft="47dp"
+                    />
+
+                <TextView
+                    android:id="@+id/lend_days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:text="请选借出天数"
+                    android:layout_alignParentRight="true"
+                    android:textColor="#352641"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="315dp"
+                    android:layout_marginRight="42dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="14dp"
+                    android:text="请确认戒指电量已充满！"
+                    android:textColor="#444c72"
+                    android:textSize="10sp"
+                    android:gravity="left"
+                    android:layout_marginTop="422dp"
+                    android:layout_marginLeft="109dp"/>
+                <TextView
+                    android:id="@+id/lend_device_sn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text=""
+                    android:textColor="#bbbbbb"
+                    android:textSize="15sp"
+                    android:gravity="left"
+                    android:layout_marginTop="88dp"
+                    android:layout_marginLeft="172dp"/>
+
+                <TextView
+                    android:id="@+id/lend_tv_mobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text=""
+                    android:textColor="#bbbbbb"
+                    android:textSize="15sp"
+                    android:gravity="right"
+                    android:layout_marginLeft="204dp"
+                    android:layout_marginTop="212dp"
+                    />
+
+                <View
+                    android:layout_width="258dp"
+                    android:layout_height="0.1dp"
+                    android:background="#998fa2"
+                    android:layout_marginLeft="41dp"
+                    android:layout_marginTop="133dp"/>
+                <View
+                    android:layout_width="258dp"
+                    android:layout_height="0.1dp"
+                    android:background="#998fa2"
+                    android:layout_marginLeft="41dp"
+                    android:layout_marginTop="191dp"/>
+                <View
+                    android:layout_width="258dp"
+                    android:layout_height="0.1dp"
+                    android:background="#998fa2"
+                    android:layout_marginLeft="41dp"
+                    android:layout_marginTop="248dp"/>
+                <View
+                    android:layout_width="258dp"
+                    android:layout_height="0.1dp"
+                    android:background="#998fa2"
+                    android:layout_marginLeft="41dp"
+                    android:layout_marginTop="307dp"/>
+
+
+                <TextView
+                    android:id="@+id/lend_tv_name"
+                    android:layout_width="80dp"
+                    android:layout_marginTop="150dp"
+                    android:layout_marginRight="42dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical|right"
+                    android:hint="请输入"
+                    android:maxLength="20"
+                    android:background="@null"/>
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/btn_lend_device"
+            android:layout_width="341dp"
+            android:layout_height="57dp"
+            android:layout_marginTop="542dp"
+            android:layout_marginLeft="35dp"
+            android:background="@drawable/btn_lend_device_background"
+            android:text="借出"
+            android:textColor="#ffffff"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/range_time"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_lend_device"/>
+        <TextView
+            android:id="@+id/lend_day"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/range_time"/>
+
+        <TextView
+            android:id="@+id/user_uid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lend_day"/>
+    </RelativeLayout>
+
+</RelativeLayout>

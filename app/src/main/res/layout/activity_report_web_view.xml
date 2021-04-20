@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f7f7f7"
+    tools:context=".ReportWebViewActivity">
+
+    <RelativeLayout
+        android:background="#f7f7f7"
+        android:layout_height="48dp"
+        android:layout_width="match_parent">
+
+        <LinearLayout
+            android:id="@+id/recover_liner_left_web"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="17dp">
+
+            <ImageView
+                android:id="@+id/add_arrow_left"
+                android:layout_width="8dp"
+                android:layout_height="15dp"
+                android:src="@drawable/arrow_left"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="170dp"
+            android:layout_width="70dp"
+            android:layout_height="22dp"
+            android:text="八戒睡眠"
+            android:textSize="17sp"
+            android:textColor="#000000"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+
+    <WebView
+        android:id="@+id/report_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

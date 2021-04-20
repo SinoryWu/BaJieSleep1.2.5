@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="341dp"
+    android:layout_height="332dp"
+    android:background="@drawable/device_stop_dialog_background">
+
+    <ImageView
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:src="@drawable/device_stop_dialog_point"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="36dp"/>
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="25dp"
+        android:text="回收设备"
+        android:textColor="#444c72"
+        android:textSize="19sp"
+        android:gravity="left"
+        android:layout_marginTop="28dp"
+        android:layout_marginLeft="65dp"/>
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:text="是否要回收设备？"
+            android:textColor="#444c72"
+            android:textSize="17sp"
+            android:gravity="left"
+            android:layout_marginLeft="41dp"
+            android:layout_marginTop="88dp"/>
+
+        <TextView
+            android:layout_width="257dp"
+            android:layout_height="37dp"
+            android:text="*回收设备时，请注意检查报告数据是否完整，设备是否损坏!"
+            android:textColor="#444c72"
+            android:textSize="12sp"
+            android:gravity="left"
+            android:layout_marginTop="264dp"
+            android:layout_marginLeft="42dp"/>
+
+        <Button
+            android:id="@+id/btn_recover_device_true"
+            android:layout_width="99dp"
+            android:layout_height="57dp"
+            android:text="好的"
+            android:textSize="15sp"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="186dp"
+            android:layout_marginTop="155dp"
+            android:background="@drawable/device_stop_button_false"/>
+
+        <Button
+            android:id="@+id/btn_recover_device_false"
+            android:layout_width="99dp"
+            android:layout_height="57dp"
+            android:text="不"
+            android:textSize="15sp"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="56dp"
+            android:layout_marginTop="155dp"
+            android:background="@drawable/device_stop_button_true"/>
+
+
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

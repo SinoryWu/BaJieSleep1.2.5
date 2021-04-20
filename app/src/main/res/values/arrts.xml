@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ProgressBar">
+
+        <attr name="currentnum" format="integer" />
+
+        <attr name="allnum" format ="integer" />
+
+        <attr name="remind" format ="string" />
+
+        <attr name="roundwidth" format ="dimension" />
+        <attr name="text1Style" format ="string" />
+
+        <attr name="innerBackground" format ="color" />
+
+        <attr name="progressTextSize1" format ="dimension" />
+        <attr name="progressTextSize3" format ="dimension" />
+        <attr name="progressTextColor1" format ="color" />
+        <attr name="progressTextColor2" format ="color" />
+        <attr name="progressTextColor3" format ="color" />
+        <attr name="outerBackground" format ="color" />
+
+    </declare-styleable>
+</resources>
