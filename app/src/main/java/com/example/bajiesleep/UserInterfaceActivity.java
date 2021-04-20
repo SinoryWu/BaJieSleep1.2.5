@@ -194,6 +194,7 @@ public class UserInterfaceActivity extends FragmentActivity implements View.OnCl
         mIvTabDevice.setImageResource(R.drawable.tab_device_icon_normal);
         mIvTabUser.setImageResource(R.drawable.tab_user_icon_focus);
 
+
     }
 
     /**
