@@ -6,4 +6,6 @@ public class Api {
 //    public static String REPORT_URL = "https://bajie-sleep.oss-cn-hangzhou.aliyuncs.com/test/";//报告测试服
     public static String REPORT_URL = "https://bajie-sleep.oss-cn-hangzhou.aliyuncs.com/formal/";//报告正式服
 
+    String a = "a";
+
 }
