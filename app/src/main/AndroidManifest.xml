@@ -113,7 +113,8 @@
                 <action android:name="cn.jpush.android.intent.PushService" />
                 <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
-        </service> <!-- since 3.0.9 Required SDK 核心功能 -->
+        </service>
+        <!-- since 3.0.9 Required SDK 核心功能 -->
         <provider
             android:name="cn.jpush.android.service.DataProvider"
             android:authorities="${applicationId}.DataProvider"
@@ -171,7 +172,8 @@
         <receiver
             android:name="cn.jpush.android.service.SchedulerReceiver"
             android:exported="false" /> <!-- 3.6.7 新增，用于负反馈组件 -->
-        <service android:name="cn.jpush.android.service.MessagingIntentService" /> <!-- User defined.  For test only  用户自定义的广播接收器 -->
+        <service android:name="cn.jpush.android.service.MessagingIntentService" />
+        <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
             android:name="com.example.jpushdemo.MyReceiver"
             android:enabled="true">
@@ -202,7 +204,8 @@
 
                 <category android:name="${applicationId}" />
             </intent-filter>
-        </activity> <!-- since 3.3.0 Required SDK 核心功能 -->
+        </activity>
+        <!-- since 3.3.0 Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <!-- User defined.  For test only 继承自cn.jpush.android.service.JCommonService -->
         <service

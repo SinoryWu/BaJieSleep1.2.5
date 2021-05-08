@@ -19,6 +19,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders = [
+                JPUSH_PKGNAME : "com.example.bajiesleep",
                 JPUSH_APPKEY : "c4293dfd8f134584525266a0",//值来自开发者平台取得的AppKey
                 JPUSH_CHANNEL: "default_developer",
         ]

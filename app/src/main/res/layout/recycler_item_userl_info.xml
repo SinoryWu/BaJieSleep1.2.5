@@ -196,9 +196,10 @@
                 android:layout_marginTop="119dp"
                 android:layout_marginLeft="143dp"
                 android:src="@drawable/ring_charge" />
+
             <TextView
                 android:id="@+id/recycler_tv_electric_state"
-                android:layout_width="25dp"
+                android:layout_width="wrap_content"
                 android:layout_height="16dp"
                 android:layout_marginLeft="178dp"
                 android:layout_marginTop="118dp"
