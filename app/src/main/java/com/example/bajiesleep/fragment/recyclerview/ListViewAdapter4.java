@@ -21,11 +21,15 @@ import com.example.bajiesleep.CustomDialogPhone;
 import com.example.bajiesleep.R;
 import com.example.bajiesleep.RecoverReportPdfView;
 import com.example.bajiesleep.ReportPdfView;
+import com.example.bajiesleep.ReportPdfView1;
 import com.example.bajiesleep.ReportWebViewActivity;
 import com.example.bajiesleep.ToastUtils;
 import com.example.bajiesleep.entity.DeviceRecoverResponse;
 import com.example.bajiesleep.entity.EquipmentResponse;
+import com.example.bajiesleep.entity.ReportListResponse;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import pl.droidsonroids.gif.GifImageView;
@@ -33,7 +37,8 @@ import pl.droidsonroids.gif.GifImageView;
 public class ListViewAdapter4 extends RecyclerView.Adapter<ListViewAdapter4.InnerHolder> {
     private Context context;
     private  List<DeviceRecoverResponse.DataBean.ReportBean> reportBeans;
-
+//    private  List<ReportListResponse.DataBeanX.DataBean> reportBeans;
+    private OnItemClickLitener mClickListener;
 
 //    private String mTitles[] = {
 //            "全部",
@@ -45,8 +50,22 @@ public class ListViewAdapter4 extends RecyclerView.Adapter<ListViewAdapter4.Inne
         this.context = context;
     }
 
+//    public ListViewAdapter4(List<ReportListResponse.DataBeanX.DataBean> reportBeans, Context context) {
+//        this.reportBeans =reportBeans;
+//        this.context = context;
+//    }
 
 
+    //设置回调接口
+    public interface OnItemClickLitener{
+
+
+        void onItemClick(String data,int position);
+    }
+
+    public void setOnItemClickLitener(OnItemClickLitener listener){
+        this.mClickListener  = listener;
+    }
 
     /**
      * 这个方法用于创建条目View
@@ -110,17 +129,27 @@ public class ListViewAdapter4 extends RecyclerView.Adapter<ListViewAdapter4.Inne
 
 
 
+
+
             if (reportBeans.getQuality() == 1){
                 mTvReportId.setText(reportBeans.getReport_id());
+//                mTvReportId.setText(reportBeans.getTruename()+timestamp2Date(String.valueOf(reportBeans.getCreateTime()),"MM月 dd日 HH:mm"));
                 mTvReportId.setTextColor(Color.parseColor("#6cc291"));
                 mTvReportState.setText("有效");
                 mTvReportId.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(view.getContext(), RecoverReportPdfView.class);
+
+                        Intent intent = new Intent(view.getContext(),RecoverReportPdfView.class);
+//                        Intent intent = new Intent(view.getContext(),ReportPdfView1.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("reportUrl",reportBeans.getReportUrl());
                         bundle.putString("reportId",reportBeans.getReport_id());
+                        bundle.putString("reportID", String.valueOf(reportBeans.getId()));
+//                        bundle.putString("reportId", String.valueOf(reportBeans.));
+                        bundle.putString("hospitalId", String.valueOf(reportBeans.getHospitalid()));
+//                        bundle.putString("reportTrueName",reportBeans.getTruename());
+//                        bundle.putString("reportCreateTime",timestamp2Date(String.valueOf(reportBeans.getCreateTime()),"MM月 dd日 HH:mm"));
 
                         intent.putExtras(bundle);
                         view.getContext().startActivity(intent);
@@ -130,23 +159,33 @@ public class ListViewAdapter4 extends RecyclerView.Adapter<ListViewAdapter4.Inne
                     }
                 });
             }else if (reportBeans.getQuality() == 2){
+//                mTvReportId.setText(reportBeans.getReport_id());
+////                mTvReportId.setText(reportBeans.getTruename()+timestamp2Date(String.valueOf(reportBeans.getCreateTime()),"MM月 dd日 HH:mm"));
+//                mTvReportId.setTextColor(Color.parseColor("#f45c50"));
+//                mTvReportState.setText("缺少血氧");
+//                mTvReportId.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Intent intent = new Intent(view.getContext(), RecoverReportPdfView.class);
+////                        Intent intent = new Intent(view.getContext(), ReportPdfView1.class);
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("reportUrl",reportBeans.getReportUrl());
+//                        bundle.putString("reportId", String.valueOf(reportBeans.getReport_id()));
+//                        bundle.putString("hospitalId", String.valueOf(reportBeans.getHospitalid()));
+////                        bundle.putString("reportTrueName",reportBeans.getTruename());
+////                        bundle.putString("reportCreateTime",timestamp2Date(String.valueOf(reportBeans.getCreateTime()),"MM月 dd日 HH:mm"));
+//                        intent.putExtras(bundle);
+//                        view.getContext().startActivity(intent);
+////                        ToastUtils.showTextToast(view.getContext(),"跳转id网页");
+//                    }
+//                });
                 mTvReportId.setText(reportBeans.getReport_id());
+//                mTvReportId.setText(reportBeans.getTruename()+timestamp2Date(String.valueOf(reportBeans.getCreateTime()),"MM月 dd日 HH:mm"));
                 mTvReportId.setTextColor(Color.parseColor("#f45c50"));
-                mTvReportState.setText("缺少血氧");
-                mTvReportId.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(view.getContext(), RecoverReportPdfView.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("reportUrl",reportBeans.getReportUrl());
-                        bundle.putString("reportId",reportBeans.getReport_id());
-                        intent.putExtras(bundle);
-                        view.getContext().startActivity(intent);
-//                        ToastUtils.showTextToast(view.getContext(),"跳转id网页");
-                    }
-                });
+                mTvReportState.setText("无效报告");
             }else {
                 mTvReportId.setText(reportBeans.getReport_id());
+//                mTvReportId.setText(reportBeans.getTruename()+timestamp2Date(String.valueOf(reportBeans.getCreateTime()),"MM月 dd日 HH:mm"));
                 mTvReportId.setTextColor(Color.parseColor("#f45c50"));
                 mTvReportState.setText("无效报告");
             }
@@ -155,6 +194,19 @@ public class ListViewAdapter4 extends RecyclerView.Adapter<ListViewAdapter4.Inne
 
         }
 
+    }
+
+    public static String timestamp2Date(String str_num,String format ) {
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        if (str_num.length() == 13) {
+            String date = sdf.format(new Date(Long.parseLong(str_num)));
+
+            return date;
+        } else {
+            String date = sdf.format(new Date(Integer.parseInt(str_num) * 1000L));
+
+            return date;
+        }
     }
 
 

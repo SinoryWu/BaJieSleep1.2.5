@@ -23,6 +23,7 @@ import com.example.bajiesleep.Api;
 import com.example.bajiesleep.DownloadUtil;
 import com.example.bajiesleep.R;
 import com.example.bajiesleep.ReportPdfView;
+import com.example.bajiesleep.ReportPdfView1;
 import com.example.bajiesleep.ToastUtils;
 import com.example.bajiesleep.UserListAcivity;
 import com.example.bajiesleep.entity.UserListInfoResponse;
@@ -155,7 +156,7 @@ public class UserListInfoAdapter extends RecyclerView.Adapter<UserListInfoAdapte
                 mTvUserReportData.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(context, ReportPdfView.class);
+                        Intent intent = new Intent(context, ReportPdfView1.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("reportUrl",reportBeans.getReportUrl());
                         bundle.putString("reportTrueName",getReportNameToSp("reportName",""));

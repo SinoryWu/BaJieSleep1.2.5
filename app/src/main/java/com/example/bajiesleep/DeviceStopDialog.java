@@ -240,7 +240,7 @@ public class DeviceStopDialog extends Dialog implements View.OnClickListener {
                                     bundle.putString("deviceState","stopDevice");
                                     intent.putExtras(bundle);
                                     getContext().startActivity(intent);
-                                    ((Activity) context).finish();
+//                                    ((Activity) context).finish();
                                     dismiss();
                                 }
                             });

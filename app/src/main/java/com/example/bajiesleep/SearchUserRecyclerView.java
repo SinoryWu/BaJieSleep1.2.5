@@ -3,6 +3,7 @@ package com.example.bajiesleep;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -71,6 +73,11 @@ public class SearchUserRecyclerView extends AppCompatActivity {
         linearLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //隐藏软键盘
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm.isActive()) {
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
                 finish();
             }
         });
@@ -320,7 +327,7 @@ public class SearchUserRecyclerView extends AppCompatActivity {
 
                            listViewAdapter3.setOnItemClickLitener3(new ListViewAdapter3.OnItemClickLitener3() {
                                @Override
-                               public void onItemClick3(String trueName, String mobile, String uid, int position) {
+                               public void onItemClick3(String trueName, String mobile, String uid, int position,View view) {
 //                                   Intent intent = new Intent(SearchUserRecyclerView.this,LendActivity.class);
 //                                   Bundle bundle = new Bundle();
 //                                   bundle.putString("trueName",trueName);
@@ -328,7 +335,11 @@ public class SearchUserRecyclerView extends AppCompatActivity {
 //                                   bundle.putString("deviceSn1",deviceSn);
 //                                   intent.putExtras(bundle);
 //                                   startActivityForResult(intent,1);
-
+                                   //隐藏软键盘
+                                   InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                   if (imm.isActive()) {
+                                       imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                   }
                                    Intent intent = new Intent();
                                    intent.putExtra("truename",trueName);
                                    intent.putExtra("mobile",mobile);
@@ -778,7 +789,7 @@ public class SearchUserRecyclerView extends AppCompatActivity {
 
                             listViewAdapter3.setOnItemClickLitener3(new ListViewAdapter3.OnItemClickLitener3() {
                                 @Override
-                                public void onItemClick3(String trueName, String mobile, String uid, int position) {
+                                public void onItemClick3(String trueName, String mobile, String uid, int position,View view) {
 //                                   Intent intent = new Intent(SearchUserRecyclerView.this,LendActivity.class);
 //                                   Bundle bundle = new Bundle();
 //                                   bundle.putString("trueName",trueName);
@@ -786,7 +797,11 @@ public class SearchUserRecyclerView extends AppCompatActivity {
 //                                   bundle.putString("deviceSn1",deviceSn);
 //                                   intent.putExtras(bundle);
 //                                   startActivityForResult(intent,1);
-
+                                    //隐藏软键盘
+                                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    if (imm.isActive()) {
+                                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                    }
                                     Intent intent = new Intent();
                                     intent.putExtra("truename",trueName);
                                     intent.putExtra("mobile",mobile);

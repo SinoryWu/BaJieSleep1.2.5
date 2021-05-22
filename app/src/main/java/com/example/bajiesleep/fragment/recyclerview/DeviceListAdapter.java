@@ -230,7 +230,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.In
                     bundle.putString("deviceState","lendDevice");
                     intent.putExtras(bundle);
                     context.startActivity(intent);
-                    ((Activity) context).finish();
+//                    ((Activity) context).finish();
                 }
             });
 

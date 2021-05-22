@@ -23,6 +23,7 @@ import com.example.bajiesleep.L;
 import com.example.bajiesleep.LoginActivity;
 import com.example.bajiesleep.R;
 import com.example.bajiesleep.ReportPdfView;
+import com.example.bajiesleep.ReportPdfView1;
 import com.example.bajiesleep.ToastUtils;
 import com.example.bajiesleep.entity.UserListInfoResponse;
 import com.example.bajiesleep.entity.UserListResponse;
@@ -218,7 +219,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.InnerH
                 mIvOpenNewPdfTrue.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(context, ReportPdfView.class);
+                        Intent intent = new Intent(context, ReportPdfView1.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("reportUrl", dataBean.getReportUrl());
                         bundle.putString("reportTrueName", dataBean.getTruename());

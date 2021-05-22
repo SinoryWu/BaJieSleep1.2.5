@@ -80,6 +80,8 @@ public class HomeFragment extends Fragment {
     public EditText mEtSearch;
     public PullLoadMoreRecyclerView mRecyclerInfo;
 
+    private RelativeLayout mRlSleepSlices;
+    private Button mBtnLoad;
     CharSequence chars;
 
     //    public String[] mTitles= {"全部","全部"};
@@ -222,6 +224,8 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Log.d("asdasdasda", getTokenToSp("token",""));
+        Log.d("asdasdasda", getUidToSp("uid",""));
         mLinearTitles = getActivity().findViewById(R.id.home_fragment_horizontal_linear);
         mRecyclerInfo = getActivity().findViewById(R.id.rv_info);
         mTvTotalDevice = getActivity().findViewById(R.id.home_total_device);
@@ -232,11 +236,39 @@ public class HomeFragment extends Fragment {
         mRlSearchClean = getActivity().findViewById(R.id.home_search_clean);
         mRlHomeHosList = getActivity().findViewById(R.id.home_fragment_hoslist);
         mRlSearchClean.setVisibility(View.GONE);
+        mRlSleepSlices = getActivity().findViewById(R.id.home_fragment_sleep_slices);
+        mBtnLoad = getActivity().findViewById(R.id.sleep_slices_btn_home);
         if (getTokenToSp("token", "").isEmpty()) {
             s = "1";
         } else {
             s = "2";
         }
+
+        mRlSleepSlices.setVisibility(View.GONE);
+        mBtnLoad.setOnClickListener(new OnMultiClickListener() {
+            @Override
+            public void onMultiClick(View view) {
+                mRlSleepSlices.setVisibility(View.GONE);
+                mRecyclerInfo.setVisibility(View.VISIBLE);
+                getResEquipmentNumber(Api.URL + "/v2/device" + "?limit=" + 10);
+
+                timer = new Timer();
+
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        t++;
+                        if (t >= 30) {
+                            Message message = new Message();
+                            message.what = 0;
+                            mHandler.sendMessage(message);
+                            t = 0;
+                        }
+                        Log.d("timtttttttt", String.valueOf(t));
+                    }
+                }, 0, 1000);
+            }
+        });
 
 
         if (s.equals("1")) {
@@ -451,6 +483,9 @@ public class HomeFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                         ToastUtils.showTextToast2(getContext(), "网络请求失败");
                     }
                 });
@@ -635,6 +670,9 @@ public class HomeFragment extends Fragment {
                     public void run() {
                         mRecyclerInfo.setPullLoadMoreCompleted();
                         ToastUtils.showTextToast(getContext(), "网络请求失败");
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                         mRecyclerInfo.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
                             @Override
                             public void onRefresh() {
@@ -683,98 +721,100 @@ public class HomeFragment extends Fragment {
                     deviceListResponseV2.setData(dataBeanXX);
                     //第二层解析
 
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
 
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
+                        if (dataxx != null) {
+                            deviceListResponseV2.setOnlineNum(onlineNum);
+                            deviceListResponseV2.setTotalNum(totalNum);
+                            dataBeanXX.setOnlineNum(onlineNum);
+                            dataBeanXX.setTotalNum(totalNum);
+                            dataBeanXX.setData(dataBeanX);
 
-                    if (dataxx != null) {
-                        deviceListResponseV2.setOnlineNum(onlineNum);
-                        deviceListResponseV2.setTotalNum(totalNum);
-                        dataBeanXX.setOnlineNum(onlineNum);
-                        dataBeanXX.setTotalNum(totalNum);
-                        dataBeanXX.setData(dataBeanX);
+                            int current_page = datax.optInt("current_page");
+                            String first_page_url = datax.optString("first_page_url");
+                            int from = datax.optInt("from");
+                            int last_page = datax.optInt("last_page");
+                            String last_page_url = datax.optString("last_page_url");
+                            String next_page_url = datax.optString("next_page_url");
+                            String path = datax.optString("path");
+                            int per_page = datax.optInt("per_page");
+                            String prev_page_url = datax.optString("prev_page_url");
+                            int to = datax.optInt("to");
+                            int total = datax.optInt("total");
+                            JSONArray data = datax.optJSONArray("data");
 
-                        int current_page = datax.optInt("current_page");
-                        String first_page_url = datax.optString("first_page_url");
-                        int from = datax.optInt("from");
-                        int last_page = datax.optInt("last_page");
-                        String last_page_url = datax.optString("last_page_url");
-                        String next_page_url = datax.optString("next_page_url");
-                        String path = datax.optString("path");
-                        int per_page = datax.optInt("per_page");
-                        String prev_page_url = datax.optString("prev_page_url");
-                        int to = datax.optInt("to");
-                        int total = datax.optInt("total");
-                        JSONArray data = datax.optJSONArray("data");
+                            dataBeanX.setCurrent_page(current_page);
+                            dataBeanX.setFirst_page_url(first_page_url);
+                            dataBeanX.setFrom(from);
+                            dataBeanX.setLast_page(last_page);
+                            dataBeanX.setLast_page_url(last_page_url);
+                            dataBeanX.setNext_page_url(next_page_url);
+                            dataBeanX.setPath(path);
+                            dataBeanX.setPer_page(per_page);
+                            dataBeanX.setPrev_page_url(prev_page_url);
+                            dataBeanX.setTo(to);
+                            dataBeanX.setTotal(total);
+                            dataBeanX.setData(dataBeansv2);
 
-                        dataBeanX.setCurrent_page(current_page);
-                        dataBeanX.setFirst_page_url(first_page_url);
-                        dataBeanX.setFrom(from);
-                        dataBeanX.setLast_page(last_page);
-                        dataBeanX.setLast_page_url(last_page_url);
-                        dataBeanX.setNext_page_url(next_page_url);
-                        dataBeanX.setPath(path);
-                        dataBeanX.setPer_page(per_page);
-                        dataBeanX.setPrev_page_url(prev_page_url);
-                        dataBeanX.setTo(to);
-                        dataBeanX.setTotal(total);
-                        dataBeanX.setData(dataBeansv2);
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONObject jsonObject1 = data.getJSONObject(i);
+                                if (jsonObject1 != null) {
 
-                        for (int i = 0; i < data.length(); i++) {
-                            JSONObject jsonObject1 = data.getJSONObject(i);
-                            if (jsonObject1 != null) {
-
-                                int outTime = jsonObject1.optInt("outTime");
-                                int breathrate = jsonObject1.optInt("breathrate");
-                                int heartrate = jsonObject1.optInt("heartrate");
-                                int bloodoxygen = jsonObject1.optInt("bloodoxygen");
-                                int tempetature = jsonObject1.optInt("tempetature");
-                                String ringsn = jsonObject1.optString("ringsn");
-                                int battery = jsonObject1.optInt("battery");
-                                int devStatus = jsonObject1.optInt("devStatus");
-                                int ringStatus = jsonObject1.optInt("ringStatus");
-                                int powerStatus = jsonObject1.optInt("powerStatus");
-                                String versionno = jsonObject1.optString("versionno");
-                                String swversion = jsonObject1.optString("swversion");
-                                String sim = jsonObject1.optString("sim");
-                                int reportStatus = jsonObject1.optInt("reportStatus");
-                                int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
-                                String truename = jsonObject1.optString("truename");
-                                String telephone = jsonObject1.optString("telephone");
-                                String sn = jsonObject1.optString("sn");
-                                int status = jsonObject1.optInt("status");
-                                String modeType = jsonObject1.optString("modeType");
+                                    int outTime = jsonObject1.optInt("outTime");
+                                    int breathrate = jsonObject1.optInt("breathrate");
+                                    int heartrate = jsonObject1.optInt("heartrate");
+                                    int bloodoxygen = jsonObject1.optInt("bloodoxygen");
+                                    int tempetature = jsonObject1.optInt("tempetature");
+                                    String ringsn = jsonObject1.optString("ringsn");
+                                    int battery = jsonObject1.optInt("battery");
+                                    int devStatus = jsonObject1.optInt("devStatus");
+                                    int ringStatus = jsonObject1.optInt("ringStatus");
+                                    int powerStatus = jsonObject1.optInt("powerStatus");
+                                    String versionno = jsonObject1.optString("versionno");
+                                    String swversion = jsonObject1.optString("swversion");
+                                    String sim = jsonObject1.optString("sim");
+                                    int reportStatus = jsonObject1.optInt("reportStatus");
+                                    int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
+                                    String truename = jsonObject1.optString("truename");
+                                    String telephone = jsonObject1.optString("telephone");
+                                    String sn = jsonObject1.optString("sn");
+                                    int status = jsonObject1.optInt("status");
+                                    String modeType = jsonObject1.optString("modeType");
 
 
-                                DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
-                                dataBean.setOutTime(outTime);
-                                dataBean.setBreathrate(breathrate);
-                                dataBean.setBloodoxygen(bloodoxygen);
-                                dataBean.setTempetature(tempetature);
-                                dataBean.setRingsn(ringsn);
-                                dataBean.setPowerStatus(powerStatus);
-                                dataBean.setVersionno(versionno);
-                                dataBean.setSwversion(swversion);
-                                dataBean.setSim(sim);
-                                dataBean.setReportStatus(reportStatus);
-                                dataBean.setLastUpdateTime(lastUpdateTime);
-                                dataBean.setTruename(truename);
-                                dataBean.setTelephone(telephone);
-                                dataBean.setSn(sn);
-                                dataBean.setStatus(status);
-                                dataBean.setBattery(battery);
-                                dataBean.setHeartrate(heartrate);
-                                dataBean.setDevStatus(devStatus);
-                                dataBean.setRingStatus(ringStatus);
-                                dataBean.setModeType(modeType);
-                                dataBeansv2.add(dataBean);
+                                    DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
+                                    dataBean.setOutTime(outTime);
+                                    dataBean.setBreathrate(breathrate);
+                                    dataBean.setBloodoxygen(bloodoxygen);
+                                    dataBean.setTempetature(tempetature);
+                                    dataBean.setRingsn(ringsn);
+                                    dataBean.setPowerStatus(powerStatus);
+                                    dataBean.setVersionno(versionno);
+                                    dataBean.setSwversion(swversion);
+                                    dataBean.setSim(sim);
+                                    dataBean.setReportStatus(reportStatus);
+                                    dataBean.setLastUpdateTime(lastUpdateTime);
+                                    dataBean.setTruename(truename);
+                                    dataBean.setTelephone(telephone);
+                                    dataBean.setSn(sn);
+                                    dataBean.setStatus(status);
+                                    dataBean.setBattery(battery);
+                                    dataBean.setHeartrate(heartrate);
+                                    dataBean.setDevStatus(devStatus);
+                                    dataBean.setRingStatus(ringStatus);
+                                    dataBean.setModeType(modeType);
+                                    dataBeansv2.add(dataBean);
+
+                                }
 
                             }
 
                         }
-
                     }
+
 
 
                 } catch (JSONException e) {
@@ -935,6 +975,9 @@ public class HomeFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                         ToastUtils.showTextToast(getContext(), "网络请求失败");
                     }
                 });
@@ -966,94 +1009,97 @@ public class HomeFragment extends Fragment {
                     deviceListResponseV2.setData(dataBeanXX);
                     //第二层解析
 
-
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
-
-
-                    dataBeanXX.setOnlineNum(onlineNum);
-                    dataBeanXX.setTotalNum(totalNum);
-                    dataBeanXX.setData(dataBeanX);
-
-                    int current_page = datax.optInt("current_page");
-                    String first_page_url = datax.optString("first_page_url");
-                    int from = datax.optInt("from");
-                    int last_page = datax.optInt("last_page");
-                    String last_page_url = datax.optString("last_page_url");
-                    String next_page_url = datax.optString("next_page_url");
-                    String path = datax.optString("path");
-                    int per_page = datax.optInt("per_page");
-                    String prev_page_url = datax.optString("prev_page_url");
-                    int to = datax.optInt("to");
-                    int total = datax.optInt("total");
-                    JSONArray data = datax.optJSONArray("data");
-
-                    dataBeanX.setCurrent_page(current_page);
-                    dataBeanX.setFirst_page_url(first_page_url);
-                    dataBeanX.setFrom(from);
-                    dataBeanX.setLast_page(last_page);
-                    dataBeanX.setLast_page_url(last_page_url);
-                    dataBeanX.setNext_page_url(next_page_url);
-                    dataBeanX.setPath(path);
-                    dataBeanX.setPer_page(per_page);
-                    dataBeanX.setPrev_page_url(prev_page_url);
-                    dataBeanX.setTo(to);
-                    dataBeanX.setTotal(total);
-                    dataBeanX.setData(dataBeansv2);
-
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject jsonObject1 = data.getJSONObject(i);
-                        if (jsonObject1 != null) {
-
-                            int outTime = jsonObject1.optInt("outTime");
-                            int breathrate = jsonObject1.optInt("breathrate");
-                            int heartrate = jsonObject1.optInt("heartrate");
-                            int bloodoxygen = jsonObject1.optInt("bloodoxygen");
-                            int tempetature = jsonObject1.optInt("tempetature");
-                            String ringsn = jsonObject1.optString("ringsn");
-                            int battery = jsonObject1.optInt("battery");
-                            int devStatus = jsonObject1.optInt("devStatus");
-                            int ringStatus = jsonObject1.optInt("ringStatus");
-                            int powerStatus = jsonObject1.optInt("powerStatus");
-                            String versionno = jsonObject1.optString("versionno");
-                            String swversion = jsonObject1.optString("swversion");
-                            String sim = jsonObject1.optString("sim");
-                            int reportStatus = jsonObject1.optInt("reportStatus");
-                            int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
-                            String truename = jsonObject1.optString("truename");
-                            String telephone = jsonObject1.optString("telephone");
-                            String sn = jsonObject1.optString("sn");
-                            int status = jsonObject1.optInt("status");
-                            String modeType = jsonObject1.optString("modeType");
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
 
 
-                            DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
-                            dataBean.setOutTime(outTime);
-                            dataBean.setBreathrate(breathrate);
-                            dataBean.setBloodoxygen(bloodoxygen);
-                            dataBean.setTempetature(tempetature);
-                            dataBean.setRingsn(ringsn);
-                            dataBean.setPowerStatus(powerStatus);
-                            dataBean.setVersionno(versionno);
-                            dataBean.setSwversion(swversion);
-                            dataBean.setSim(sim);
-                            dataBean.setReportStatus(reportStatus);
-                            dataBean.setLastUpdateTime(lastUpdateTime);
-                            dataBean.setTruename(truename);
-                            dataBean.setTelephone(telephone);
-                            dataBean.setSn(sn);
-                            dataBean.setStatus(status);
-                            dataBean.setBattery(battery);
-                            dataBean.setHeartrate(heartrate);
-                            dataBean.setDevStatus(devStatus);
-                            dataBean.setRingStatus(ringStatus);
-                            dataBean.setModeType(modeType);
-                            dataBeansv2.add(dataBean);
+                        dataBeanXX.setOnlineNum(onlineNum);
+                        dataBeanXX.setTotalNum(totalNum);
+                        dataBeanXX.setData(dataBeanX);
+
+                        int current_page = datax.optInt("current_page");
+                        String first_page_url = datax.optString("first_page_url");
+                        int from = datax.optInt("from");
+                        int last_page = datax.optInt("last_page");
+                        String last_page_url = datax.optString("last_page_url");
+                        String next_page_url = datax.optString("next_page_url");
+                        String path = datax.optString("path");
+                        int per_page = datax.optInt("per_page");
+                        String prev_page_url = datax.optString("prev_page_url");
+                        int to = datax.optInt("to");
+                        int total = datax.optInt("total");
+                        JSONArray data = datax.optJSONArray("data");
+
+                        dataBeanX.setCurrent_page(current_page);
+                        dataBeanX.setFirst_page_url(first_page_url);
+                        dataBeanX.setFrom(from);
+                        dataBeanX.setLast_page(last_page);
+                        dataBeanX.setLast_page_url(last_page_url);
+                        dataBeanX.setNext_page_url(next_page_url);
+                        dataBeanX.setPath(path);
+                        dataBeanX.setPer_page(per_page);
+                        dataBeanX.setPrev_page_url(prev_page_url);
+                        dataBeanX.setTo(to);
+                        dataBeanX.setTotal(total);
+                        dataBeanX.setData(dataBeansv2);
+
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject1 = data.getJSONObject(i);
+                            if (jsonObject1 != null) {
+
+                                int outTime = jsonObject1.optInt("outTime");
+                                int breathrate = jsonObject1.optInt("breathrate");
+                                int heartrate = jsonObject1.optInt("heartrate");
+                                int bloodoxygen = jsonObject1.optInt("bloodoxygen");
+                                int tempetature = jsonObject1.optInt("tempetature");
+                                String ringsn = jsonObject1.optString("ringsn");
+                                int battery = jsonObject1.optInt("battery");
+                                int devStatus = jsonObject1.optInt("devStatus");
+                                int ringStatus = jsonObject1.optInt("ringStatus");
+                                int powerStatus = jsonObject1.optInt("powerStatus");
+                                String versionno = jsonObject1.optString("versionno");
+                                String swversion = jsonObject1.optString("swversion");
+                                String sim = jsonObject1.optString("sim");
+                                int reportStatus = jsonObject1.optInt("reportStatus");
+                                int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
+                                String truename = jsonObject1.optString("truename");
+                                String telephone = jsonObject1.optString("telephone");
+                                String sn = jsonObject1.optString("sn");
+                                int status = jsonObject1.optInt("status");
+                                String modeType = jsonObject1.optString("modeType");
+
+
+                                DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
+                                dataBean.setOutTime(outTime);
+                                dataBean.setBreathrate(breathrate);
+                                dataBean.setBloodoxygen(bloodoxygen);
+                                dataBean.setTempetature(tempetature);
+                                dataBean.setRingsn(ringsn);
+                                dataBean.setPowerStatus(powerStatus);
+                                dataBean.setVersionno(versionno);
+                                dataBean.setSwversion(swversion);
+                                dataBean.setSim(sim);
+                                dataBean.setReportStatus(reportStatus);
+                                dataBean.setLastUpdateTime(lastUpdateTime);
+                                dataBean.setTruename(truename);
+                                dataBean.setTelephone(telephone);
+                                dataBean.setSn(sn);
+                                dataBean.setStatus(status);
+                                dataBean.setBattery(battery);
+                                dataBean.setHeartrate(heartrate);
+                                dataBean.setDevStatus(devStatus);
+                                dataBean.setRingStatus(ringStatus);
+                                dataBean.setModeType(modeType);
+                                dataBeansv2.add(dataBean);
+
+                            }
 
                         }
 
                     }
+
 
 
                 } catch (JSONException e) {
@@ -1185,6 +1231,9 @@ public class HomeFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                         ToastUtils.showTextToast(getContext(), "网络请求失败");
                     }
                 });
@@ -1216,93 +1265,96 @@ public class HomeFragment extends Fragment {
                     //第二层解析
 
 
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
 
 
-                    dataBeanXX.setOnlineNum(onlineNum);
-                    dataBeanXX.setTotalNum(totalNum);
-                    dataBeanXX.setData(dataBeanX);
+                        dataBeanXX.setOnlineNum(onlineNum);
+                        dataBeanXX.setTotalNum(totalNum);
+                        dataBeanXX.setData(dataBeanX);
 
-                    int current_page = datax.optInt("current_page");
-                    String first_page_url = datax.optString("first_page_url");
-                    int from = datax.optInt("from");
-                    int last_page = datax.optInt("last_page");
-                    String last_page_url = datax.optString("last_page_url");
-                    String next_page_url = datax.optString("next_page_url");
-                    String path = datax.optString("path");
-                    int per_page = datax.optInt("per_page");
-                    String prev_page_url = datax.optString("prev_page_url");
-                    int to = datax.optInt("to");
-                    int total = datax.optInt("total");
-                    JSONArray data = datax.optJSONArray("data");
+                        int current_page = datax.optInt("current_page");
+                        String first_page_url = datax.optString("first_page_url");
+                        int from = datax.optInt("from");
+                        int last_page = datax.optInt("last_page");
+                        String last_page_url = datax.optString("last_page_url");
+                        String next_page_url = datax.optString("next_page_url");
+                        String path = datax.optString("path");
+                        int per_page = datax.optInt("per_page");
+                        String prev_page_url = datax.optString("prev_page_url");
+                        int to = datax.optInt("to");
+                        int total = datax.optInt("total");
+                        JSONArray data = datax.optJSONArray("data");
 
-                    dataBeanX.setCurrent_page(current_page);
-                    dataBeanX.setFirst_page_url(first_page_url);
-                    dataBeanX.setFrom(from);
-                    dataBeanX.setLast_page(last_page);
-                    dataBeanX.setLast_page_url(last_page_url);
-                    dataBeanX.setNext_page_url(next_page_url);
-                    dataBeanX.setPath(path);
-                    dataBeanX.setPer_page(per_page);
-                    dataBeanX.setPrev_page_url(prev_page_url);
-                    dataBeanX.setTo(to);
-                    dataBeanX.setTotal(total);
-                    dataBeanX.setData(dataBeansv2);
+                        dataBeanX.setCurrent_page(current_page);
+                        dataBeanX.setFirst_page_url(first_page_url);
+                        dataBeanX.setFrom(from);
+                        dataBeanX.setLast_page(last_page);
+                        dataBeanX.setLast_page_url(last_page_url);
+                        dataBeanX.setNext_page_url(next_page_url);
+                        dataBeanX.setPath(path);
+                        dataBeanX.setPer_page(per_page);
+                        dataBeanX.setPrev_page_url(prev_page_url);
+                        dataBeanX.setTo(to);
+                        dataBeanX.setTotal(total);
+                        dataBeanX.setData(dataBeansv2);
 
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject jsonObject1 = data.getJSONObject(i);
-                        if (jsonObject1 != null) {
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject1 = data.getJSONObject(i);
+                            if (jsonObject1 != null) {
 
-                            int outTime = jsonObject1.optInt("outTime");
-                            int breathrate = jsonObject1.optInt("breathrate");
-                            int heartrate = jsonObject1.optInt("heartrate");
-                            int bloodoxygen = jsonObject1.optInt("bloodoxygen");
-                            int tempetature = jsonObject1.optInt("tempetature");
-                            String ringsn = jsonObject1.optString("ringsn");
-                            int battery = jsonObject1.optInt("battery");
-                            int devStatus = jsonObject1.optInt("devStatus");
-                            int ringStatus = jsonObject1.optInt("ringStatus");
-                            int powerStatus = jsonObject1.optInt("powerStatus");
-                            String versionno = jsonObject1.optString("versionno");
-                            String swversion = jsonObject1.optString("swversion");
-                            String sim = jsonObject1.optString("sim");
-                            int reportStatus = jsonObject1.optInt("reportStatus");
-                            int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
-                            String truename = jsonObject1.optString("truename");
-                            String telephone = jsonObject1.optString("telephone");
-                            String sn = jsonObject1.optString("sn");
-                            int status = jsonObject1.optInt("status");
-                            String modeType = jsonObject1.optString("modeType");
+                                int outTime = jsonObject1.optInt("outTime");
+                                int breathrate = jsonObject1.optInt("breathrate");
+                                int heartrate = jsonObject1.optInt("heartrate");
+                                int bloodoxygen = jsonObject1.optInt("bloodoxygen");
+                                int tempetature = jsonObject1.optInt("tempetature");
+                                String ringsn = jsonObject1.optString("ringsn");
+                                int battery = jsonObject1.optInt("battery");
+                                int devStatus = jsonObject1.optInt("devStatus");
+                                int ringStatus = jsonObject1.optInt("ringStatus");
+                                int powerStatus = jsonObject1.optInt("powerStatus");
+                                String versionno = jsonObject1.optString("versionno");
+                                String swversion = jsonObject1.optString("swversion");
+                                String sim = jsonObject1.optString("sim");
+                                int reportStatus = jsonObject1.optInt("reportStatus");
+                                int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
+                                String truename = jsonObject1.optString("truename");
+                                String telephone = jsonObject1.optString("telephone");
+                                String sn = jsonObject1.optString("sn");
+                                int status = jsonObject1.optInt("status");
+                                String modeType = jsonObject1.optString("modeType");
 
 
-                            DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
-                            dataBean.setOutTime(outTime);
-                            dataBean.setBreathrate(breathrate);
-                            dataBean.setBloodoxygen(bloodoxygen);
-                            dataBean.setTempetature(tempetature);
-                            dataBean.setRingsn(ringsn);
-                            dataBean.setPowerStatus(powerStatus);
-                            dataBean.setVersionno(versionno);
-                            dataBean.setSwversion(swversion);
-                            dataBean.setSim(sim);
-                            dataBean.setReportStatus(reportStatus);
-                            dataBean.setLastUpdateTime(lastUpdateTime);
-                            dataBean.setTruename(truename);
-                            dataBean.setTelephone(telephone);
-                            dataBean.setSn(sn);
-                            dataBean.setStatus(status);
-                            dataBean.setBattery(battery);
-                            dataBean.setHeartrate(heartrate);
-                            dataBean.setDevStatus(devStatus);
-                            dataBean.setRingStatus(ringStatus);
-                            dataBean.setModeType(modeType);
-                            dataBeansv2.add(dataBean);
+                                DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
+                                dataBean.setOutTime(outTime);
+                                dataBean.setBreathrate(breathrate);
+                                dataBean.setBloodoxygen(bloodoxygen);
+                                dataBean.setTempetature(tempetature);
+                                dataBean.setRingsn(ringsn);
+                                dataBean.setPowerStatus(powerStatus);
+                                dataBean.setVersionno(versionno);
+                                dataBean.setSwversion(swversion);
+                                dataBean.setSim(sim);
+                                dataBean.setReportStatus(reportStatus);
+                                dataBean.setLastUpdateTime(lastUpdateTime);
+                                dataBean.setTruename(truename);
+                                dataBean.setTelephone(telephone);
+                                dataBean.setSn(sn);
+                                dataBean.setStatus(status);
+                                dataBean.setBattery(battery);
+                                dataBean.setHeartrate(heartrate);
+                                dataBean.setDevStatus(devStatus);
+                                dataBean.setRingStatus(ringStatus);
+                                dataBean.setModeType(modeType);
+                                dataBeansv2.add(dataBean);
+
+                            }
 
                         }
-
                     }
+
 
 
                 } catch (JSONException e) {
@@ -1424,7 +1476,9 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void run() {
                         mRecyclerInfo.setPullLoadMoreCompleted();
-
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                         ToastUtils.showTextToast2(getContext(), "网络请求失败");
 
                     }
@@ -1456,95 +1510,97 @@ public class HomeFragment extends Fragment {
                     DeviceListResponseV2.DataBeanXX dataBeanXX = new DeviceListResponseV2.DataBeanXX();
                     deviceListResponseV2.setData(dataBeanXX);
                     //第二层解析
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
 
 
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
+                        dataBeanXX.setOnlineNum(onlineNum);
+                        dataBeanXX.setTotalNum(totalNum);
+                        dataBeanXX.setData(dataBeanX);
+
+                        int current_page = datax.optInt("current_page");
+                        String first_page_url = datax.optString("first_page_url");
+                        int from = datax.optInt("from");
+                        int last_page = datax.optInt("last_page");
+                        String last_page_url = datax.optString("last_page_url");
+                        String next_page_url = datax.optString("next_page_url");
+                        String path = datax.optString("path");
+                        int per_page = datax.optInt("per_page");
+                        String prev_page_url = datax.optString("prev_page_url");
+                        int to = datax.optInt("to");
+                        int total = datax.optInt("total");
+                        JSONArray data = datax.optJSONArray("data");
+
+                        dataBeanX.setCurrent_page(current_page);
+                        dataBeanX.setFirst_page_url(first_page_url);
+                        dataBeanX.setFrom(from);
+                        dataBeanX.setLast_page(last_page);
+                        dataBeanX.setLast_page_url(last_page_url);
+                        dataBeanX.setNext_page_url(next_page_url);
+                        dataBeanX.setPath(path);
+                        dataBeanX.setPer_page(per_page);
+                        dataBeanX.setPrev_page_url(prev_page_url);
+                        dataBeanX.setTo(to);
+                        dataBeanX.setTotal(total);
+                        dataBeanX.setData(dataBeansv2);
+
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject1 = data.getJSONObject(i);
+                            if (jsonObject1 != null) {
+
+                                int outTime = jsonObject1.optInt("outTime");
+                                int breathrate = jsonObject1.optInt("breathrate");
+                                int heartrate = jsonObject1.optInt("heartrate");
+                                int bloodoxygen = jsonObject1.optInt("bloodoxygen");
+                                int tempetature = jsonObject1.optInt("tempetature");
+                                String ringsn = jsonObject1.optString("ringsn");
+                                int battery = jsonObject1.optInt("battery");
+                                int devStatus = jsonObject1.optInt("devStatus");
+                                int ringStatus = jsonObject1.optInt("ringStatus");
+                                int powerStatus = jsonObject1.optInt("powerStatus");
+                                String versionno = jsonObject1.optString("versionno");
+                                String swversion = jsonObject1.optString("swversion");
+                                String sim = jsonObject1.optString("sim");
+                                int reportStatus = jsonObject1.optInt("reportStatus");
+                                int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
+                                String truename = jsonObject1.optString("truename");
+                                String telephone = jsonObject1.optString("telephone");
+                                String sn = jsonObject1.optString("sn");
+                                int status = jsonObject1.optInt("status");
+                                String modeType = jsonObject1.optString("modeType");
 
 
-                    dataBeanXX.setOnlineNum(onlineNum);
-                    dataBeanXX.setTotalNum(totalNum);
-                    dataBeanXX.setData(dataBeanX);
+                                DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
+                                dataBean.setOutTime(outTime);
+                                dataBean.setBreathrate(breathrate);
+                                dataBean.setBloodoxygen(bloodoxygen);
+                                dataBean.setTempetature(tempetature);
+                                dataBean.setRingsn(ringsn);
+                                dataBean.setPowerStatus(powerStatus);
+                                dataBean.setVersionno(versionno);
+                                dataBean.setSwversion(swversion);
+                                dataBean.setSim(sim);
+                                dataBean.setReportStatus(reportStatus);
+                                dataBean.setLastUpdateTime(lastUpdateTime);
+                                dataBean.setTruename(truename);
+                                dataBean.setTelephone(telephone);
+                                dataBean.setSn(sn);
+                                dataBean.setStatus(status);
+                                dataBean.setBattery(battery);
+                                dataBean.setHeartrate(heartrate);
+                                dataBean.setDevStatus(devStatus);
+                                dataBean.setRingStatus(ringStatus);
+                                dataBean.setModeType(modeType);
+                                dataBeansv2.add(dataBean);
 
-                    int current_page = datax.optInt("current_page");
-                    String first_page_url = datax.optString("first_page_url");
-                    int from = datax.optInt("from");
-                    int last_page = datax.optInt("last_page");
-                    String last_page_url = datax.optString("last_page_url");
-                    String next_page_url = datax.optString("next_page_url");
-                    String path = datax.optString("path");
-                    int per_page = datax.optInt("per_page");
-                    String prev_page_url = datax.optString("prev_page_url");
-                    int to = datax.optInt("to");
-                    int total = datax.optInt("total");
-                    JSONArray data = datax.optJSONArray("data");
-
-                    dataBeanX.setCurrent_page(current_page);
-                    dataBeanX.setFirst_page_url(first_page_url);
-                    dataBeanX.setFrom(from);
-                    dataBeanX.setLast_page(last_page);
-                    dataBeanX.setLast_page_url(last_page_url);
-                    dataBeanX.setNext_page_url(next_page_url);
-                    dataBeanX.setPath(path);
-                    dataBeanX.setPer_page(per_page);
-                    dataBeanX.setPrev_page_url(prev_page_url);
-                    dataBeanX.setTo(to);
-                    dataBeanX.setTotal(total);
-                    dataBeanX.setData(dataBeansv2);
-
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject jsonObject1 = data.getJSONObject(i);
-                        if (jsonObject1 != null) {
-
-                            int outTime = jsonObject1.optInt("outTime");
-                            int breathrate = jsonObject1.optInt("breathrate");
-                            int heartrate = jsonObject1.optInt("heartrate");
-                            int bloodoxygen = jsonObject1.optInt("bloodoxygen");
-                            int tempetature = jsonObject1.optInt("tempetature");
-                            String ringsn = jsonObject1.optString("ringsn");
-                            int battery = jsonObject1.optInt("battery");
-                            int devStatus = jsonObject1.optInt("devStatus");
-                            int ringStatus = jsonObject1.optInt("ringStatus");
-                            int powerStatus = jsonObject1.optInt("powerStatus");
-                            String versionno = jsonObject1.optString("versionno");
-                            String swversion = jsonObject1.optString("swversion");
-                            String sim = jsonObject1.optString("sim");
-                            int reportStatus = jsonObject1.optInt("reportStatus");
-                            int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
-                            String truename = jsonObject1.optString("truename");
-                            String telephone = jsonObject1.optString("telephone");
-                            String sn = jsonObject1.optString("sn");
-                            int status = jsonObject1.optInt("status");
-                            String modeType = jsonObject1.optString("modeType");
-
-
-                            DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
-                            dataBean.setOutTime(outTime);
-                            dataBean.setBreathrate(breathrate);
-                            dataBean.setBloodoxygen(bloodoxygen);
-                            dataBean.setTempetature(tempetature);
-                            dataBean.setRingsn(ringsn);
-                            dataBean.setPowerStatus(powerStatus);
-                            dataBean.setVersionno(versionno);
-                            dataBean.setSwversion(swversion);
-                            dataBean.setSim(sim);
-                            dataBean.setReportStatus(reportStatus);
-                            dataBean.setLastUpdateTime(lastUpdateTime);
-                            dataBean.setTruename(truename);
-                            dataBean.setTelephone(telephone);
-                            dataBean.setSn(sn);
-                            dataBean.setStatus(status);
-                            dataBean.setBattery(battery);
-                            dataBean.setHeartrate(heartrate);
-                            dataBean.setDevStatus(devStatus);
-                            dataBean.setRingStatus(ringStatus);
-                            dataBean.setModeType(modeType);
-                            dataBeansv2.add(dataBean);
+                            }
 
                         }
-
                     }
+
+
 
 
                 } catch (JSONException e) {
@@ -1629,7 +1685,9 @@ public class HomeFragment extends Fragment {
                     public void run() {
 
                         mRecyclerInfo.setPullLoadMoreCompleted();
-
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                         ToastUtils.showTextToast2(getContext(), "网络请求失败");
 
                     }
@@ -1660,94 +1718,97 @@ public class HomeFragment extends Fragment {
                     deviceListResponseV2.setData(dataBeanXX);
                     //第二层解析
 
-
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
-
-
-                    dataBeanXX.setOnlineNum(onlineNum);
-                    dataBeanXX.setTotalNum(totalNum);
-                    dataBeanXX.setData(dataBeanX);
-
-                    int current_page = datax.optInt("current_page");
-                    String first_page_url = datax.optString("first_page_url");
-                    int from = datax.optInt("from");
-                    int last_page = datax.optInt("last_page");
-                    String last_page_url = datax.optString("last_page_url");
-                    String next_page_url = datax.optString("next_page_url");
-                    String path = datax.optString("path");
-                    int per_page = datax.optInt("per_page");
-                    String prev_page_url = datax.optString("prev_page_url");
-                    int to = datax.optInt("to");
-                    int total = datax.optInt("total");
-                    JSONArray data = datax.optJSONArray("data");
-
-                    dataBeanX.setCurrent_page(current_page);
-                    dataBeanX.setFirst_page_url(first_page_url);
-                    dataBeanX.setFrom(from);
-                    dataBeanX.setLast_page(last_page);
-                    dataBeanX.setLast_page_url(last_page_url);
-                    dataBeanX.setNext_page_url(next_page_url);
-                    dataBeanX.setPath(path);
-                    dataBeanX.setPer_page(per_page);
-                    dataBeanX.setPrev_page_url(prev_page_url);
-                    dataBeanX.setTo(to);
-                    dataBeanX.setTotal(total);
-                    dataBeanX.setData(dataBeansv2);
-
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject jsonObject1 = data.getJSONObject(i);
-                        if (jsonObject1 != null) {
-
-                            int outTime = jsonObject1.optInt("outTime");
-                            int breathrate = jsonObject1.optInt("breathrate");
-                            int heartrate = jsonObject1.optInt("heartrate");
-                            int bloodoxygen = jsonObject1.optInt("bloodoxygen");
-                            int tempetature = jsonObject1.optInt("tempetature");
-                            String ringsn = jsonObject1.optString("ringsn");
-                            int battery = jsonObject1.optInt("battery");
-                            int devStatus = jsonObject1.optInt("devStatus");
-                            int ringStatus = jsonObject1.optInt("ringStatus");
-                            int powerStatus = jsonObject1.optInt("powerStatus");
-                            String versionno = jsonObject1.optString("versionno");
-                            String swversion = jsonObject1.optString("swversion");
-                            String sim = jsonObject1.optString("sim");
-                            int reportStatus = jsonObject1.optInt("reportStatus");
-                            int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
-                            String truename = jsonObject1.optString("truename");
-                            String telephone = jsonObject1.optString("telephone");
-                            String sn = jsonObject1.optString("sn");
-                            int status = jsonObject1.optInt("status");
-                            String modeType = jsonObject1.optString("modeType");
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
 
 
-                            DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
-                            dataBean.setOutTime(outTime);
-                            dataBean.setBreathrate(breathrate);
-                            dataBean.setBloodoxygen(bloodoxygen);
-                            dataBean.setTempetature(tempetature);
-                            dataBean.setRingsn(ringsn);
-                            dataBean.setPowerStatus(powerStatus);
-                            dataBean.setVersionno(versionno);
-                            dataBean.setSwversion(swversion);
-                            dataBean.setSim(sim);
-                            dataBean.setReportStatus(reportStatus);
-                            dataBean.setLastUpdateTime(lastUpdateTime);
-                            dataBean.setTruename(truename);
-                            dataBean.setTelephone(telephone);
-                            dataBean.setSn(sn);
-                            dataBean.setStatus(status);
-                            dataBean.setBattery(battery);
-                            dataBean.setHeartrate(heartrate);
-                            dataBean.setDevStatus(devStatus);
-                            dataBean.setRingStatus(ringStatus);
-                            dataBean.setModeType(modeType);
-                            dataBeansv2.add(dataBean);
+                        dataBeanXX.setOnlineNum(onlineNum);
+                        dataBeanXX.setTotalNum(totalNum);
+                        dataBeanXX.setData(dataBeanX);
+
+                        int current_page = datax.optInt("current_page");
+                        String first_page_url = datax.optString("first_page_url");
+                        int from = datax.optInt("from");
+                        int last_page = datax.optInt("last_page");
+                        String last_page_url = datax.optString("last_page_url");
+                        String next_page_url = datax.optString("next_page_url");
+                        String path = datax.optString("path");
+                        int per_page = datax.optInt("per_page");
+                        String prev_page_url = datax.optString("prev_page_url");
+                        int to = datax.optInt("to");
+                        int total = datax.optInt("total");
+                        JSONArray data = datax.optJSONArray("data");
+
+                        dataBeanX.setCurrent_page(current_page);
+                        dataBeanX.setFirst_page_url(first_page_url);
+                        dataBeanX.setFrom(from);
+                        dataBeanX.setLast_page(last_page);
+                        dataBeanX.setLast_page_url(last_page_url);
+                        dataBeanX.setNext_page_url(next_page_url);
+                        dataBeanX.setPath(path);
+                        dataBeanX.setPer_page(per_page);
+                        dataBeanX.setPrev_page_url(prev_page_url);
+                        dataBeanX.setTo(to);
+                        dataBeanX.setTotal(total);
+                        dataBeanX.setData(dataBeansv2);
+
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject1 = data.getJSONObject(i);
+                            if (jsonObject1 != null) {
+
+                                int outTime = jsonObject1.optInt("outTime");
+                                int breathrate = jsonObject1.optInt("breathrate");
+                                int heartrate = jsonObject1.optInt("heartrate");
+                                int bloodoxygen = jsonObject1.optInt("bloodoxygen");
+                                int tempetature = jsonObject1.optInt("tempetature");
+                                String ringsn = jsonObject1.optString("ringsn");
+                                int battery = jsonObject1.optInt("battery");
+                                int devStatus = jsonObject1.optInt("devStatus");
+                                int ringStatus = jsonObject1.optInt("ringStatus");
+                                int powerStatus = jsonObject1.optInt("powerStatus");
+                                String versionno = jsonObject1.optString("versionno");
+                                String swversion = jsonObject1.optString("swversion");
+                                String sim = jsonObject1.optString("sim");
+                                int reportStatus = jsonObject1.optInt("reportStatus");
+                                int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
+                                String truename = jsonObject1.optString("truename");
+                                String telephone = jsonObject1.optString("telephone");
+                                String sn = jsonObject1.optString("sn");
+                                int status = jsonObject1.optInt("status");
+                                String modeType = jsonObject1.optString("modeType");
+
+
+                                DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
+                                dataBean.setOutTime(outTime);
+                                dataBean.setBreathrate(breathrate);
+                                dataBean.setBloodoxygen(bloodoxygen);
+                                dataBean.setTempetature(tempetature);
+                                dataBean.setRingsn(ringsn);
+                                dataBean.setPowerStatus(powerStatus);
+                                dataBean.setVersionno(versionno);
+                                dataBean.setSwversion(swversion);
+                                dataBean.setSim(sim);
+                                dataBean.setReportStatus(reportStatus);
+                                dataBean.setLastUpdateTime(lastUpdateTime);
+                                dataBean.setTruename(truename);
+                                dataBean.setTelephone(telephone);
+                                dataBean.setSn(sn);
+                                dataBean.setStatus(status);
+                                dataBean.setBattery(battery);
+                                dataBean.setHeartrate(heartrate);
+                                dataBean.setDevStatus(devStatus);
+                                dataBean.setRingStatus(ringStatus);
+                                dataBean.setModeType(modeType);
+                                dataBeansv2.add(dataBean);
+
+                            }
 
                         }
-
                     }
+
+
 
 
                 } catch (JSONException e) {
@@ -1831,6 +1892,9 @@ public class HomeFragment extends Fragment {
                     public void run() {
                         mRecyclerInfo.setPullLoadMoreCompleted();
                         ToastUtils.showTextToast(getContext(), "网络请求失败");
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                         mRecyclerInfo.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
                             @Override
                             public void onRefresh() {
@@ -1878,96 +1942,99 @@ public class HomeFragment extends Fragment {
                     deviceListResponseV2.setData(dataBeanXX);
                     //第二层解析
 
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
 
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
+                        if (dataxx != null) {
+                            deviceListResponseV2.setTotalNum(totalNum);
+                            deviceListResponseV2.setOnlineNum(onlineNum);
+                            dataBeanXX.setOnlineNum(onlineNum);
+                            dataBeanXX.setTotalNum(totalNum);
+                            dataBeanXX.setData(dataBeanX);
 
-                    if (dataxx != null) {
-                        deviceListResponseV2.setTotalNum(totalNum);
-                        deviceListResponseV2.setOnlineNum(onlineNum);
-                        dataBeanXX.setOnlineNum(onlineNum);
-                        dataBeanXX.setTotalNum(totalNum);
-                        dataBeanXX.setData(dataBeanX);
+                            int current_page = datax.optInt("current_page");
+                            String first_page_url = datax.optString("first_page_url");
+                            int from = datax.optInt("from");
+                            int last_page = datax.optInt("last_page");
+                            String last_page_url = datax.optString("last_page_url");
+                            String next_page_url = datax.optString("next_page_url");
+                            String path = datax.optString("path");
+                            int per_page = datax.optInt("per_page");
+                            String prev_page_url = datax.optString("prev_page_url");
+                            int to = datax.optInt("to");
+                            int total = datax.optInt("total");
+                            JSONArray data = datax.optJSONArray("data");
 
-                        int current_page = datax.optInt("current_page");
-                        String first_page_url = datax.optString("first_page_url");
-                        int from = datax.optInt("from");
-                        int last_page = datax.optInt("last_page");
-                        String last_page_url = datax.optString("last_page_url");
-                        String next_page_url = datax.optString("next_page_url");
-                        String path = datax.optString("path");
-                        int per_page = datax.optInt("per_page");
-                        String prev_page_url = datax.optString("prev_page_url");
-                        int to = datax.optInt("to");
-                        int total = datax.optInt("total");
-                        JSONArray data = datax.optJSONArray("data");
+                            dataBeanX.setCurrent_page(current_page);
+                            dataBeanX.setFirst_page_url(first_page_url);
+                            dataBeanX.setFrom(from);
+                            dataBeanX.setLast_page(last_page);
+                            dataBeanX.setLast_page_url(last_page_url);
+                            dataBeanX.setNext_page_url(next_page_url);
+                            dataBeanX.setPath(path);
+                            dataBeanX.setPer_page(per_page);
+                            dataBeanX.setPrev_page_url(prev_page_url);
+                            dataBeanX.setTo(to);
+                            dataBeanX.setTotal(total);
+                            dataBeanX.setData(dataBeansv2);
 
-                        dataBeanX.setCurrent_page(current_page);
-                        dataBeanX.setFirst_page_url(first_page_url);
-                        dataBeanX.setFrom(from);
-                        dataBeanX.setLast_page(last_page);
-                        dataBeanX.setLast_page_url(last_page_url);
-                        dataBeanX.setNext_page_url(next_page_url);
-                        dataBeanX.setPath(path);
-                        dataBeanX.setPer_page(per_page);
-                        dataBeanX.setPrev_page_url(prev_page_url);
-                        dataBeanX.setTo(to);
-                        dataBeanX.setTotal(total);
-                        dataBeanX.setData(dataBeansv2);
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONObject jsonObject1 = data.getJSONObject(i);
+                                if (jsonObject1 != null) {
 
-                        for (int i = 0; i < data.length(); i++) {
-                            JSONObject jsonObject1 = data.getJSONObject(i);
-                            if (jsonObject1 != null) {
+                                    int outTime = jsonObject1.optInt("outTime");
+                                    int breathrate = jsonObject1.optInt("breathrate");
+                                    int heartrate = jsonObject1.optInt("heartrate");
+                                    int bloodoxygen = jsonObject1.optInt("bloodoxygen");
+                                    int tempetature = jsonObject1.optInt("tempetature");
+                                    String ringsn = jsonObject1.optString("ringsn");
+                                    int battery = jsonObject1.optInt("battery");
+                                    int devStatus = jsonObject1.optInt("devStatus");
+                                    int ringStatus = jsonObject1.optInt("ringStatus");
+                                    int powerStatus = jsonObject1.optInt("powerStatus");
+                                    String versionno = jsonObject1.optString("versionno");
+                                    String swversion = jsonObject1.optString("swversion");
+                                    String sim = jsonObject1.optString("sim");
+                                    int reportStatus = jsonObject1.optInt("reportStatus");
+                                    int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
+                                    String truename = jsonObject1.optString("truename");
+                                    String telephone = jsonObject1.optString("telephone");
+                                    String sn = jsonObject1.optString("sn");
+                                    int status = jsonObject1.optInt("status");
+                                    String modeType = jsonObject1.optString("modeType");
 
-                                int outTime = jsonObject1.optInt("outTime");
-                                int breathrate = jsonObject1.optInt("breathrate");
-                                int heartrate = jsonObject1.optInt("heartrate");
-                                int bloodoxygen = jsonObject1.optInt("bloodoxygen");
-                                int tempetature = jsonObject1.optInt("tempetature");
-                                String ringsn = jsonObject1.optString("ringsn");
-                                int battery = jsonObject1.optInt("battery");
-                                int devStatus = jsonObject1.optInt("devStatus");
-                                int ringStatus = jsonObject1.optInt("ringStatus");
-                                int powerStatus = jsonObject1.optInt("powerStatus");
-                                String versionno = jsonObject1.optString("versionno");
-                                String swversion = jsonObject1.optString("swversion");
-                                String sim = jsonObject1.optString("sim");
-                                int reportStatus = jsonObject1.optInt("reportStatus");
-                                int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
-                                String truename = jsonObject1.optString("truename");
-                                String telephone = jsonObject1.optString("telephone");
-                                String sn = jsonObject1.optString("sn");
-                                int status = jsonObject1.optInt("status");
-                                String modeType = jsonObject1.optString("modeType");
+                                    DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
+                                    dataBean.setOutTime(outTime);
+                                    dataBean.setBreathrate(breathrate);
+                                    dataBean.setBloodoxygen(bloodoxygen);
+                                    dataBean.setTempetature(tempetature);
+                                    dataBean.setRingsn(ringsn);
+                                    dataBean.setPowerStatus(powerStatus);
+                                    dataBean.setVersionno(versionno);
+                                    dataBean.setSwversion(swversion);
+                                    dataBean.setSim(sim);
+                                    dataBean.setReportStatus(reportStatus);
+                                    dataBean.setLastUpdateTime(lastUpdateTime);
+                                    dataBean.setTruename(truename);
+                                    dataBean.setTelephone(telephone);
+                                    dataBean.setSn(sn);
+                                    dataBean.setStatus(status);
+                                    dataBean.setBattery(battery);
+                                    dataBean.setHeartrate(heartrate);
+                                    dataBean.setDevStatus(devStatus);
+                                    dataBean.setRingStatus(ringStatus);
+                                    dataBean.setModeType(modeType);
+                                    dataBeansv2.add(dataBean);
 
-                                DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
-                                dataBean.setOutTime(outTime);
-                                dataBean.setBreathrate(breathrate);
-                                dataBean.setBloodoxygen(bloodoxygen);
-                                dataBean.setTempetature(tempetature);
-                                dataBean.setRingsn(ringsn);
-                                dataBean.setPowerStatus(powerStatus);
-                                dataBean.setVersionno(versionno);
-                                dataBean.setSwversion(swversion);
-                                dataBean.setSim(sim);
-                                dataBean.setReportStatus(reportStatus);
-                                dataBean.setLastUpdateTime(lastUpdateTime);
-                                dataBean.setTruename(truename);
-                                dataBean.setTelephone(telephone);
-                                dataBean.setSn(sn);
-                                dataBean.setStatus(status);
-                                dataBean.setBattery(battery);
-                                dataBean.setHeartrate(heartrate);
-                                dataBean.setDevStatus(devStatus);
-                                dataBean.setRingStatus(ringStatus);
-                                dataBean.setModeType(modeType);
-                                dataBeansv2.add(dataBean);
+                                }
 
                             }
-
                         }
+
                     }
+
 
 
                 } catch (JSONException e) {
@@ -2134,6 +2201,9 @@ public class HomeFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                         ToastUtils.showTextToast(getContext(), "网络请求失败");
                     }
                 });
@@ -2165,88 +2235,91 @@ public class HomeFragment extends Fragment {
                     //第二层解析
 
 
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
 
 
-                    dataBeanXX.setOnlineNum(onlineNum);
-                    dataBeanXX.setTotalNum(totalNum);
-                    dataBeanXX.setData(dataBeanX);
+                        dataBeanXX.setOnlineNum(onlineNum);
+                        dataBeanXX.setTotalNum(totalNum);
+                        dataBeanXX.setData(dataBeanX);
 
-                    int current_page = datax.optInt("current_page");
-                    String first_page_url = datax.optString("first_page_url");
-                    int from = datax.optInt("from");
-                    int last_page = datax.optInt("last_page");
-                    String last_page_url = datax.optString("last_page_url");
-                    String next_page_url = datax.optString("next_page_url");
-                    String path = datax.optString("path");
-                    int per_page = datax.optInt("per_page");
-                    String prev_page_url = datax.optString("prev_page_url");
-                    int to = datax.optInt("to");
-                    int total = datax.optInt("total");
-                    JSONArray data = datax.optJSONArray("data");
+                        int current_page = datax.optInt("current_page");
+                        String first_page_url = datax.optString("first_page_url");
+                        int from = datax.optInt("from");
+                        int last_page = datax.optInt("last_page");
+                        String last_page_url = datax.optString("last_page_url");
+                        String next_page_url = datax.optString("next_page_url");
+                        String path = datax.optString("path");
+                        int per_page = datax.optInt("per_page");
+                        String prev_page_url = datax.optString("prev_page_url");
+                        int to = datax.optInt("to");
+                        int total = datax.optInt("total");
+                        JSONArray data = datax.optJSONArray("data");
 
-                    dataBeanX.setCurrent_page(current_page);
-                    dataBeanX.setFirst_page_url(first_page_url);
-                    dataBeanX.setFrom(from);
-                    dataBeanX.setLast_page(last_page);
-                    dataBeanX.setLast_page_url(last_page_url);
-                    dataBeanX.setNext_page_url(next_page_url);
-                    dataBeanX.setPath(path);
-                    dataBeanX.setPer_page(per_page);
-                    dataBeanX.setPrev_page_url(prev_page_url);
-                    dataBeanX.setTo(to);
-                    dataBeanX.setTotal(total);
-                    dataBeanX.setData(dataBeansv2);
+                        dataBeanX.setCurrent_page(current_page);
+                        dataBeanX.setFirst_page_url(first_page_url);
+                        dataBeanX.setFrom(from);
+                        dataBeanX.setLast_page(last_page);
+                        dataBeanX.setLast_page_url(last_page_url);
+                        dataBeanX.setNext_page_url(next_page_url);
+                        dataBeanX.setPath(path);
+                        dataBeanX.setPer_page(per_page);
+                        dataBeanX.setPrev_page_url(prev_page_url);
+                        dataBeanX.setTo(to);
+                        dataBeanX.setTotal(total);
+                        dataBeanX.setData(dataBeansv2);
 
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject jsonObject1 = data.getJSONObject(i);
-                        if (jsonObject1 != null) {
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject1 = data.getJSONObject(i);
+                            if (jsonObject1 != null) {
 
-                            int outTime = jsonObject1.optInt("outTime");
-                            int breathrate = jsonObject1.optInt("breathrate");
-                            int heartrate = jsonObject1.optInt("heartrate");
-                            int bloodoxygen = jsonObject1.optInt("bloodoxygen");
-                            int tempetature = jsonObject1.optInt("tempetature");
-                            String ringsn = jsonObject1.optString("ringsn");
-                            int battery = jsonObject1.optInt("battery");
-                            int devStatus = jsonObject1.optInt("devStatus");
-                            int ringStatus = jsonObject1.optInt("ringStatus");
-                            int powerStatus = jsonObject1.optInt("powerStatus");
-                            String versionno = jsonObject1.optString("versionno");
-                            String swversion = jsonObject1.optString("swversion");
-                            String sim = jsonObject1.optString("sim");
-                            int reportStatus = jsonObject1.optInt("reportStatus");
-                            int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
-                            String truename = jsonObject1.optString("truename");
-                            String telephone = jsonObject1.optString("telephone");
-                            String sn = jsonObject1.optString("sn");
-                            int status = jsonObject1.optInt("status");
-                            String modeType = jsonObject1.optString("modeType");
+                                int outTime = jsonObject1.optInt("outTime");
+                                int breathrate = jsonObject1.optInt("breathrate");
+                                int heartrate = jsonObject1.optInt("heartrate");
+                                int bloodoxygen = jsonObject1.optInt("bloodoxygen");
+                                int tempetature = jsonObject1.optInt("tempetature");
+                                String ringsn = jsonObject1.optString("ringsn");
+                                int battery = jsonObject1.optInt("battery");
+                                int devStatus = jsonObject1.optInt("devStatus");
+                                int ringStatus = jsonObject1.optInt("ringStatus");
+                                int powerStatus = jsonObject1.optInt("powerStatus");
+                                String versionno = jsonObject1.optString("versionno");
+                                String swversion = jsonObject1.optString("swversion");
+                                String sim = jsonObject1.optString("sim");
+                                int reportStatus = jsonObject1.optInt("reportStatus");
+                                int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
+                                String truename = jsonObject1.optString("truename");
+                                String telephone = jsonObject1.optString("telephone");
+                                String sn = jsonObject1.optString("sn");
+                                int status = jsonObject1.optInt("status");
+                                String modeType = jsonObject1.optString("modeType");
 
-                            DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
-                            dataBean.setOutTime(outTime);
-                            dataBean.setBreathrate(breathrate);
-                            dataBean.setBloodoxygen(bloodoxygen);
-                            dataBean.setTempetature(tempetature);
-                            dataBean.setRingsn(ringsn);
-                            dataBean.setPowerStatus(powerStatus);
-                            dataBean.setVersionno(versionno);
-                            dataBean.setSwversion(swversion);
-                            dataBean.setSim(sim);
-                            dataBean.setReportStatus(reportStatus);
-                            dataBean.setLastUpdateTime(lastUpdateTime);
-                            dataBean.setTruename(truename);
-                            dataBean.setTelephone(telephone);
-                            dataBean.setSn(sn);
-                            dataBean.setStatus(status);
-                            dataBean.setBattery(battery);
-                            dataBean.setHeartrate(heartrate);
-                            dataBean.setDevStatus(devStatus);
-                            dataBean.setRingStatus(ringStatus);
-                            dataBean.setModeType(modeType);
-                            dataBeansv2.add(dataBean);
+                                DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
+                                dataBean.setOutTime(outTime);
+                                dataBean.setBreathrate(breathrate);
+                                dataBean.setBloodoxygen(bloodoxygen);
+                                dataBean.setTempetature(tempetature);
+                                dataBean.setRingsn(ringsn);
+                                dataBean.setPowerStatus(powerStatus);
+                                dataBean.setVersionno(versionno);
+                                dataBean.setSwversion(swversion);
+                                dataBean.setSim(sim);
+                                dataBean.setReportStatus(reportStatus);
+                                dataBean.setLastUpdateTime(lastUpdateTime);
+                                dataBean.setTruename(truename);
+                                dataBean.setTelephone(telephone);
+                                dataBean.setSn(sn);
+                                dataBean.setStatus(status);
+                                dataBean.setBattery(battery);
+                                dataBean.setHeartrate(heartrate);
+                                dataBean.setDevStatus(devStatus);
+                                dataBean.setRingStatus(ringStatus);
+                                dataBean.setModeType(modeType);
+                                dataBeansv2.add(dataBean);
+
+                            }
 
                         }
 
@@ -2374,6 +2447,9 @@ public class HomeFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                         ToastUtils.showTextToast(getContext(), "网络请求失败");
                     }
                 });
@@ -2404,93 +2480,96 @@ public class HomeFragment extends Fragment {
                     deviceListResponseV2.setData(dataBeanXX);
                     //第二层解析
 
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
 
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
 
+                        dataBeanXX.setOnlineNum(onlineNum);
+                        dataBeanXX.setTotalNum(totalNum);
+                        dataBeanXX.setData(dataBeanX);
 
-                    dataBeanXX.setOnlineNum(onlineNum);
-                    dataBeanXX.setTotalNum(totalNum);
-                    dataBeanXX.setData(dataBeanX);
+                        int current_page = datax.optInt("current_page");
+                        String first_page_url = datax.optString("first_page_url");
+                        int from = datax.optInt("from");
+                        int last_page = datax.optInt("last_page");
+                        String last_page_url = datax.optString("last_page_url");
+                        String next_page_url = datax.optString("next_page_url");
+                        String path = datax.optString("path");
+                        int per_page = datax.optInt("per_page");
+                        String prev_page_url = datax.optString("prev_page_url");
+                        int to = datax.optInt("to");
+                        int total = datax.optInt("total");
+                        JSONArray data = datax.optJSONArray("data");
 
-                    int current_page = datax.optInt("current_page");
-                    String first_page_url = datax.optString("first_page_url");
-                    int from = datax.optInt("from");
-                    int last_page = datax.optInt("last_page");
-                    String last_page_url = datax.optString("last_page_url");
-                    String next_page_url = datax.optString("next_page_url");
-                    String path = datax.optString("path");
-                    int per_page = datax.optInt("per_page");
-                    String prev_page_url = datax.optString("prev_page_url");
-                    int to = datax.optInt("to");
-                    int total = datax.optInt("total");
-                    JSONArray data = datax.optJSONArray("data");
+                        dataBeanX.setCurrent_page(current_page);
+                        dataBeanX.setFirst_page_url(first_page_url);
+                        dataBeanX.setFrom(from);
+                        dataBeanX.setLast_page(last_page);
+                        dataBeanX.setLast_page_url(last_page_url);
+                        dataBeanX.setNext_page_url(next_page_url);
+                        dataBeanX.setPath(path);
+                        dataBeanX.setPer_page(per_page);
+                        dataBeanX.setPrev_page_url(prev_page_url);
+                        dataBeanX.setTo(to);
+                        dataBeanX.setTotal(total);
+                        dataBeanX.setData(dataBeansv2);
 
-                    dataBeanX.setCurrent_page(current_page);
-                    dataBeanX.setFirst_page_url(first_page_url);
-                    dataBeanX.setFrom(from);
-                    dataBeanX.setLast_page(last_page);
-                    dataBeanX.setLast_page_url(last_page_url);
-                    dataBeanX.setNext_page_url(next_page_url);
-                    dataBeanX.setPath(path);
-                    dataBeanX.setPer_page(per_page);
-                    dataBeanX.setPrev_page_url(prev_page_url);
-                    dataBeanX.setTo(to);
-                    dataBeanX.setTotal(total);
-                    dataBeanX.setData(dataBeansv2);
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject1 = data.getJSONObject(i);
+                            if (jsonObject1 != null) {
 
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject jsonObject1 = data.getJSONObject(i);
-                        if (jsonObject1 != null) {
+                                int outTime = jsonObject1.optInt("outTime");
+                                int breathrate = jsonObject1.optInt("breathrate");
+                                int heartrate = jsonObject1.optInt("heartrate");
+                                int bloodoxygen = jsonObject1.optInt("bloodoxygen");
+                                int tempetature = jsonObject1.optInt("tempetature");
+                                String ringsn = jsonObject1.optString("ringsn");
+                                int battery = jsonObject1.optInt("battery");
+                                int devStatus = jsonObject1.optInt("devStatus");
+                                int ringStatus = jsonObject1.optInt("ringStatus");
+                                int powerStatus = jsonObject1.optInt("powerStatus");
+                                String versionno = jsonObject1.optString("versionno");
+                                String swversion = jsonObject1.optString("swversion");
+                                String sim = jsonObject1.optString("sim");
+                                int reportStatus = jsonObject1.optInt("reportStatus");
+                                int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
+                                String truename = jsonObject1.optString("truename");
+                                String telephone = jsonObject1.optString("telephone");
+                                String sn = jsonObject1.optString("sn");
+                                int status = jsonObject1.optInt("status");
+                                String modeType = jsonObject1.optString("modeType");
 
-                            int outTime = jsonObject1.optInt("outTime");
-                            int breathrate = jsonObject1.optInt("breathrate");
-                            int heartrate = jsonObject1.optInt("heartrate");
-                            int bloodoxygen = jsonObject1.optInt("bloodoxygen");
-                            int tempetature = jsonObject1.optInt("tempetature");
-                            String ringsn = jsonObject1.optString("ringsn");
-                            int battery = jsonObject1.optInt("battery");
-                            int devStatus = jsonObject1.optInt("devStatus");
-                            int ringStatus = jsonObject1.optInt("ringStatus");
-                            int powerStatus = jsonObject1.optInt("powerStatus");
-                            String versionno = jsonObject1.optString("versionno");
-                            String swversion = jsonObject1.optString("swversion");
-                            String sim = jsonObject1.optString("sim");
-                            int reportStatus = jsonObject1.optInt("reportStatus");
-                            int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
-                            String truename = jsonObject1.optString("truename");
-                            String telephone = jsonObject1.optString("telephone");
-                            String sn = jsonObject1.optString("sn");
-                            int status = jsonObject1.optInt("status");
-                            String modeType = jsonObject1.optString("modeType");
+                                DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
+                                dataBean.setOutTime(outTime);
+                                dataBean.setBreathrate(breathrate);
+                                dataBean.setBloodoxygen(bloodoxygen);
+                                dataBean.setTempetature(tempetature);
+                                dataBean.setRingsn(ringsn);
+                                dataBean.setPowerStatus(powerStatus);
+                                dataBean.setVersionno(versionno);
+                                dataBean.setSwversion(swversion);
+                                dataBean.setSim(sim);
+                                dataBean.setReportStatus(reportStatus);
+                                dataBean.setLastUpdateTime(lastUpdateTime);
+                                dataBean.setTruename(truename);
+                                dataBean.setTelephone(telephone);
+                                dataBean.setSn(sn);
+                                dataBean.setStatus(status);
+                                dataBean.setBattery(battery);
+                                dataBean.setHeartrate(heartrate);
+                                dataBean.setDevStatus(devStatus);
+                                dataBean.setRingStatus(ringStatus);
+                                dataBean.setModeType(modeType);
+                                dataBeansv2.add(dataBean);
 
-                            DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
-                            dataBean.setOutTime(outTime);
-                            dataBean.setBreathrate(breathrate);
-                            dataBean.setBloodoxygen(bloodoxygen);
-                            dataBean.setTempetature(tempetature);
-                            dataBean.setRingsn(ringsn);
-                            dataBean.setPowerStatus(powerStatus);
-                            dataBean.setVersionno(versionno);
-                            dataBean.setSwversion(swversion);
-                            dataBean.setSim(sim);
-                            dataBean.setReportStatus(reportStatus);
-                            dataBean.setLastUpdateTime(lastUpdateTime);
-                            dataBean.setTruename(truename);
-                            dataBean.setTelephone(telephone);
-                            dataBean.setSn(sn);
-                            dataBean.setStatus(status);
-                            dataBean.setBattery(battery);
-                            dataBean.setHeartrate(heartrate);
-                            dataBean.setDevStatus(devStatus);
-                            dataBean.setRingStatus(ringStatus);
-                            dataBean.setModeType(modeType);
-                            dataBeansv2.add(dataBean);
+                            }
 
                         }
-
                     }
+
+
 
 
                 } catch (JSONException e) {
@@ -2615,6 +2694,9 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void run() {
                         mRecyclerInfo.setPullLoadMoreCompleted();
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                         ToastUtils.showTextToast2(getContext(), "网络请求失败");
                     }
                 });
@@ -2646,93 +2728,96 @@ public class HomeFragment extends Fragment {
                     deviceListResponseV2.setData(dataBeanXX);
                     //第二层解析
 
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
 
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
 
+                        dataBeanXX.setOnlineNum(onlineNum);
+                        dataBeanXX.setTotalNum(totalNum);
+                        dataBeanXX.setData(dataBeanX);
 
-                    dataBeanXX.setOnlineNum(onlineNum);
-                    dataBeanXX.setTotalNum(totalNum);
-                    dataBeanXX.setData(dataBeanX);
+                        int current_page = datax.optInt("current_page");
+                        String first_page_url = datax.optString("first_page_url");
+                        int from = datax.optInt("from");
+                        int last_page = datax.optInt("last_page");
+                        String last_page_url = datax.optString("last_page_url");
+                        String next_page_url = datax.optString("next_page_url");
+                        String path = datax.optString("path");
+                        int per_page = datax.optInt("per_page");
+                        String prev_page_url = datax.optString("prev_page_url");
+                        int to = datax.optInt("to");
+                        int total = datax.optInt("total");
+                        JSONArray data = datax.optJSONArray("data");
 
-                    int current_page = datax.optInt("current_page");
-                    String first_page_url = datax.optString("first_page_url");
-                    int from = datax.optInt("from");
-                    int last_page = datax.optInt("last_page");
-                    String last_page_url = datax.optString("last_page_url");
-                    String next_page_url = datax.optString("next_page_url");
-                    String path = datax.optString("path");
-                    int per_page = datax.optInt("per_page");
-                    String prev_page_url = datax.optString("prev_page_url");
-                    int to = datax.optInt("to");
-                    int total = datax.optInt("total");
-                    JSONArray data = datax.optJSONArray("data");
+                        dataBeanX.setCurrent_page(current_page);
+                        dataBeanX.setFirst_page_url(first_page_url);
+                        dataBeanX.setFrom(from);
+                        dataBeanX.setLast_page(last_page);
+                        dataBeanX.setLast_page_url(last_page_url);
+                        dataBeanX.setNext_page_url(next_page_url);
+                        dataBeanX.setPath(path);
+                        dataBeanX.setPer_page(per_page);
+                        dataBeanX.setPrev_page_url(prev_page_url);
+                        dataBeanX.setTo(to);
+                        dataBeanX.setTotal(total);
+                        dataBeanX.setData(dataBeansv2);
 
-                    dataBeanX.setCurrent_page(current_page);
-                    dataBeanX.setFirst_page_url(first_page_url);
-                    dataBeanX.setFrom(from);
-                    dataBeanX.setLast_page(last_page);
-                    dataBeanX.setLast_page_url(last_page_url);
-                    dataBeanX.setNext_page_url(next_page_url);
-                    dataBeanX.setPath(path);
-                    dataBeanX.setPer_page(per_page);
-                    dataBeanX.setPrev_page_url(prev_page_url);
-                    dataBeanX.setTo(to);
-                    dataBeanX.setTotal(total);
-                    dataBeanX.setData(dataBeansv2);
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject1 = data.getJSONObject(i);
+                            if (jsonObject1 != null) {
 
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject jsonObject1 = data.getJSONObject(i);
-                        if (jsonObject1 != null) {
+                                int outTime = jsonObject1.optInt("outTime");
+                                int breathrate = jsonObject1.optInt("breathrate");
+                                int heartrate = jsonObject1.optInt("heartrate");
+                                int bloodoxygen = jsonObject1.optInt("bloodoxygen");
+                                int tempetature = jsonObject1.optInt("tempetature");
+                                String ringsn = jsonObject1.optString("ringsn");
+                                int battery = jsonObject1.optInt("battery");
+                                int devStatus = jsonObject1.optInt("devStatus");
+                                int ringStatus = jsonObject1.optInt("ringStatus");
+                                int powerStatus = jsonObject1.optInt("powerStatus");
+                                String versionno = jsonObject1.optString("versionno");
+                                String swversion = jsonObject1.optString("swversion");
+                                String sim = jsonObject1.optString("sim");
+                                int reportStatus = jsonObject1.optInt("reportStatus");
+                                int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
+                                String truename = jsonObject1.optString("truename");
+                                String telephone = jsonObject1.optString("telephone");
+                                String sn = jsonObject1.optString("sn");
+                                int status = jsonObject1.optInt("status");
+                                String modeType = jsonObject1.optString("modeType");
 
-                            int outTime = jsonObject1.optInt("outTime");
-                            int breathrate = jsonObject1.optInt("breathrate");
-                            int heartrate = jsonObject1.optInt("heartrate");
-                            int bloodoxygen = jsonObject1.optInt("bloodoxygen");
-                            int tempetature = jsonObject1.optInt("tempetature");
-                            String ringsn = jsonObject1.optString("ringsn");
-                            int battery = jsonObject1.optInt("battery");
-                            int devStatus = jsonObject1.optInt("devStatus");
-                            int ringStatus = jsonObject1.optInt("ringStatus");
-                            int powerStatus = jsonObject1.optInt("powerStatus");
-                            String versionno = jsonObject1.optString("versionno");
-                            String swversion = jsonObject1.optString("swversion");
-                            String sim = jsonObject1.optString("sim");
-                            int reportStatus = jsonObject1.optInt("reportStatus");
-                            int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
-                            String truename = jsonObject1.optString("truename");
-                            String telephone = jsonObject1.optString("telephone");
-                            String sn = jsonObject1.optString("sn");
-                            int status = jsonObject1.optInt("status");
-                            String modeType = jsonObject1.optString("modeType");
+                                DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
+                                dataBean.setOutTime(outTime);
+                                dataBean.setBreathrate(breathrate);
+                                dataBean.setBloodoxygen(bloodoxygen);
+                                dataBean.setTempetature(tempetature);
+                                dataBean.setRingsn(ringsn);
+                                dataBean.setPowerStatus(powerStatus);
+                                dataBean.setVersionno(versionno);
+                                dataBean.setSwversion(swversion);
+                                dataBean.setSim(sim);
+                                dataBean.setReportStatus(reportStatus);
+                                dataBean.setLastUpdateTime(lastUpdateTime);
+                                dataBean.setTruename(truename);
+                                dataBean.setTelephone(telephone);
+                                dataBean.setSn(sn);
+                                dataBean.setStatus(status);
+                                dataBean.setBattery(battery);
+                                dataBean.setHeartrate(heartrate);
+                                dataBean.setDevStatus(devStatus);
+                                dataBean.setRingStatus(ringStatus);
+                                dataBean.setModeType(modeType);
+                                dataBeansv2.add(dataBean);
 
-                            DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
-                            dataBean.setOutTime(outTime);
-                            dataBean.setBreathrate(breathrate);
-                            dataBean.setBloodoxygen(bloodoxygen);
-                            dataBean.setTempetature(tempetature);
-                            dataBean.setRingsn(ringsn);
-                            dataBean.setPowerStatus(powerStatus);
-                            dataBean.setVersionno(versionno);
-                            dataBean.setSwversion(swversion);
-                            dataBean.setSim(sim);
-                            dataBean.setReportStatus(reportStatus);
-                            dataBean.setLastUpdateTime(lastUpdateTime);
-                            dataBean.setTruename(truename);
-                            dataBean.setTelephone(telephone);
-                            dataBean.setSn(sn);
-                            dataBean.setStatus(status);
-                            dataBean.setBattery(battery);
-                            dataBean.setHeartrate(heartrate);
-                            dataBean.setDevStatus(devStatus);
-                            dataBean.setRingStatus(ringStatus);
-                            dataBean.setModeType(modeType);
-                            dataBeansv2.add(dataBean);
+                            }
 
                         }
 
                     }
+
 
 
                 } catch (JSONException e) {
@@ -2814,6 +2899,9 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void run() {
                         mRecyclerInfo.setPullLoadMoreCompleted();
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                         ToastUtils.showTextToast2(getContext(), "网络请求失败");
                     }
                 });
@@ -2843,93 +2931,96 @@ public class HomeFragment extends Fragment {
                     deviceListResponseV2.setData(dataBeanXX);
                     //第二层解析
 
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
 
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
 
+                        dataBeanXX.setOnlineNum(onlineNum);
+                        dataBeanXX.setTotalNum(totalNum);
+                        dataBeanXX.setData(dataBeanX);
 
-                    dataBeanXX.setOnlineNum(onlineNum);
-                    dataBeanXX.setTotalNum(totalNum);
-                    dataBeanXX.setData(dataBeanX);
+                        int current_page = datax.optInt("current_page");
+                        String first_page_url = datax.optString("first_page_url");
+                        int from = datax.optInt("from");
+                        int last_page = datax.optInt("last_page");
+                        String last_page_url = datax.optString("last_page_url");
+                        String next_page_url = datax.optString("next_page_url");
+                        String path = datax.optString("path");
+                        int per_page = datax.optInt("per_page");
+                        String prev_page_url = datax.optString("prev_page_url");
+                        int to = datax.optInt("to");
+                        int total = datax.optInt("total");
+                        JSONArray data = datax.optJSONArray("data");
 
-                    int current_page = datax.optInt("current_page");
-                    String first_page_url = datax.optString("first_page_url");
-                    int from = datax.optInt("from");
-                    int last_page = datax.optInt("last_page");
-                    String last_page_url = datax.optString("last_page_url");
-                    String next_page_url = datax.optString("next_page_url");
-                    String path = datax.optString("path");
-                    int per_page = datax.optInt("per_page");
-                    String prev_page_url = datax.optString("prev_page_url");
-                    int to = datax.optInt("to");
-                    int total = datax.optInt("total");
-                    JSONArray data = datax.optJSONArray("data");
+                        dataBeanX.setCurrent_page(current_page);
+                        dataBeanX.setFirst_page_url(first_page_url);
+                        dataBeanX.setFrom(from);
+                        dataBeanX.setLast_page(last_page);
+                        dataBeanX.setLast_page_url(last_page_url);
+                        dataBeanX.setNext_page_url(next_page_url);
+                        dataBeanX.setPath(path);
+                        dataBeanX.setPer_page(per_page);
+                        dataBeanX.setPrev_page_url(prev_page_url);
+                        dataBeanX.setTo(to);
+                        dataBeanX.setTotal(total);
+                        dataBeanX.setData(dataBeansv2);
 
-                    dataBeanX.setCurrent_page(current_page);
-                    dataBeanX.setFirst_page_url(first_page_url);
-                    dataBeanX.setFrom(from);
-                    dataBeanX.setLast_page(last_page);
-                    dataBeanX.setLast_page_url(last_page_url);
-                    dataBeanX.setNext_page_url(next_page_url);
-                    dataBeanX.setPath(path);
-                    dataBeanX.setPer_page(per_page);
-                    dataBeanX.setPrev_page_url(prev_page_url);
-                    dataBeanX.setTo(to);
-                    dataBeanX.setTotal(total);
-                    dataBeanX.setData(dataBeansv2);
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject1 = data.getJSONObject(i);
+                            if (jsonObject1 != null) {
 
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject jsonObject1 = data.getJSONObject(i);
-                        if (jsonObject1 != null) {
+                                int outTime = jsonObject1.optInt("outTime");
+                                int breathrate = jsonObject1.optInt("breathrate");
+                                int heartrate = jsonObject1.optInt("heartrate");
+                                int bloodoxygen = jsonObject1.optInt("bloodoxygen");
+                                int tempetature = jsonObject1.optInt("tempetature");
+                                String ringsn = jsonObject1.optString("ringsn");
+                                int battery = jsonObject1.optInt("battery");
+                                int devStatus = jsonObject1.optInt("devStatus");
+                                int ringStatus = jsonObject1.optInt("ringStatus");
+                                int powerStatus = jsonObject1.optInt("powerStatus");
+                                String versionno = jsonObject1.optString("versionno");
+                                String swversion = jsonObject1.optString("swversion");
+                                String sim = jsonObject1.optString("sim");
+                                int reportStatus = jsonObject1.optInt("reportStatus");
+                                int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
+                                String truename = jsonObject1.optString("truename");
+                                String telephone = jsonObject1.optString("telephone");
+                                String sn = jsonObject1.optString("sn");
+                                int status = jsonObject1.optInt("status");
+                                String modeType = jsonObject1.optString("modeType");
 
-                            int outTime = jsonObject1.optInt("outTime");
-                            int breathrate = jsonObject1.optInt("breathrate");
-                            int heartrate = jsonObject1.optInt("heartrate");
-                            int bloodoxygen = jsonObject1.optInt("bloodoxygen");
-                            int tempetature = jsonObject1.optInt("tempetature");
-                            String ringsn = jsonObject1.optString("ringsn");
-                            int battery = jsonObject1.optInt("battery");
-                            int devStatus = jsonObject1.optInt("devStatus");
-                            int ringStatus = jsonObject1.optInt("ringStatus");
-                            int powerStatus = jsonObject1.optInt("powerStatus");
-                            String versionno = jsonObject1.optString("versionno");
-                            String swversion = jsonObject1.optString("swversion");
-                            String sim = jsonObject1.optString("sim");
-                            int reportStatus = jsonObject1.optInt("reportStatus");
-                            int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
-                            String truename = jsonObject1.optString("truename");
-                            String telephone = jsonObject1.optString("telephone");
-                            String sn = jsonObject1.optString("sn");
-                            int status = jsonObject1.optInt("status");
-                            String modeType = jsonObject1.optString("modeType");
+                                DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
+                                dataBean.setOutTime(outTime);
+                                dataBean.setBreathrate(breathrate);
+                                dataBean.setBloodoxygen(bloodoxygen);
+                                dataBean.setTempetature(tempetature);
+                                dataBean.setRingsn(ringsn);
+                                dataBean.setPowerStatus(powerStatus);
+                                dataBean.setVersionno(versionno);
+                                dataBean.setSwversion(swversion);
+                                dataBean.setSim(sim);
+                                dataBean.setReportStatus(reportStatus);
+                                dataBean.setLastUpdateTime(lastUpdateTime);
+                                dataBean.setTruename(truename);
+                                dataBean.setTelephone(telephone);
+                                dataBean.setSn(sn);
+                                dataBean.setStatus(status);
+                                dataBean.setBattery(battery);
+                                dataBean.setHeartrate(heartrate);
+                                dataBean.setDevStatus(devStatus);
+                                dataBean.setRingStatus(ringStatus);
+                                dataBean.setModeType(modeType);
+                                dataBeansv2.add(dataBean);
 
-                            DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
-                            dataBean.setOutTime(outTime);
-                            dataBean.setBreathrate(breathrate);
-                            dataBean.setBloodoxygen(bloodoxygen);
-                            dataBean.setTempetature(tempetature);
-                            dataBean.setRingsn(ringsn);
-                            dataBean.setPowerStatus(powerStatus);
-                            dataBean.setVersionno(versionno);
-                            dataBean.setSwversion(swversion);
-                            dataBean.setSim(sim);
-                            dataBean.setReportStatus(reportStatus);
-                            dataBean.setLastUpdateTime(lastUpdateTime);
-                            dataBean.setTruename(truename);
-                            dataBean.setTelephone(telephone);
-                            dataBean.setSn(sn);
-                            dataBean.setStatus(status);
-                            dataBean.setBattery(battery);
-                            dataBean.setHeartrate(heartrate);
-                            dataBean.setDevStatus(devStatus);
-                            dataBean.setRingStatus(ringStatus);
-                            dataBean.setModeType(modeType);
-                            dataBeansv2.add(dataBean);
+                            }
 
                         }
-
                     }
+
+
 
 
                 } catch (JSONException e) {
@@ -3014,6 +3105,9 @@ public class HomeFragment extends Fragment {
                     public void run() {
                         mRecyclerInfo.setPullLoadMoreCompleted();
                         ToastUtils.showTextToast(getContext(), "网络请求失败");
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                         mRecyclerInfo.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
                             @Override
                             public void onRefresh() {
@@ -3313,7 +3407,9 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void run() {
                         ToastUtils.showTextToast(getContext(), "网络请求失败");
-
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                     }
                 });
             }
@@ -3344,92 +3440,96 @@ public class HomeFragment extends Fragment {
                     //第二层解析
 
 
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
 
 
-                    dataBeanXX.setOnlineNum(onlineNum);
-                    dataBeanXX.setTotalNum(totalNum);
-                    dataBeanXX.setData(dataBeanX);
+                        dataBeanXX.setOnlineNum(onlineNum);
+                        dataBeanXX.setTotalNum(totalNum);
+                        dataBeanXX.setData(dataBeanX);
 
-                    int current_page = datax.optInt("current_page");
-                    String first_page_url = datax.optString("first_page_url");
-                    int from = datax.optInt("from");
-                    int last_page = datax.optInt("last_page");
-                    String last_page_url = datax.optString("last_page_url");
-                    String next_page_url = datax.optString("next_page_url");
-                    String path = datax.optString("path");
-                    int per_page = datax.optInt("per_page");
-                    String prev_page_url = datax.optString("prev_page_url");
-                    int to = datax.optInt("to");
-                    int total = datax.optInt("total");
-                    JSONArray data = datax.optJSONArray("data");
 
-                    dataBeanX.setCurrent_page(current_page);
-                    dataBeanX.setFirst_page_url(first_page_url);
-                    dataBeanX.setFrom(from);
-                    dataBeanX.setLast_page(last_page);
-                    dataBeanX.setLast_page_url(last_page_url);
-                    dataBeanX.setNext_page_url(next_page_url);
-                    dataBeanX.setPath(path);
-                    dataBeanX.setPer_page(per_page);
-                    dataBeanX.setPrev_page_url(prev_page_url);
-                    dataBeanX.setTo(to);
-                    dataBeanX.setTotal(total);
-                    dataBeanX.setData(dataBeansv2);
+                        int current_page = datax.optInt("current_page");
+                        String first_page_url = datax.optString("first_page_url");
+                        int from = datax.optInt("from");
+                        int last_page = datax.optInt("last_page");
+                        String last_page_url = datax.optString("last_page_url");
+                        String next_page_url = datax.optString("next_page_url");
+                        String path = datax.optString("path");
+                        int per_page = datax.optInt("per_page");
+                        String prev_page_url = datax.optString("prev_page_url");
+                        int to = datax.optInt("to");
+                        int total = datax.optInt("total");
+                        JSONArray data = datax.optJSONArray("data");
 
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject jsonObject1 = data.getJSONObject(i);
-                        if (jsonObject1 != null) {
+                        dataBeanX.setCurrent_page(current_page);
+                        dataBeanX.setFirst_page_url(first_page_url);
+                        dataBeanX.setFrom(from);
+                        dataBeanX.setLast_page(last_page);
+                        dataBeanX.setLast_page_url(last_page_url);
+                        dataBeanX.setNext_page_url(next_page_url);
+                        dataBeanX.setPath(path);
+                        dataBeanX.setPer_page(per_page);
+                        dataBeanX.setPrev_page_url(prev_page_url);
+                        dataBeanX.setTo(to);
+                        dataBeanX.setTotal(total);
+                        dataBeanX.setData(dataBeansv2);
 
-                            int outTime = jsonObject1.optInt("outTime");
-                            int breathrate = jsonObject1.optInt("breathrate");
-                            int heartrate = jsonObject1.optInt("heartrate");
-                            int bloodoxygen = jsonObject1.optInt("bloodoxygen");
-                            int tempetature = jsonObject1.optInt("tempetature");
-                            String ringsn = jsonObject1.optString("ringsn");
-                            int battery = jsonObject1.optInt("battery");
-                            int devStatus = jsonObject1.optInt("devStatus");
-                            int ringStatus = jsonObject1.optInt("ringStatus");
-                            int powerStatus = jsonObject1.optInt("powerStatus");
-                            String versionno = jsonObject1.optString("versionno");
-                            String swversion = jsonObject1.optString("swversion");
-                            String sim = jsonObject1.optString("sim");
-                            int reportStatus = jsonObject1.optInt("reportStatus");
-                            int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
-                            String truename = jsonObject1.optString("truename");
-                            String telephone = jsonObject1.optString("telephone");
-                            String sn = jsonObject1.optString("sn");
-                            int status = jsonObject1.optInt("status");
-                            String modeType = jsonObject1.optString("modeType");
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject1 = data.getJSONObject(i);
+                            if (jsonObject1 != null) {
 
-                            DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
-                            dataBean.setOutTime(outTime);
-                            dataBean.setBreathrate(breathrate);
-                            dataBean.setBloodoxygen(bloodoxygen);
-                            dataBean.setTempetature(tempetature);
-                            dataBean.setRingsn(ringsn);
-                            dataBean.setPowerStatus(powerStatus);
-                            dataBean.setVersionno(versionno);
-                            dataBean.setSwversion(swversion);
-                            dataBean.setSim(sim);
-                            dataBean.setReportStatus(reportStatus);
-                            dataBean.setLastUpdateTime(lastUpdateTime);
-                            dataBean.setTruename(truename);
-                            dataBean.setTelephone(telephone);
-                            dataBean.setSn(sn);
-                            dataBean.setStatus(status);
-                            dataBean.setBattery(battery);
-                            dataBean.setHeartrate(heartrate);
-                            dataBean.setDevStatus(devStatus);
-                            dataBean.setRingStatus(ringStatus);
-                            dataBean.setModeType(modeType);
-                            dataBeansv2.add(dataBean);
+                                int outTime = jsonObject1.optInt("outTime");
+                                int breathrate = jsonObject1.optInt("breathrate");
+                                int heartrate = jsonObject1.optInt("heartrate");
+                                int bloodoxygen = jsonObject1.optInt("bloodoxygen");
+                                int tempetature = jsonObject1.optInt("tempetature");
+                                String ringsn = jsonObject1.optString("ringsn");
+                                int battery = jsonObject1.optInt("battery");
+                                int devStatus = jsonObject1.optInt("devStatus");
+                                int ringStatus = jsonObject1.optInt("ringStatus");
+                                int powerStatus = jsonObject1.optInt("powerStatus");
+                                String versionno = jsonObject1.optString("versionno");
+                                String swversion = jsonObject1.optString("swversion");
+                                String sim = jsonObject1.optString("sim");
+                                int reportStatus = jsonObject1.optInt("reportStatus");
+                                int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
+                                String truename = jsonObject1.optString("truename");
+                                String telephone = jsonObject1.optString("telephone");
+                                String sn = jsonObject1.optString("sn");
+                                int status = jsonObject1.optInt("status");
+                                String modeType = jsonObject1.optString("modeType");
+
+                                DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
+                                dataBean.setOutTime(outTime);
+                                dataBean.setBreathrate(breathrate);
+                                dataBean.setBloodoxygen(bloodoxygen);
+                                dataBean.setTempetature(tempetature);
+                                dataBean.setRingsn(ringsn);
+                                dataBean.setPowerStatus(powerStatus);
+                                dataBean.setVersionno(versionno);
+                                dataBean.setSwversion(swversion);
+                                dataBean.setSim(sim);
+                                dataBean.setReportStatus(reportStatus);
+                                dataBean.setLastUpdateTime(lastUpdateTime);
+                                dataBean.setTruename(truename);
+                                dataBean.setTelephone(telephone);
+                                dataBean.setSn(sn);
+                                dataBean.setStatus(status);
+                                dataBean.setBattery(battery);
+                                dataBean.setHeartrate(heartrate);
+                                dataBean.setDevStatus(devStatus);
+                                dataBean.setRingStatus(ringStatus);
+                                dataBean.setModeType(modeType);
+                                dataBeansv2.add(dataBean);
+
+                            }
 
                         }
-
                     }
+
 
 
                 } catch (JSONException e) {
@@ -3489,7 +3589,7 @@ public class HomeFragment extends Fragment {
 
 //                            getResHosList(Api.URL + "/v1/hospital/resHosList");
 
-                        } else if (deviceListResponseV2.getCode() == 10004 || deviceListResponseV2.getCode() == 10010) {
+                        }else if (deviceListResponseV2.getCode() == 10004 || deviceListResponseV2.getCode() == 10010) {
                             if (dialogTokenIntent == null) {
                                 dialogTokenIntent = new DialogTokenIntent(getContext(), R.style.CustomDialog);
                                 dialogTokenIntent.setTitle("提示").setMessage("您好，您的登陆信息已过期，请重新登陆!").setConfirm("确认", new DialogTokenIntent.IOnConfirmListener() {
@@ -3558,6 +3658,9 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void run() {
                         ToastUtils.showTextToast(getContext(), "网络请求失败");
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                     }
                 });
             }
@@ -3587,93 +3690,97 @@ public class HomeFragment extends Fragment {
                     deviceListResponseV2.setData(dataBeanXX);
                     //第二层解析
 
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
 
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
+
+                        dataBeanXX.setOnlineNum(onlineNum);
+                        dataBeanXX.setTotalNum(totalNum);
+                        dataBeanXX.setData(dataBeanX);
 
 
-                    dataBeanXX.setOnlineNum(onlineNum);
-                    dataBeanXX.setTotalNum(totalNum);
-                    dataBeanXX.setData(dataBeanX);
+                        int current_page = datax.optInt("current_page");
+                        String first_page_url = datax.optString("first_page_url");
+                        int from = datax.optInt("from");
+                        int last_page = datax.optInt("last_page");
+                        String last_page_url = datax.optString("last_page_url");
+                        String next_page_url = datax.optString("next_page_url");
+                        String path = datax.optString("path");
+                        int per_page = datax.optInt("per_page");
+                        String prev_page_url = datax.optString("prev_page_url");
+                        int to = datax.optInt("to");
+                        int total = datax.optInt("total");
+                        JSONArray data = datax.optJSONArray("data");
 
-                    int current_page = datax.optInt("current_page");
-                    String first_page_url = datax.optString("first_page_url");
-                    int from = datax.optInt("from");
-                    int last_page = datax.optInt("last_page");
-                    String last_page_url = datax.optString("last_page_url");
-                    String next_page_url = datax.optString("next_page_url");
-                    String path = datax.optString("path");
-                    int per_page = datax.optInt("per_page");
-                    String prev_page_url = datax.optString("prev_page_url");
-                    int to = datax.optInt("to");
-                    int total = datax.optInt("total");
-                    JSONArray data = datax.optJSONArray("data");
+                        dataBeanX.setCurrent_page(current_page);
+                        dataBeanX.setFirst_page_url(first_page_url);
+                        dataBeanX.setFrom(from);
+                        dataBeanX.setLast_page(last_page);
+                        dataBeanX.setLast_page_url(last_page_url);
+                        dataBeanX.setNext_page_url(next_page_url);
+                        dataBeanX.setPath(path);
+                        dataBeanX.setPer_page(per_page);
+                        dataBeanX.setPrev_page_url(prev_page_url);
+                        dataBeanX.setTo(to);
+                        dataBeanX.setTotal(total);
+                        dataBeanX.setData(dataBeansv2);
 
-                    dataBeanX.setCurrent_page(current_page);
-                    dataBeanX.setFirst_page_url(first_page_url);
-                    dataBeanX.setFrom(from);
-                    dataBeanX.setLast_page(last_page);
-                    dataBeanX.setLast_page_url(last_page_url);
-                    dataBeanX.setNext_page_url(next_page_url);
-                    dataBeanX.setPath(path);
-                    dataBeanX.setPer_page(per_page);
-                    dataBeanX.setPrev_page_url(prev_page_url);
-                    dataBeanX.setTo(to);
-                    dataBeanX.setTotal(total);
-                    dataBeanX.setData(dataBeansv2);
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject1 = data.getJSONObject(i);
+                            if (jsonObject1 != null) {
 
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject jsonObject1 = data.getJSONObject(i);
-                        if (jsonObject1 != null) {
+                                int outTime = jsonObject1.optInt("outTime");
+                                int breathrate = jsonObject1.optInt("breathrate");
+                                int heartrate = jsonObject1.optInt("heartrate");
+                                int bloodoxygen = jsonObject1.optInt("bloodoxygen");
+                                int tempetature = jsonObject1.optInt("tempetature");
+                                String ringsn = jsonObject1.optString("ringsn");
+                                int battery = jsonObject1.optInt("battery");
+                                int devStatus = jsonObject1.optInt("devStatus");
+                                int ringStatus = jsonObject1.optInt("ringStatus");
+                                int powerStatus = jsonObject1.optInt("powerStatus");
+                                String versionno = jsonObject1.optString("versionno");
+                                String swversion = jsonObject1.optString("swversion");
+                                String sim = jsonObject1.optString("sim");
+                                int reportStatus = jsonObject1.optInt("reportStatus");
+                                int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
+                                String truename = jsonObject1.optString("truename");
+                                String telephone = jsonObject1.optString("telephone");
+                                String sn = jsonObject1.optString("sn");
+                                int status = jsonObject1.optInt("status");
+                                String modeType = jsonObject1.optString("modeType");
 
-                            int outTime = jsonObject1.optInt("outTime");
-                            int breathrate = jsonObject1.optInt("breathrate");
-                            int heartrate = jsonObject1.optInt("heartrate");
-                            int bloodoxygen = jsonObject1.optInt("bloodoxygen");
-                            int tempetature = jsonObject1.optInt("tempetature");
-                            String ringsn = jsonObject1.optString("ringsn");
-                            int battery = jsonObject1.optInt("battery");
-                            int devStatus = jsonObject1.optInt("devStatus");
-                            int ringStatus = jsonObject1.optInt("ringStatus");
-                            int powerStatus = jsonObject1.optInt("powerStatus");
-                            String versionno = jsonObject1.optString("versionno");
-                            String swversion = jsonObject1.optString("swversion");
-                            String sim = jsonObject1.optString("sim");
-                            int reportStatus = jsonObject1.optInt("reportStatus");
-                            int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
-                            String truename = jsonObject1.optString("truename");
-                            String telephone = jsonObject1.optString("telephone");
-                            String sn = jsonObject1.optString("sn");
-                            int status = jsonObject1.optInt("status");
-                            String modeType = jsonObject1.optString("modeType");
+                                DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
+                                dataBean.setOutTime(outTime);
+                                dataBean.setBreathrate(breathrate);
+                                dataBean.setBloodoxygen(bloodoxygen);
+                                dataBean.setTempetature(tempetature);
+                                dataBean.setRingsn(ringsn);
+                                dataBean.setPowerStatus(powerStatus);
+                                dataBean.setVersionno(versionno);
+                                dataBean.setSwversion(swversion);
+                                dataBean.setSim(sim);
+                                dataBean.setReportStatus(reportStatus);
+                                dataBean.setLastUpdateTime(lastUpdateTime);
+                                dataBean.setTruename(truename);
+                                dataBean.setTelephone(telephone);
+                                dataBean.setSn(sn);
+                                dataBean.setStatus(status);
+                                dataBean.setBattery(battery);
+                                dataBean.setHeartrate(heartrate);
+                                dataBean.setDevStatus(devStatus);
+                                dataBean.setRingStatus(ringStatus);
+                                dataBean.setModeType(modeType);
+                                dataBeansv2.add(dataBean);
 
-                            DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
-                            dataBean.setOutTime(outTime);
-                            dataBean.setBreathrate(breathrate);
-                            dataBean.setBloodoxygen(bloodoxygen);
-                            dataBean.setTempetature(tempetature);
-                            dataBean.setRingsn(ringsn);
-                            dataBean.setPowerStatus(powerStatus);
-                            dataBean.setVersionno(versionno);
-                            dataBean.setSwversion(swversion);
-                            dataBean.setSim(sim);
-                            dataBean.setReportStatus(reportStatus);
-                            dataBean.setLastUpdateTime(lastUpdateTime);
-                            dataBean.setTruename(truename);
-                            dataBean.setTelephone(telephone);
-                            dataBean.setSn(sn);
-                            dataBean.setStatus(status);
-                            dataBean.setBattery(battery);
-                            dataBean.setHeartrate(heartrate);
-                            dataBean.setDevStatus(devStatus);
-                            dataBean.setRingStatus(ringStatus);
-                            dataBean.setModeType(modeType);
-                            dataBeansv2.add(dataBean);
+                            }
 
                         }
-
                     }
+
+
 
 
                 } catch (JSONException e) {
@@ -3795,7 +3902,9 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void run() {
                         mRecyclerInfo.setPullLoadMoreCompleted();
-
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                         ToastUtils.showTextToast2(getContext(), "网络请求失败");
                     }
                 });
@@ -3828,92 +3937,96 @@ public class HomeFragment extends Fragment {
                     //第二层解析
 
 
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
 
 
-                    dataBeanXX.setOnlineNum(onlineNum);
-                    dataBeanXX.setTotalNum(totalNum);
-                    dataBeanXX.setData(dataBeanX);
+                        dataBeanXX.setOnlineNum(onlineNum);
+                        dataBeanXX.setTotalNum(totalNum);
+                        dataBeanXX.setData(dataBeanX);
 
-                    int current_page = datax.optInt("current_page");
-                    String first_page_url = datax.optString("first_page_url");
-                    int from = datax.optInt("from");
-                    int last_page = datax.optInt("last_page");
-                    String last_page_url = datax.optString("last_page_url");
-                    String next_page_url = datax.optString("next_page_url");
-                    String path = datax.optString("path");
-                    int per_page = datax.optInt("per_page");
-                    String prev_page_url = datax.optString("prev_page_url");
-                    int to = datax.optInt("to");
-                    int total = datax.optInt("total");
-                    JSONArray data = datax.optJSONArray("data");
 
-                    dataBeanX.setCurrent_page(current_page);
-                    dataBeanX.setFirst_page_url(first_page_url);
-                    dataBeanX.setFrom(from);
-                    dataBeanX.setLast_page(last_page);
-                    dataBeanX.setLast_page_url(last_page_url);
-                    dataBeanX.setNext_page_url(next_page_url);
-                    dataBeanX.setPath(path);
-                    dataBeanX.setPer_page(per_page);
-                    dataBeanX.setPrev_page_url(prev_page_url);
-                    dataBeanX.setTo(to);
-                    dataBeanX.setTotal(total);
-                    dataBeanX.setData(dataBeansv2);
+                        int current_page = datax.optInt("current_page");
+                        String first_page_url = datax.optString("first_page_url");
+                        int from = datax.optInt("from");
+                        int last_page = datax.optInt("last_page");
+                        String last_page_url = datax.optString("last_page_url");
+                        String next_page_url = datax.optString("next_page_url");
+                        String path = datax.optString("path");
+                        int per_page = datax.optInt("per_page");
+                        String prev_page_url = datax.optString("prev_page_url");
+                        int to = datax.optInt("to");
+                        int total = datax.optInt("total");
+                        JSONArray data = datax.optJSONArray("data");
 
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject jsonObject1 = data.getJSONObject(i);
-                        if (jsonObject1 != null) {
+                        dataBeanX.setCurrent_page(current_page);
+                        dataBeanX.setFirst_page_url(first_page_url);
+                        dataBeanX.setFrom(from);
+                        dataBeanX.setLast_page(last_page);
+                        dataBeanX.setLast_page_url(last_page_url);
+                        dataBeanX.setNext_page_url(next_page_url);
+                        dataBeanX.setPath(path);
+                        dataBeanX.setPer_page(per_page);
+                        dataBeanX.setPrev_page_url(prev_page_url);
+                        dataBeanX.setTo(to);
+                        dataBeanX.setTotal(total);
+                        dataBeanX.setData(dataBeansv2);
 
-                            int outTime = jsonObject1.optInt("outTime");
-                            int breathrate = jsonObject1.optInt("breathrate");
-                            int heartrate = jsonObject1.optInt("heartrate");
-                            int bloodoxygen = jsonObject1.optInt("bloodoxygen");
-                            int tempetature = jsonObject1.optInt("tempetature");
-                            String ringsn = jsonObject1.optString("ringsn");
-                            int battery = jsonObject1.optInt("battery");
-                            int devStatus = jsonObject1.optInt("devStatus");
-                            int ringStatus = jsonObject1.optInt("ringStatus");
-                            int powerStatus = jsonObject1.optInt("powerStatus");
-                            String versionno = jsonObject1.optString("versionno");
-                            String swversion = jsonObject1.optString("swversion");
-                            String sim = jsonObject1.optString("sim");
-                            int reportStatus = jsonObject1.optInt("reportStatus");
-                            int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
-                            String truename = jsonObject1.optString("truename");
-                            String telephone = jsonObject1.optString("telephone");
-                            String sn = jsonObject1.optString("sn");
-                            int status = jsonObject1.optInt("status");
-                            String modeType = jsonObject1.optString("modeType");
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject1 = data.getJSONObject(i);
+                            if (jsonObject1 != null) {
 
-                            DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
-                            dataBean.setOutTime(outTime);
-                            dataBean.setBreathrate(breathrate);
-                            dataBean.setBloodoxygen(bloodoxygen);
-                            dataBean.setTempetature(tempetature);
-                            dataBean.setRingsn(ringsn);
-                            dataBean.setPowerStatus(powerStatus);
-                            dataBean.setVersionno(versionno);
-                            dataBean.setSwversion(swversion);
-                            dataBean.setSim(sim);
-                            dataBean.setReportStatus(reportStatus);
-                            dataBean.setLastUpdateTime(lastUpdateTime);
-                            dataBean.setTruename(truename);
-                            dataBean.setTelephone(telephone);
-                            dataBean.setSn(sn);
-                            dataBean.setStatus(status);
-                            dataBean.setBattery(battery);
-                            dataBean.setHeartrate(heartrate);
-                            dataBean.setDevStatus(devStatus);
-                            dataBean.setRingStatus(ringStatus);
-                            dataBean.setModeType(modeType);
-                            dataBeansv2.add(dataBean);
+                                int outTime = jsonObject1.optInt("outTime");
+                                int breathrate = jsonObject1.optInt("breathrate");
+                                int heartrate = jsonObject1.optInt("heartrate");
+                                int bloodoxygen = jsonObject1.optInt("bloodoxygen");
+                                int tempetature = jsonObject1.optInt("tempetature");
+                                String ringsn = jsonObject1.optString("ringsn");
+                                int battery = jsonObject1.optInt("battery");
+                                int devStatus = jsonObject1.optInt("devStatus");
+                                int ringStatus = jsonObject1.optInt("ringStatus");
+                                int powerStatus = jsonObject1.optInt("powerStatus");
+                                String versionno = jsonObject1.optString("versionno");
+                                String swversion = jsonObject1.optString("swversion");
+                                String sim = jsonObject1.optString("sim");
+                                int reportStatus = jsonObject1.optInt("reportStatus");
+                                int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
+                                String truename = jsonObject1.optString("truename");
+                                String telephone = jsonObject1.optString("telephone");
+                                String sn = jsonObject1.optString("sn");
+                                int status = jsonObject1.optInt("status");
+                                String modeType = jsonObject1.optString("modeType");
+
+                                DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
+                                dataBean.setOutTime(outTime);
+                                dataBean.setBreathrate(breathrate);
+                                dataBean.setBloodoxygen(bloodoxygen);
+                                dataBean.setTempetature(tempetature);
+                                dataBean.setRingsn(ringsn);
+                                dataBean.setPowerStatus(powerStatus);
+                                dataBean.setVersionno(versionno);
+                                dataBean.setSwversion(swversion);
+                                dataBean.setSim(sim);
+                                dataBean.setReportStatus(reportStatus);
+                                dataBean.setLastUpdateTime(lastUpdateTime);
+                                dataBean.setTruename(truename);
+                                dataBean.setTelephone(telephone);
+                                dataBean.setSn(sn);
+                                dataBean.setStatus(status);
+                                dataBean.setBattery(battery);
+                                dataBean.setHeartrate(heartrate);
+                                dataBean.setDevStatus(devStatus);
+                                dataBean.setRingStatus(ringStatus);
+                                dataBean.setModeType(modeType);
+                                dataBeansv2.add(dataBean);
+
+                            }
 
                         }
-
                     }
+
 
 
                 } catch (JSONException e) {
@@ -3997,6 +4110,9 @@ public class HomeFragment extends Fragment {
                         mRecyclerInfo.setPullLoadMoreCompleted();
 
                         ToastUtils.showTextToast2(getContext(), "网络请求失败");
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                     }
                 });
             }
@@ -4026,237 +4142,17 @@ public class HomeFragment extends Fragment {
                     //第二层解析
 
 
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
+
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
 
 
-                    dataBeanXX.setOnlineNum(onlineNum);
-                    dataBeanXX.setTotalNum(totalNum);
-                    dataBeanXX.setData(dataBeanX);
-
-                    int current_page = datax.optInt("current_page");
-                    String first_page_url = datax.optString("first_page_url");
-                    int from = datax.optInt("from");
-                    int last_page = datax.optInt("last_page");
-                    String last_page_url = datax.optString("last_page_url");
-                    String next_page_url = datax.optString("next_page_url");
-                    String path = datax.optString("path");
-                    int per_page = datax.optInt("per_page");
-                    String prev_page_url = datax.optString("prev_page_url");
-                    int to = datax.optInt("to");
-                    int total = datax.optInt("total");
-                    JSONArray data = datax.optJSONArray("data");
-
-                    dataBeanX.setCurrent_page(current_page);
-                    dataBeanX.setFirst_page_url(first_page_url);
-                    dataBeanX.setFrom(from);
-                    dataBeanX.setLast_page(last_page);
-                    dataBeanX.setLast_page_url(last_page_url);
-                    dataBeanX.setNext_page_url(next_page_url);
-                    dataBeanX.setPath(path);
-                    dataBeanX.setPer_page(per_page);
-                    dataBeanX.setPrev_page_url(prev_page_url);
-                    dataBeanX.setTo(to);
-                    dataBeanX.setTotal(total);
-                    dataBeanX.setData(dataBeansv2);
-
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject jsonObject1 = data.getJSONObject(i);
-                        if (jsonObject1 != null) {
-
-                            int outTime = jsonObject1.optInt("outTime");
-                            int breathrate = jsonObject1.optInt("breathrate");
-                            int heartrate = jsonObject1.optInt("heartrate");
-                            int bloodoxygen = jsonObject1.optInt("bloodoxygen");
-                            int tempetature = jsonObject1.optInt("tempetature");
-                            String ringsn = jsonObject1.optString("ringsn");
-                            int battery = jsonObject1.optInt("battery");
-                            int devStatus = jsonObject1.optInt("devStatus");
-                            int ringStatus = jsonObject1.optInt("ringStatus");
-                            int powerStatus = jsonObject1.optInt("powerStatus");
-                            String versionno = jsonObject1.optString("versionno");
-                            String swversion = jsonObject1.optString("swversion");
-                            String sim = jsonObject1.optString("sim");
-                            int reportStatus = jsonObject1.optInt("reportStatus");
-                            int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
-                            String truename = jsonObject1.optString("truename");
-                            String telephone = jsonObject1.optString("telephone");
-                            String sn = jsonObject1.optString("sn");
-                            int status = jsonObject1.optInt("status");
-                            String modeType = jsonObject1.optString("modeType");
-
-                            DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
-                            dataBean.setOutTime(outTime);
-                            dataBean.setBreathrate(breathrate);
-                            dataBean.setBloodoxygen(bloodoxygen);
-                            dataBean.setTempetature(tempetature);
-                            dataBean.setRingsn(ringsn);
-                            dataBean.setPowerStatus(powerStatus);
-                            dataBean.setVersionno(versionno);
-                            dataBean.setSwversion(swversion);
-                            dataBean.setSim(sim);
-                            dataBean.setReportStatus(reportStatus);
-                            dataBean.setLastUpdateTime(lastUpdateTime);
-                            dataBean.setTruename(truename);
-                            dataBean.setTelephone(telephone);
-                            dataBean.setSn(sn);
-                            dataBean.setStatus(status);
-                            dataBean.setBattery(battery);
-                            dataBean.setHeartrate(heartrate);
-                            dataBean.setDevStatus(devStatus);
-                            dataBean.setRingStatus(ringStatus);
-                            dataBean.setModeType(modeType);
-                            dataBeansv2.add(dataBean);
-
-                        }
-
-                    }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (deviceListResponseV2.getCode() == 0) {
-//                            Log.d("sad231321", String.valueOf(adapter.getItemCount()));
-                            mTvTotalDevice.setText("全部设备" + deviceListResponseV2.getData().getTotalNum() + "台");
-                            mTvOnLineDevice.setText("在线设备" + deviceListResponseV2.getData().getOnlineNum() + "台");
-                            adapter.notifyDataSetChanged();
-
-
-
-                            mRecyclerInfo.setPullLoadMoreCompleted();
-
-                            t = 0;
-                        } else if (deviceListResponseV2.getCode() == 10004 || deviceListResponseV2.getCode() == 10010) {
-                            if (dialogTokenIntent == null) {
-                                dialogTokenIntent = new DialogTokenIntent(getContext(), R.style.CustomDialog);
-                                dialogTokenIntent.setTitle("提示").setMessage("您好，您的登陆信息已过期，请重新登陆!").setConfirm("确认", new DialogTokenIntent.IOnConfirmListener() {
-                                    @Override
-                                    public void OnConfirm(DialogTokenIntent dialog) {
-                                        Intent intent = new Intent(getContext(), LoginActivity.class);
-                                        getActivity().finish();
-                                        startActivity(intent);
-
-                                    }
-                                }).show();
-
-                                dialogTokenIntent.setCanceledOnTouchOutside(false);
-                                dialogTokenIntent.setCancelable(false);
-                            }
-                        } else {
-                            ToastUtils.showTextToast(getContext(), deviceListResponseV2.getMsg());
-                        }
-
-                    }
-                });
-
-
-            }
-
-
-        });
-
-
-    }
-
-
-    private void getResEquipmentSearchNumber(String url) {
-
-        //1.拿到okhttp对象
-        OkHttpClient okHttpClient = new OkHttpClient();
-
-        //2.构造request
-        if (getTokenToSp("token", "") != null) {
-
-        }
-        Request request = new Request.Builder()
-                .get()
-                .url(url)
-                .addHeader("token", getTokenToSp("token", ""))
-                .addHeader("uid", getUidToSp("uid", ""))
-                .build();
-        //3.将request封装为call
-        Call call = okHttpClient.newCall(request);
-        //4.执行call
-//        同步执行
-//        Response response = call.execute();
-
-        //异步执行
-        call.enqueue(new Callback() {
-
-            @Override
-            public void onFailure(Call call, IOException e) {
-                L.e("OnFailure   " + e.getMessage());
-                e.printStackTrace();
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mRecyclerInfo.setPullLoadMoreCompleted();
-                        ToastUtils.showTextToast(getContext(), "网络请求失败");
-                        mRecyclerInfo.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
-                            @Override
-                            public void onRefresh() {
-
-                                dataBeansv2.clear();
-
-
-                             String text = String.valueOf(mEtSearch.getText().toString()).replaceAll(" ", "");
-                             getResEquipmentSearchNumber(Api.URL + "/v2/device?limit=10" + "&keywords=" + text);
-
-
-                            }
-
-                            @Override
-                            public void onLoadMore() {
-
-                            }
-                        });
-                    }
-                });
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                L.e("OnResponse");
-                final String res = response.body().string();
-                L.e(res);
-
-
-                //封装java对象
-
-                final DeviceListResponseV2 deviceListResponseV2 = new DeviceListResponseV2();
-
-                try {
-                    JSONObject jsonObject = new JSONObject(res);
-                    //第一层解析
-                    int code = jsonObject.optInt("code");
-                    String msg = jsonObject.optString("msg");
-                    JSONObject dataxx = jsonObject.optJSONObject("data");
-                    //第一层封装
-                    deviceListResponseV2.setCode(code);
-                    deviceListResponseV2.setMsg(msg);
-//                    List<EquipmentResponse.DataBean> dataBeans = new ArrayList<>();
-
-                    deviceListResponseV2.setData(dataBeanXX);
-                    //第二层解析
-
-
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
-
-
-                    if (dataxx != null) {
-                        deviceListResponseV2.setTotalNum(totalNum);
-                        deviceListResponseV2.setOnlineNum(onlineNum);
                         dataBeanXX.setOnlineNum(onlineNum);
                         dataBeanXX.setTotalNum(totalNum);
                         dataBeanXX.setData(dataBeanX);
+
 
                         int current_page = datax.optInt("current_page");
                         String first_page_url = datax.optString("first_page_url");
@@ -4335,8 +4231,243 @@ public class HomeFragment extends Fragment {
                             }
 
                         }
+                    }
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("sad231321", String.valueOf(deviceListResponseV2.getCode()));
+                        Log.d("sad231321", String.valueOf(deviceListResponseV2.getMsg()));
+                        Log.d("sad231321", String.valueOf(deviceListResponseV2));
+                        if (deviceListResponseV2.getCode() == 0) {
+//
+                            mTvTotalDevice.setText("全部设备" + deviceListResponseV2.getData().getTotalNum() + "台");
+                            mTvOnLineDevice.setText("在线设备" + deviceListResponseV2.getData().getOnlineNum() + "台");
+                            adapter.notifyDataSetChanged();
+
+
+
+                            mRecyclerInfo.setPullLoadMoreCompleted();
+
+                            t = 0;
+                        } else if (deviceListResponseV2.getCode() == 10004 || deviceListResponseV2.getCode() == 10010) {
+                            if (dialogTokenIntent == null) {
+                                dialogTokenIntent = new DialogTokenIntent(getContext(), R.style.CustomDialog);
+                                dialogTokenIntent.setTitle("提示").setMessage("您好，您的登陆信息已过期，请重新登陆!").setConfirm("确认", new DialogTokenIntent.IOnConfirmListener() {
+                                    @Override
+                                    public void OnConfirm(DialogTokenIntent dialog) {
+                                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                                        getActivity().finish();
+                                        startActivity(intent);
+
+                                    }
+                                }).show();
+
+                                dialogTokenIntent.setCanceledOnTouchOutside(false);
+                                dialogTokenIntent.setCancelable(false);
+                            }
+
+
+                        }else {
+                            ToastUtils.showTextToast(getContext(), deviceListResponseV2.getMsg());
+                        }
 
                     }
+                });
+
+
+            }
+
+
+        });
+
+
+    }
+
+
+    private void getResEquipmentSearchNumber(String url) {
+
+        //1.拿到okhttp对象
+        OkHttpClient okHttpClient = new OkHttpClient();
+
+        //2.构造request
+        if (getTokenToSp("token", "") != null) {
+
+        }
+        Request request = new Request.Builder()
+                .get()
+                .url(url)
+                .addHeader("token", getTokenToSp("token", ""))
+                .addHeader("uid", getUidToSp("uid", ""))
+                .build();
+        //3.将request封装为call
+        Call call = okHttpClient.newCall(request);
+        //4.执行call
+//        同步执行
+//        Response response = call.execute();
+
+        //异步执行
+        call.enqueue(new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                L.e("OnFailure   " + e.getMessage());
+                e.printStackTrace();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mRecyclerInfo.setPullLoadMoreCompleted();
+                        ToastUtils.showTextToast(getContext(), "网络请求失败");
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
+                        mRecyclerInfo.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
+                            @Override
+                            public void onRefresh() {
+
+                                dataBeansv2.clear();
+
+
+                             String text = String.valueOf(mEtSearch.getText().toString()).replaceAll(" ", "");
+                             getResEquipmentSearchNumber(Api.URL + "/v2/device?limit=10" + "&keywords=" + text);
+
+
+                            }
+
+                            @Override
+                            public void onLoadMore() {
+
+                            }
+                        });
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                L.e("OnResponse");
+                final String res = response.body().string();
+                L.e(res);
+
+
+                //封装java对象
+
+                final DeviceListResponseV2 deviceListResponseV2 = new DeviceListResponseV2();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(res);
+                    //第一层解析
+                    int code = jsonObject.optInt("code");
+                    String msg = jsonObject.optString("msg");
+                    JSONObject dataxx = jsonObject.optJSONObject("data");
+                    //第一层封装
+                    deviceListResponseV2.setCode(code);
+                    deviceListResponseV2.setMsg(msg);
+//                    List<EquipmentResponse.DataBean> dataBeans = new ArrayList<>();
+
+                    deviceListResponseV2.setData(dataBeanXX);
+                    //第二层解析
+
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
+
+
+                        if (dataxx != null) {
+                            deviceListResponseV2.setTotalNum(totalNum);
+                            deviceListResponseV2.setOnlineNum(onlineNum);
+                            dataBeanXX.setOnlineNum(onlineNum);
+                            dataBeanXX.setTotalNum(totalNum);
+                            dataBeanXX.setData(dataBeanX);
+
+                            int current_page = datax.optInt("current_page");
+                            String first_page_url = datax.optString("first_page_url");
+                            int from = datax.optInt("from");
+                            int last_page = datax.optInt("last_page");
+                            String last_page_url = datax.optString("last_page_url");
+                            String next_page_url = datax.optString("next_page_url");
+                            String path = datax.optString("path");
+                            int per_page = datax.optInt("per_page");
+                            String prev_page_url = datax.optString("prev_page_url");
+                            int to = datax.optInt("to");
+                            int total = datax.optInt("total");
+                            JSONArray data = datax.optJSONArray("data");
+
+                            dataBeanX.setCurrent_page(current_page);
+                            dataBeanX.setFirst_page_url(first_page_url);
+                            dataBeanX.setFrom(from);
+                            dataBeanX.setLast_page(last_page);
+                            dataBeanX.setLast_page_url(last_page_url);
+                            dataBeanX.setNext_page_url(next_page_url);
+                            dataBeanX.setPath(path);
+                            dataBeanX.setPer_page(per_page);
+                            dataBeanX.setPrev_page_url(prev_page_url);
+                            dataBeanX.setTo(to);
+                            dataBeanX.setTotal(total);
+                            dataBeanX.setData(dataBeansv2);
+
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONObject jsonObject1 = data.getJSONObject(i);
+                                if (jsonObject1 != null) {
+
+                                    int outTime = jsonObject1.optInt("outTime");
+                                    int breathrate = jsonObject1.optInt("breathrate");
+                                    int heartrate = jsonObject1.optInt("heartrate");
+                                    int bloodoxygen = jsonObject1.optInt("bloodoxygen");
+                                    int tempetature = jsonObject1.optInt("tempetature");
+                                    String ringsn = jsonObject1.optString("ringsn");
+                                    int battery = jsonObject1.optInt("battery");
+                                    int devStatus = jsonObject1.optInt("devStatus");
+                                    int ringStatus = jsonObject1.optInt("ringStatus");
+                                    int powerStatus = jsonObject1.optInt("powerStatus");
+                                    String versionno = jsonObject1.optString("versionno");
+                                    String swversion = jsonObject1.optString("swversion");
+                                    String sim = jsonObject1.optString("sim");
+                                    int reportStatus = jsonObject1.optInt("reportStatus");
+                                    int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
+                                    String truename = jsonObject1.optString("truename");
+                                    String telephone = jsonObject1.optString("telephone");
+                                    String sn = jsonObject1.optString("sn");
+                                    int status = jsonObject1.optInt("status");
+                                    String modeType = jsonObject1.optString("modeType");
+
+                                    DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
+                                    dataBean.setOutTime(outTime);
+                                    dataBean.setBreathrate(breathrate);
+                                    dataBean.setBloodoxygen(bloodoxygen);
+                                    dataBean.setTempetature(tempetature);
+                                    dataBean.setRingsn(ringsn);
+                                    dataBean.setPowerStatus(powerStatus);
+                                    dataBean.setVersionno(versionno);
+                                    dataBean.setSwversion(swversion);
+                                    dataBean.setSim(sim);
+                                    dataBean.setReportStatus(reportStatus);
+                                    dataBean.setLastUpdateTime(lastUpdateTime);
+                                    dataBean.setTruename(truename);
+                                    dataBean.setTelephone(telephone);
+                                    dataBean.setSn(sn);
+                                    dataBean.setStatus(status);
+                                    dataBean.setBattery(battery);
+                                    dataBean.setHeartrate(heartrate);
+                                    dataBean.setDevStatus(devStatus);
+                                    dataBean.setRingStatus(ringStatus);
+                                    dataBean.setModeType(modeType);
+                                    dataBeansv2.add(dataBean);
+
+                                }
+
+                            }
+
+                        }
+                    }
+
 
 
                 } catch (JSONException e) {
@@ -4498,6 +4629,9 @@ public class HomeFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                         ToastUtils.showTextToast(getContext(), "网络请求失败");
                     }
                 });
@@ -4528,89 +4662,91 @@ public class HomeFragment extends Fragment {
                     deviceListResponseV2.setData(dataBeanXX);
                     //第二层解析
 
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
 
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
 
+                        dataBeanXX.setOnlineNum(onlineNum);
+                        dataBeanXX.setTotalNum(totalNum);
+                        dataBeanXX.setData(dataBeanX);
 
-                    dataBeanXX.setOnlineNum(onlineNum);
-                    dataBeanXX.setTotalNum(totalNum);
-                    dataBeanXX.setData(dataBeanX);
+                        int current_page = datax.optInt("current_page");
+                        String first_page_url = datax.optString("first_page_url");
+                        int from = datax.optInt("from");
+                        int last_page = datax.optInt("last_page");
+                        String last_page_url = datax.optString("last_page_url");
+                        String next_page_url = datax.optString("next_page_url");
+                        String path = datax.optString("path");
+                        int per_page = datax.optInt("per_page");
+                        String prev_page_url = datax.optString("prev_page_url");
+                        int to = datax.optInt("to");
+                        int total = datax.optInt("total");
+                        JSONArray data = datax.optJSONArray("data");
 
-                    int current_page = datax.optInt("current_page");
-                    String first_page_url = datax.optString("first_page_url");
-                    int from = datax.optInt("from");
-                    int last_page = datax.optInt("last_page");
-                    String last_page_url = datax.optString("last_page_url");
-                    String next_page_url = datax.optString("next_page_url");
-                    String path = datax.optString("path");
-                    int per_page = datax.optInt("per_page");
-                    String prev_page_url = datax.optString("prev_page_url");
-                    int to = datax.optInt("to");
-                    int total = datax.optInt("total");
-                    JSONArray data = datax.optJSONArray("data");
+                        dataBeanX.setCurrent_page(current_page);
+                        dataBeanX.setFirst_page_url(first_page_url);
+                        dataBeanX.setFrom(from);
+                        dataBeanX.setLast_page(last_page);
+                        dataBeanX.setLast_page_url(last_page_url);
+                        dataBeanX.setNext_page_url(next_page_url);
+                        dataBeanX.setPath(path);
+                        dataBeanX.setPer_page(per_page);
+                        dataBeanX.setPrev_page_url(prev_page_url);
+                        dataBeanX.setTo(to);
+                        dataBeanX.setTotal(total);
+                        dataBeanX.setData(dataBeansv2);
 
-                    dataBeanX.setCurrent_page(current_page);
-                    dataBeanX.setFirst_page_url(first_page_url);
-                    dataBeanX.setFrom(from);
-                    dataBeanX.setLast_page(last_page);
-                    dataBeanX.setLast_page_url(last_page_url);
-                    dataBeanX.setNext_page_url(next_page_url);
-                    dataBeanX.setPath(path);
-                    dataBeanX.setPer_page(per_page);
-                    dataBeanX.setPrev_page_url(prev_page_url);
-                    dataBeanX.setTo(to);
-                    dataBeanX.setTotal(total);
-                    dataBeanX.setData(dataBeansv2);
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject1 = data.getJSONObject(i);
+                            if (jsonObject1 != null) {
 
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject jsonObject1 = data.getJSONObject(i);
-                        if (jsonObject1 != null) {
+                                int outTime = jsonObject1.optInt("outTime");
+                                int breathrate = jsonObject1.optInt("breathrate");
+                                int heartrate = jsonObject1.optInt("heartrate");
+                                int bloodoxygen = jsonObject1.optInt("bloodoxygen");
+                                int tempetature = jsonObject1.optInt("tempetature");
+                                String ringsn = jsonObject1.optString("ringsn");
+                                int battery = jsonObject1.optInt("battery");
+                                int devStatus = jsonObject1.optInt("devStatus");
+                                int ringStatus = jsonObject1.optInt("ringStatus");
+                                int powerStatus = jsonObject1.optInt("powerStatus");
+                                String versionno = jsonObject1.optString("versionno");
+                                String swversion = jsonObject1.optString("swversion");
+                                String sim = jsonObject1.optString("sim");
+                                int reportStatus = jsonObject1.optInt("reportStatus");
+                                int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
+                                String truename = jsonObject1.optString("truename");
+                                String telephone = jsonObject1.optString("telephone");
+                                String sn = jsonObject1.optString("sn");
+                                int status = jsonObject1.optInt("status");
+                                String modeType = jsonObject1.optString("modeType");
 
-                            int outTime = jsonObject1.optInt("outTime");
-                            int breathrate = jsonObject1.optInt("breathrate");
-                            int heartrate = jsonObject1.optInt("heartrate");
-                            int bloodoxygen = jsonObject1.optInt("bloodoxygen");
-                            int tempetature = jsonObject1.optInt("tempetature");
-                            String ringsn = jsonObject1.optString("ringsn");
-                            int battery = jsonObject1.optInt("battery");
-                            int devStatus = jsonObject1.optInt("devStatus");
-                            int ringStatus = jsonObject1.optInt("ringStatus");
-                            int powerStatus = jsonObject1.optInt("powerStatus");
-                            String versionno = jsonObject1.optString("versionno");
-                            String swversion = jsonObject1.optString("swversion");
-                            String sim = jsonObject1.optString("sim");
-                            int reportStatus = jsonObject1.optInt("reportStatus");
-                            int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
-                            String truename = jsonObject1.optString("truename");
-                            String telephone = jsonObject1.optString("telephone");
-                            String sn = jsonObject1.optString("sn");
-                            int status = jsonObject1.optInt("status");
-                            String modeType = jsonObject1.optString("modeType");
+                                DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
+                                dataBean.setOutTime(outTime);
+                                dataBean.setBreathrate(breathrate);
+                                dataBean.setBloodoxygen(bloodoxygen);
+                                dataBean.setTempetature(tempetature);
+                                dataBean.setRingsn(ringsn);
+                                dataBean.setPowerStatus(powerStatus);
+                                dataBean.setVersionno(versionno);
+                                dataBean.setSwversion(swversion);
+                                dataBean.setSim(sim);
+                                dataBean.setReportStatus(reportStatus);
+                                dataBean.setLastUpdateTime(lastUpdateTime);
+                                dataBean.setTruename(truename);
+                                dataBean.setTelephone(telephone);
+                                dataBean.setSn(sn);
+                                dataBean.setStatus(status);
+                                dataBean.setBattery(battery);
+                                dataBean.setHeartrate(heartrate);
+                                dataBean.setDevStatus(devStatus);
+                                dataBean.setRingStatus(ringStatus);
+                                dataBean.setModeType(modeType);
+                                dataBeansv2.add(dataBean);
 
-                            DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
-                            dataBean.setOutTime(outTime);
-                            dataBean.setBreathrate(breathrate);
-                            dataBean.setBloodoxygen(bloodoxygen);
-                            dataBean.setTempetature(tempetature);
-                            dataBean.setRingsn(ringsn);
-                            dataBean.setPowerStatus(powerStatus);
-                            dataBean.setVersionno(versionno);
-                            dataBean.setSwversion(swversion);
-                            dataBean.setSim(sim);
-                            dataBean.setReportStatus(reportStatus);
-                            dataBean.setLastUpdateTime(lastUpdateTime);
-                            dataBean.setTruename(truename);
-                            dataBean.setTelephone(telephone);
-                            dataBean.setSn(sn);
-                            dataBean.setStatus(status);
-                            dataBean.setBattery(battery);
-                            dataBean.setHeartrate(heartrate);
-                            dataBean.setDevStatus(devStatus);
-                            dataBean.setRingStatus(ringStatus);
-                            dataBean.setModeType(modeType);
-                            dataBeansv2.add(dataBean);
+                            }
 
                         }
 
@@ -4738,6 +4874,9 @@ public class HomeFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                         ToastUtils.showTextToast(getContext(), "网络请求失败");
                     }
                 });
@@ -4767,94 +4906,96 @@ public class HomeFragment extends Fragment {
 
                     deviceListResponseV2.setData(dataBeanXX);
                     //第二层解析
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
 
 
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
+                        dataBeanXX.setOnlineNum(onlineNum);
+                        dataBeanXX.setTotalNum(totalNum);
+                        dataBeanXX.setData(dataBeanX);
 
+                        int current_page = datax.optInt("current_page");
+                        String first_page_url = datax.optString("first_page_url");
+                        int from = datax.optInt("from");
+                        int last_page = datax.optInt("last_page");
+                        String last_page_url = datax.optString("last_page_url");
+                        String next_page_url = datax.optString("next_page_url");
+                        String path = datax.optString("path");
+                        int per_page = datax.optInt("per_page");
+                        String prev_page_url = datax.optString("prev_page_url");
+                        int to = datax.optInt("to");
+                        int total = datax.optInt("total");
+                        JSONArray data = datax.optJSONArray("data");
 
-                    dataBeanXX.setOnlineNum(onlineNum);
-                    dataBeanXX.setTotalNum(totalNum);
-                    dataBeanXX.setData(dataBeanX);
+                        dataBeanX.setCurrent_page(current_page);
+                        dataBeanX.setFirst_page_url(first_page_url);
+                        dataBeanX.setFrom(from);
+                        dataBeanX.setLast_page(last_page);
+                        dataBeanX.setLast_page_url(last_page_url);
+                        dataBeanX.setNext_page_url(next_page_url);
+                        dataBeanX.setPath(path);
+                        dataBeanX.setPer_page(per_page);
+                        dataBeanX.setPrev_page_url(prev_page_url);
+                        dataBeanX.setTo(to);
+                        dataBeanX.setTotal(total);
+                        dataBeanX.setData(dataBeansv2);
 
-                    int current_page = datax.optInt("current_page");
-                    String first_page_url = datax.optString("first_page_url");
-                    int from = datax.optInt("from");
-                    int last_page = datax.optInt("last_page");
-                    String last_page_url = datax.optString("last_page_url");
-                    String next_page_url = datax.optString("next_page_url");
-                    String path = datax.optString("path");
-                    int per_page = datax.optInt("per_page");
-                    String prev_page_url = datax.optString("prev_page_url");
-                    int to = datax.optInt("to");
-                    int total = datax.optInt("total");
-                    JSONArray data = datax.optJSONArray("data");
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject1 = data.getJSONObject(i);
+                            if (jsonObject1 != null) {
 
-                    dataBeanX.setCurrent_page(current_page);
-                    dataBeanX.setFirst_page_url(first_page_url);
-                    dataBeanX.setFrom(from);
-                    dataBeanX.setLast_page(last_page);
-                    dataBeanX.setLast_page_url(last_page_url);
-                    dataBeanX.setNext_page_url(next_page_url);
-                    dataBeanX.setPath(path);
-                    dataBeanX.setPer_page(per_page);
-                    dataBeanX.setPrev_page_url(prev_page_url);
-                    dataBeanX.setTo(to);
-                    dataBeanX.setTotal(total);
-                    dataBeanX.setData(dataBeansv2);
+                                int outTime = jsonObject1.optInt("outTime");
+                                int breathrate = jsonObject1.optInt("breathrate");
+                                int heartrate = jsonObject1.optInt("heartrate");
+                                int bloodoxygen = jsonObject1.optInt("bloodoxygen");
+                                int tempetature = jsonObject1.optInt("tempetature");
+                                String ringsn = jsonObject1.optString("ringsn");
+                                int battery = jsonObject1.optInt("battery");
+                                int devStatus = jsonObject1.optInt("devStatus");
+                                int ringStatus = jsonObject1.optInt("ringStatus");
+                                int powerStatus = jsonObject1.optInt("powerStatus");
+                                String versionno = jsonObject1.optString("versionno");
+                                String swversion = jsonObject1.optString("swversion");
+                                String sim = jsonObject1.optString("sim");
+                                int reportStatus = jsonObject1.optInt("reportStatus");
+                                int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
+                                String truename = jsonObject1.optString("truename");
+                                String telephone = jsonObject1.optString("telephone");
+                                String sn = jsonObject1.optString("sn");
+                                int status = jsonObject1.optInt("status");
+                                String modeType = jsonObject1.optString("modeType");
 
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject jsonObject1 = data.getJSONObject(i);
-                        if (jsonObject1 != null) {
+                                DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
+                                dataBean.setOutTime(outTime);
+                                dataBean.setBreathrate(breathrate);
+                                dataBean.setBloodoxygen(bloodoxygen);
+                                dataBean.setTempetature(tempetature);
+                                dataBean.setRingsn(ringsn);
+                                dataBean.setPowerStatus(powerStatus);
+                                dataBean.setVersionno(versionno);
+                                dataBean.setSwversion(swversion);
+                                dataBean.setSim(sim);
+                                dataBean.setReportStatus(reportStatus);
+                                dataBean.setLastUpdateTime(lastUpdateTime);
+                                dataBean.setTruename(truename);
+                                dataBean.setTelephone(telephone);
+                                dataBean.setSn(sn);
+                                dataBean.setStatus(status);
+                                dataBean.setBattery(battery);
+                                dataBean.setHeartrate(heartrate);
+                                dataBean.setDevStatus(devStatus);
+                                dataBean.setRingStatus(ringStatus);
+                                dataBean.setModeType(modeType);
+                                dataBeansv2.add(dataBean);
 
-                            int outTime = jsonObject1.optInt("outTime");
-                            int breathrate = jsonObject1.optInt("breathrate");
-                            int heartrate = jsonObject1.optInt("heartrate");
-                            int bloodoxygen = jsonObject1.optInt("bloodoxygen");
-                            int tempetature = jsonObject1.optInt("tempetature");
-                            String ringsn = jsonObject1.optString("ringsn");
-                            int battery = jsonObject1.optInt("battery");
-                            int devStatus = jsonObject1.optInt("devStatus");
-                            int ringStatus = jsonObject1.optInt("ringStatus");
-                            int powerStatus = jsonObject1.optInt("powerStatus");
-                            String versionno = jsonObject1.optString("versionno");
-                            String swversion = jsonObject1.optString("swversion");
-                            String sim = jsonObject1.optString("sim");
-                            int reportStatus = jsonObject1.optInt("reportStatus");
-                            int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
-                            String truename = jsonObject1.optString("truename");
-                            String telephone = jsonObject1.optString("telephone");
-                            String sn = jsonObject1.optString("sn");
-                            int status = jsonObject1.optInt("status");
-                            String modeType = jsonObject1.optString("modeType");
-
-                            DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
-                            dataBean.setOutTime(outTime);
-                            dataBean.setBreathrate(breathrate);
-                            dataBean.setBloodoxygen(bloodoxygen);
-                            dataBean.setTempetature(tempetature);
-                            dataBean.setRingsn(ringsn);
-                            dataBean.setPowerStatus(powerStatus);
-                            dataBean.setVersionno(versionno);
-                            dataBean.setSwversion(swversion);
-                            dataBean.setSim(sim);
-                            dataBean.setReportStatus(reportStatus);
-                            dataBean.setLastUpdateTime(lastUpdateTime);
-                            dataBean.setTruename(truename);
-                            dataBean.setTelephone(telephone);
-                            dataBean.setSn(sn);
-                            dataBean.setStatus(status);
-                            dataBean.setBattery(battery);
-                            dataBean.setHeartrate(heartrate);
-                            dataBean.setDevStatus(devStatus);
-                            dataBean.setRingStatus(ringStatus);
-                            dataBean.setModeType(modeType);
-                            dataBeansv2.add(dataBean);
+                            }
 
                         }
 
                     }
+
 
 
                 } catch (JSONException e) {
@@ -4976,6 +5117,9 @@ public class HomeFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                         mRecyclerInfo.setPullLoadMoreCompleted();
                         ToastUtils.showTextToast2(getContext(), "网络请求失败");
                     }
@@ -5007,94 +5151,96 @@ public class HomeFragment extends Fragment {
                     DeviceListResponseV2.DataBeanXX dataBeanXX = new DeviceListResponseV2.DataBeanXX();
                     deviceListResponseV2.setData(dataBeanXX);
                     //第二层解析
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
 
 
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
+                        dataBeanXX.setOnlineNum(onlineNum);
+                        dataBeanXX.setTotalNum(totalNum);
+                        dataBeanXX.setData(dataBeanX);
 
+                        int current_page = datax.optInt("current_page");
+                        String first_page_url = datax.optString("first_page_url");
+                        int from = datax.optInt("from");
+                        int last_page = datax.optInt("last_page");
+                        String last_page_url = datax.optString("last_page_url");
+                        String next_page_url = datax.optString("next_page_url");
+                        String path = datax.optString("path");
+                        int per_page = datax.optInt("per_page");
+                        String prev_page_url = datax.optString("prev_page_url");
+                        int to = datax.optInt("to");
+                        int total = datax.optInt("total");
+                        JSONArray data = datax.optJSONArray("data");
 
-                    dataBeanXX.setOnlineNum(onlineNum);
-                    dataBeanXX.setTotalNum(totalNum);
-                    dataBeanXX.setData(dataBeanX);
+                        dataBeanX.setCurrent_page(current_page);
+                        dataBeanX.setFirst_page_url(first_page_url);
+                        dataBeanX.setFrom(from);
+                        dataBeanX.setLast_page(last_page);
+                        dataBeanX.setLast_page_url(last_page_url);
+                        dataBeanX.setNext_page_url(next_page_url);
+                        dataBeanX.setPath(path);
+                        dataBeanX.setPer_page(per_page);
+                        dataBeanX.setPrev_page_url(prev_page_url);
+                        dataBeanX.setTo(to);
+                        dataBeanX.setTotal(total);
+                        dataBeanX.setData(dataBeansv2);
 
-                    int current_page = datax.optInt("current_page");
-                    String first_page_url = datax.optString("first_page_url");
-                    int from = datax.optInt("from");
-                    int last_page = datax.optInt("last_page");
-                    String last_page_url = datax.optString("last_page_url");
-                    String next_page_url = datax.optString("next_page_url");
-                    String path = datax.optString("path");
-                    int per_page = datax.optInt("per_page");
-                    String prev_page_url = datax.optString("prev_page_url");
-                    int to = datax.optInt("to");
-                    int total = datax.optInt("total");
-                    JSONArray data = datax.optJSONArray("data");
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject1 = data.getJSONObject(i);
+                            if (jsonObject1 != null) {
 
-                    dataBeanX.setCurrent_page(current_page);
-                    dataBeanX.setFirst_page_url(first_page_url);
-                    dataBeanX.setFrom(from);
-                    dataBeanX.setLast_page(last_page);
-                    dataBeanX.setLast_page_url(last_page_url);
-                    dataBeanX.setNext_page_url(next_page_url);
-                    dataBeanX.setPath(path);
-                    dataBeanX.setPer_page(per_page);
-                    dataBeanX.setPrev_page_url(prev_page_url);
-                    dataBeanX.setTo(to);
-                    dataBeanX.setTotal(total);
-                    dataBeanX.setData(dataBeansv2);
+                                int outTime = jsonObject1.optInt("outTime");
+                                int breathrate = jsonObject1.optInt("breathrate");
+                                int heartrate = jsonObject1.optInt("heartrate");
+                                int bloodoxygen = jsonObject1.optInt("bloodoxygen");
+                                int tempetature = jsonObject1.optInt("tempetature");
+                                String ringsn = jsonObject1.optString("ringsn");
+                                int battery = jsonObject1.optInt("battery");
+                                int devStatus = jsonObject1.optInt("devStatus");
+                                int ringStatus = jsonObject1.optInt("ringStatus");
+                                int powerStatus = jsonObject1.optInt("powerStatus");
+                                String versionno = jsonObject1.optString("versionno");
+                                String swversion = jsonObject1.optString("swversion");
+                                String sim = jsonObject1.optString("sim");
+                                int reportStatus = jsonObject1.optInt("reportStatus");
+                                int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
+                                String truename = jsonObject1.optString("truename");
+                                String telephone = jsonObject1.optString("telephone");
+                                String sn = jsonObject1.optString("sn");
+                                int status = jsonObject1.optInt("status");
+                                String modeType = jsonObject1.optString("modeType");
 
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject jsonObject1 = data.getJSONObject(i);
-                        if (jsonObject1 != null) {
+                                DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
+                                dataBean.setOutTime(outTime);
+                                dataBean.setBreathrate(breathrate);
+                                dataBean.setBloodoxygen(bloodoxygen);
+                                dataBean.setTempetature(tempetature);
+                                dataBean.setRingsn(ringsn);
+                                dataBean.setPowerStatus(powerStatus);
+                                dataBean.setVersionno(versionno);
+                                dataBean.setSwversion(swversion);
+                                dataBean.setSim(sim);
+                                dataBean.setReportStatus(reportStatus);
+                                dataBean.setLastUpdateTime(lastUpdateTime);
+                                dataBean.setTruename(truename);
+                                dataBean.setTelephone(telephone);
+                                dataBean.setSn(sn);
+                                dataBean.setStatus(status);
+                                dataBean.setBattery(battery);
+                                dataBean.setHeartrate(heartrate);
+                                dataBean.setDevStatus(devStatus);
+                                dataBean.setRingStatus(ringStatus);
+                                dataBean.setModeType(modeType);
+                                dataBeansv2.add(dataBean);
 
-                            int outTime = jsonObject1.optInt("outTime");
-                            int breathrate = jsonObject1.optInt("breathrate");
-                            int heartrate = jsonObject1.optInt("heartrate");
-                            int bloodoxygen = jsonObject1.optInt("bloodoxygen");
-                            int tempetature = jsonObject1.optInt("tempetature");
-                            String ringsn = jsonObject1.optString("ringsn");
-                            int battery = jsonObject1.optInt("battery");
-                            int devStatus = jsonObject1.optInt("devStatus");
-                            int ringStatus = jsonObject1.optInt("ringStatus");
-                            int powerStatus = jsonObject1.optInt("powerStatus");
-                            String versionno = jsonObject1.optString("versionno");
-                            String swversion = jsonObject1.optString("swversion");
-                            String sim = jsonObject1.optString("sim");
-                            int reportStatus = jsonObject1.optInt("reportStatus");
-                            int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
-                            String truename = jsonObject1.optString("truename");
-                            String telephone = jsonObject1.optString("telephone");
-                            String sn = jsonObject1.optString("sn");
-                            int status = jsonObject1.optInt("status");
-                            String modeType = jsonObject1.optString("modeType");
-
-                            DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
-                            dataBean.setOutTime(outTime);
-                            dataBean.setBreathrate(breathrate);
-                            dataBean.setBloodoxygen(bloodoxygen);
-                            dataBean.setTempetature(tempetature);
-                            dataBean.setRingsn(ringsn);
-                            dataBean.setPowerStatus(powerStatus);
-                            dataBean.setVersionno(versionno);
-                            dataBean.setSwversion(swversion);
-                            dataBean.setSim(sim);
-                            dataBean.setReportStatus(reportStatus);
-                            dataBean.setLastUpdateTime(lastUpdateTime);
-                            dataBean.setTruename(truename);
-                            dataBean.setTelephone(telephone);
-                            dataBean.setSn(sn);
-                            dataBean.setStatus(status);
-                            dataBean.setBattery(battery);
-                            dataBean.setHeartrate(heartrate);
-                            dataBean.setDevStatus(devStatus);
-                            dataBean.setRingStatus(ringStatus);
-                            dataBean.setModeType(modeType);
-                            dataBeansv2.add(dataBean);
+                            }
 
                         }
 
                     }
+
 
 
                 } catch (JSONException e) {
@@ -5175,6 +5321,9 @@ public class HomeFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        timer.cancel();
+                        mRlSleepSlices.setVisibility(View.VISIBLE);
+                        mRecyclerInfo.setVisibility(View.GONE);
                         mRecyclerInfo.setPullLoadMoreCompleted();
                         ToastUtils.showTextToast2(getContext(), "网络请求失败");
                     }
@@ -5205,93 +5354,96 @@ public class HomeFragment extends Fragment {
                     deviceListResponseV2.setData(dataBeanXX);
                     //第二层解析
 
+                    if (dataxx != null){
+                        int onlineNum = dataxx.optInt("onlineNum");
+                        int totalNum = dataxx.optInt("totalNum");
+                        JSONObject datax = dataxx.optJSONObject("data");
 
-                    int onlineNum = dataxx.optInt("onlineNum");
-                    int totalNum = dataxx.optInt("totalNum");
-                    JSONObject datax = dataxx.optJSONObject("data");
 
+                        dataBeanXX.setOnlineNum(onlineNum);
+                        dataBeanXX.setTotalNum(totalNum);
+                        dataBeanXX.setData(dataBeanX);
 
-                    dataBeanXX.setOnlineNum(onlineNum);
-                    dataBeanXX.setTotalNum(totalNum);
-                    dataBeanXX.setData(dataBeanX);
+                        int current_page = datax.optInt("current_page");
+                        String first_page_url = datax.optString("first_page_url");
+                        int from = datax.optInt("from");
+                        int last_page = datax.optInt("last_page");
+                        String last_page_url = datax.optString("last_page_url");
+                        String next_page_url = datax.optString("next_page_url");
+                        String path = datax.optString("path");
+                        int per_page = datax.optInt("per_page");
+                        String prev_page_url = datax.optString("prev_page_url");
+                        int to = datax.optInt("to");
+                        int total = datax.optInt("total");
+                        JSONArray data = datax.optJSONArray("data");
 
-                    int current_page = datax.optInt("current_page");
-                    String first_page_url = datax.optString("first_page_url");
-                    int from = datax.optInt("from");
-                    int last_page = datax.optInt("last_page");
-                    String last_page_url = datax.optString("last_page_url");
-                    String next_page_url = datax.optString("next_page_url");
-                    String path = datax.optString("path");
-                    int per_page = datax.optInt("per_page");
-                    String prev_page_url = datax.optString("prev_page_url");
-                    int to = datax.optInt("to");
-                    int total = datax.optInt("total");
-                    JSONArray data = datax.optJSONArray("data");
+                        dataBeanX.setCurrent_page(current_page);
+                        dataBeanX.setFirst_page_url(first_page_url);
+                        dataBeanX.setFrom(from);
+                        dataBeanX.setLast_page(last_page);
+                        dataBeanX.setLast_page_url(last_page_url);
+                        dataBeanX.setNext_page_url(next_page_url);
+                        dataBeanX.setPath(path);
+                        dataBeanX.setPer_page(per_page);
+                        dataBeanX.setPrev_page_url(prev_page_url);
+                        dataBeanX.setTo(to);
+                        dataBeanX.setTotal(total);
+                        dataBeanX.setData(dataBeansv2);
 
-                    dataBeanX.setCurrent_page(current_page);
-                    dataBeanX.setFirst_page_url(first_page_url);
-                    dataBeanX.setFrom(from);
-                    dataBeanX.setLast_page(last_page);
-                    dataBeanX.setLast_page_url(last_page_url);
-                    dataBeanX.setNext_page_url(next_page_url);
-                    dataBeanX.setPath(path);
-                    dataBeanX.setPer_page(per_page);
-                    dataBeanX.setPrev_page_url(prev_page_url);
-                    dataBeanX.setTo(to);
-                    dataBeanX.setTotal(total);
-                    dataBeanX.setData(dataBeansv2);
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject1 = data.getJSONObject(i);
+                            if (jsonObject1 != null) {
 
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject jsonObject1 = data.getJSONObject(i);
-                        if (jsonObject1 != null) {
+                                int outTime = jsonObject1.optInt("outTime");
+                                int breathrate = jsonObject1.optInt("breathrate");
+                                int heartrate = jsonObject1.optInt("heartrate");
+                                int bloodoxygen = jsonObject1.optInt("bloodoxygen");
+                                int tempetature = jsonObject1.optInt("tempetature");
+                                String ringsn = jsonObject1.optString("ringsn");
+                                int battery = jsonObject1.optInt("battery");
+                                int devStatus = jsonObject1.optInt("devStatus");
+                                int ringStatus = jsonObject1.optInt("ringStatus");
+                                int powerStatus = jsonObject1.optInt("powerStatus");
+                                String versionno = jsonObject1.optString("versionno");
+                                String swversion = jsonObject1.optString("swversion");
+                                String sim = jsonObject1.optString("sim");
+                                int reportStatus = jsonObject1.optInt("reportStatus");
+                                int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
+                                String truename = jsonObject1.optString("truename");
+                                String telephone = jsonObject1.optString("telephone");
+                                String sn = jsonObject1.optString("sn");
+                                int status = jsonObject1.optInt("status");
+                                String modeType = jsonObject1.optString("modeType");
 
-                            int outTime = jsonObject1.optInt("outTime");
-                            int breathrate = jsonObject1.optInt("breathrate");
-                            int heartrate = jsonObject1.optInt("heartrate");
-                            int bloodoxygen = jsonObject1.optInt("bloodoxygen");
-                            int tempetature = jsonObject1.optInt("tempetature");
-                            String ringsn = jsonObject1.optString("ringsn");
-                            int battery = jsonObject1.optInt("battery");
-                            int devStatus = jsonObject1.optInt("devStatus");
-                            int ringStatus = jsonObject1.optInt("ringStatus");
-                            int powerStatus = jsonObject1.optInt("powerStatus");
-                            String versionno = jsonObject1.optString("versionno");
-                            String swversion = jsonObject1.optString("swversion");
-                            String sim = jsonObject1.optString("sim");
-                            int reportStatus = jsonObject1.optInt("reportStatus");
-                            int lastUpdateTime = jsonObject1.optInt("lastUpdateTime");
-                            String truename = jsonObject1.optString("truename");
-                            String telephone = jsonObject1.optString("telephone");
-                            String sn = jsonObject1.optString("sn");
-                            int status = jsonObject1.optInt("status");
-                            String modeType = jsonObject1.optString("modeType");
+                                DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
+                                dataBean.setOutTime(outTime);
+                                dataBean.setBreathrate(breathrate);
+                                dataBean.setBloodoxygen(bloodoxygen);
+                                dataBean.setTempetature(tempetature);
+                                dataBean.setRingsn(ringsn);
+                                dataBean.setPowerStatus(powerStatus);
+                                dataBean.setVersionno(versionno);
+                                dataBean.setSwversion(swversion);
+                                dataBean.setSim(sim);
+                                dataBean.setReportStatus(reportStatus);
+                                dataBean.setLastUpdateTime(lastUpdateTime);
+                                dataBean.setTruename(truename);
+                                dataBean.setTelephone(telephone);
+                                dataBean.setSn(sn);
+                                dataBean.setStatus(status);
+                                dataBean.setBattery(battery);
+                                dataBean.setHeartrate(heartrate);
+                                dataBean.setDevStatus(devStatus);
+                                dataBean.setRingStatus(ringStatus);
+                                dataBean.setModeType(modeType);
+                                dataBeansv2.add(dataBean);
 
-                            DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBean = new DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean();
-                            dataBean.setOutTime(outTime);
-                            dataBean.setBreathrate(breathrate);
-                            dataBean.setBloodoxygen(bloodoxygen);
-                            dataBean.setTempetature(tempetature);
-                            dataBean.setRingsn(ringsn);
-                            dataBean.setPowerStatus(powerStatus);
-                            dataBean.setVersionno(versionno);
-                            dataBean.setSwversion(swversion);
-                            dataBean.setSim(sim);
-                            dataBean.setReportStatus(reportStatus);
-                            dataBean.setLastUpdateTime(lastUpdateTime);
-                            dataBean.setTruename(truename);
-                            dataBean.setTelephone(telephone);
-                            dataBean.setSn(sn);
-                            dataBean.setStatus(status);
-                            dataBean.setBattery(battery);
-                            dataBean.setHeartrate(heartrate);
-                            dataBean.setDevStatus(devStatus);
-                            dataBean.setRingStatus(ringStatus);
-                            dataBean.setModeType(modeType);
-                            dataBeansv2.add(dataBean);
+                            }
 
                         }
-
                     }
+
+
 
 
                 } catch (JSONException e) {

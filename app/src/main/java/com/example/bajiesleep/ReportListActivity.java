@@ -77,6 +77,7 @@ public class ReportListActivity extends AppCompatActivity {
         mBtnSearch = findViewById(R.id.btn_report_list_search);
         mIvCleanSearch= findViewById(R.id.report_list_search_clean);
         linearLeft = findViewById(R.id.report_liner_left);
+
         mBtnSearch.setVisibility(View.GONE);
         mIvCleanSearch.setVisibility(View.GONE);
 
@@ -333,11 +334,12 @@ public class ReportListActivity extends AppCompatActivity {
                             listAdapter.setOnItemClickListener(new ReportListAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(String url, String truename, String reportCreateTime) {
-                                    Intent intent = new Intent(ReportListActivity.this,ReportPdfView.class);
+                                    Intent intent = new Intent(ReportListActivity.this,ReportPdfView1.class);
                                     Bundle bundle = new Bundle();
                                     bundle.putString("reportUrl",url);
                                     bundle.putString("reportTrueName",truename);
                                     bundle.putString("reportCreateTime",reportCreateTime);
+
                                     intent.putExtras(bundle);
                                     startActivity(intent);
                                 }
@@ -755,7 +757,7 @@ public class ReportListActivity extends AppCompatActivity {
                                         recyclerView.setPullLoadMoreCompleted();
 //                                        getResSearUserInfo2(Api.URL+"/v1/User/index?hospitalid="+0+"&keywords="+"1"+"&page=1");
                                     }else {
-                                        getResReportList4(Api.URL+"/v1/report?hospitalid="+ getHosIdToSp("hosid","")+"&keywords="+chars+"&page="+(dataBeanX.getCurrent_page()+1));
+                                        getResReportList4(Api.URL+"/v2/report?hospitalid="+ getHosIdToSp("hosid","")+"&keywords="+chars+"&page="+(dataBeanX.getCurrent_page()+1));
                                     }
                                 }
                             });
@@ -979,7 +981,7 @@ public class ReportListActivity extends AppCompatActivity {
                                         recyclerView.setPullLoadMoreCompleted();
 //                                        getResSearUserInfo2(Api.URL+"/v1/User/index?hospitalid="+0+"&keywords="+"1"+"&page=1");
                                     }else {
-                                        getResReportList3(Api.URL+"/v1/report?hospitalid="+ getHosIdToSp("hosid","")+"&page="+(dataBeanX.getCurrent_page()+1));
+                                        getResReportList3(Api.URL+"/v2/report?hospitalid="+ getHosIdToSp("hosid","")+"&page="+(dataBeanX.getCurrent_page()+1));
                                     }
                                 }
                             });

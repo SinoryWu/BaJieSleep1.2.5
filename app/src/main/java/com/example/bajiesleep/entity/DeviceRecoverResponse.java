@@ -166,6 +166,8 @@ public class DeviceRecoverResponse {
                         ", quality=" + quality +
                         ", reportUrl='" + reportUrl + '\'' +
                         ", truename='" + truename + '\'' +
+                        ", hospitalid='" + hospitalid + '\'' +
+                        ", id=" + id +
                         '}';
             }
 
@@ -182,7 +184,24 @@ public class DeviceRecoverResponse {
             private int quality;
             private String reportUrl;
             private String truename;
+            private String hospitalid;
+            private int id;
 
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getHospitalid() {
+                return hospitalid;
+            }
+
+            public void setHospitalid(String hospitalid) {
+                this.hospitalid = hospitalid;
+            }
 
             public String getTrueName() {
                 return truename;

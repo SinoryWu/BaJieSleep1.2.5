@@ -4,489 +4,518 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f7f7f7">
-
-    <TextView
-        android:id="@+id/testResult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="12313" />
-
-    <TextView
-        android:id="@+id/testdevStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/testResult" />
-
-
-
-    <TextView
-        android:id="@+id/tv_titles1"
-        android:layout_width="373dp"
-        android:layout_height="48dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="18dp"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:text="网络请求失败请重启App重新请求网络"
-        android:visibility="gone"/>
-    <HorizontalScrollView
-        android:id="@+id/hs_titles"
-        android:layout_width="373dp"
-        android:layout_height="48dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="18dp"
-        android:fillViewport="true"
-        android:scrollbars="none">
-
-        <LinearLayout
-            android:id="@+id/device_fragment_horizontal_linear"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-
-            android:orientation="horizontal">
-
-        </LinearLayout>
-
-    </HorizontalScrollView>
-
-
-    <ScrollView
+    <RelativeLayout
+        android:id="@+id/device_fragment_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/hs_titles"
-        android:scrollbars="none">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_fragment_device_device"
-                android:layout_width="341dp"
-                android:layout_height="217dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="14dp"
-                app:cardBackgroundColor="#ffffff"
-                app:cardCornerRadius="40dp"
-                app:cardElevation="5dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-
-                    <ImageView
-                        android:id="@+id/device_green_point"
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginTop="32dp"
-                        android:src="@drawable/device_point_green" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:layout_marginLeft="54dp"
-                        android:layout_marginTop="26dp"
-                        android:gravity="left"
-                        android:text="设备"
-                        android:textColor="#444c72"
-                        android:textSize="20sp" />
-
-                    <com.example.bajiesleep.ProgressBar1
-                        android:id="@+id/progress_bar1"
-                        android:layout_width="110dp"
-                        android:layout_height="110dp"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginTop="77dp"
-                        app:innerBackground="#f0f2f8"
-                        app:outerBackground="#75d398"
-                        app:progressTextColor1="#75d398"
-                        app:progressTextColor2="#b4b4b4"
-                        app:progressTextColor3="#b4b4b4"
-                        app:progressTextSize1="19sp"
-                        app:progressTextSize3="9sp"
-                        app:roundwidth="10dp"
-                        app:text1Style="bold" />
-
-                    <TextView
-
-                        android:id="@+id/tv_devices1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="120dp"
-                        android:layout_marginRight="261dp"
-                        android:text="0"
-                        android:textColor="#75d398"
-                        android:textSize="17sp"
-                        android:textStyle="bold" />
-
-
-                    <TextView
-                        android:id="@+id/tv_devices2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="81dp"
-                        android:layout_marginTop="120dp"
-                        android:text="/"
-                        android:textColor="#b4b4b4"
-                        android:textSize="17sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_devices3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="120dp"
-                        android:layout_toRightOf="@id/tv_devices2"
-                        android:text="0"
-                        android:textColor="#b4b4b4"
-                        android:textSize="17sp"
-                        android:textStyle="bold" />
-
-
-                    <TextView
-                        android:id="@+id/tv_devices4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="60dp"
-                        android:layout_marginTop="142dp"
-                        android:text="闲置/总数"
-                        android:textColor="#b4b4b4"
-                        android:textSize="10sp" />
-                    <LinearLayout
-                        android:id="@+id/device_liner_right"
-                        android:layout_width="240dp"
-                        android:layout_height="65dp"
-                        android:layout_alignParentRight="true"
-                        android:orientation="vertical">
-
-
-                        <ImageView
-                            android:id="@+id/right_arrow1"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_marginLeft="182dp"
-                            android:layout_marginTop="27dp"
-                            android:src="@drawable/arrow_dark_right" />
-                    </LinearLayout>
-
-
-                    <Button
-                        android:id="@+id/btn_device"
-                        android:layout_width="139dp"
-                        android:layout_height="44dp"
-                        android:layout_marginLeft="172dp"
-                        android:layout_marginTop="77dp"
-                        android:background="@drawable/btn_device_background1"
-                        android:text="设备借还"
-                        android:textColor="#444c72"
-                        android:textSize="17sp" />
-
-                    <Button
-                        android:id="@+id/btn_add_patient"
-                        android:layout_width="139dp"
-                        android:layout_height="44dp"
-                        android:layout_marginLeft="172dp"
-                        android:layout_marginTop="134dp"
-                        android:background="@drawable/btn_device_background2"
-                        android:text="添加患者"
-                        android:textColor="#444c72"
-                        android:textSize="17sp" />
-
-                </RelativeLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_fragment_device_device2"
-                android:layout_width="341dp"
-                android:layout_height="217dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="245dp"
-                app:cardBackgroundColor="#ffffff"
-                app:cardCornerRadius="40dp"
-                app:cardElevation="5dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-
-                    <ImageView
-                        android:id="@+id/device_purple_point"
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginTop="32dp"
-                        android:src="@drawable/device_point_purple" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:layout_marginLeft="54dp"
-                        android:layout_marginTop="26dp"
-                        android:gravity="left"
-                        android:text="报告"
-                        android:textColor="#444c72"
-                        android:textSize="20sp" />
-
-                    <com.example.bajiesleep.ProgressBar2
-                        android:id="@+id/progress_bar2"
-                        android:layout_width="110dp"
-                        android:layout_height="110dp"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginTop="77dp"
-                        app:innerBackground="#f0f2f8"
-                        app:outerBackground="#8a56ac"
-                        app:progressTextColor1="#75d398"
-                        app:progressTextColor2="#b4b4b4"
-                        app:progressTextColor3="#b4b4b4"
-                        app:progressTextSize1="19sp"
-                        app:progressTextSize3="9sp"
-                        app:roundwidth="10dp"
-                        app:text1Style="bold" />
-
-                    <TextView
-
-                        android:id="@+id/tv_report1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="120dp"
-                        android:layout_marginRight="261dp"
-                        android:text="0"
-                        android:textColor="#8a56ac"
-                        android:textSize="17sp"
-                        android:textStyle="bold" />
-
-
-                    <TextView
-                        android:id="@+id/tv_report2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="81dp"
-                        android:layout_marginTop="120dp"
-                        android:text="/"
-                        android:textColor="#b4b4b4"
-                        android:textSize="17sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_report3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="120dp"
-                        android:layout_toRightOf="@id/tv_report2"
-                        android:text="0"
-                        android:textColor="#b4b4b4"
-                        android:textSize="17sp"
-                        android:textStyle="bold" />
-
-
-                    <TextView
-                        android:id="@+id/tv_report4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="60dp"
-                        android:layout_marginTop="142dp"
-                        android:text="已收/应收"
-                        android:textColor="#b4b4b4"
-                        android:textSize="10sp" />
-
-                    <LinearLayout
-                        android:id="@+id/report_liner_right"
-                        android:layout_width="240dp"
-                        android:layout_height="65dp"
-                        android:layout_alignParentRight="true"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/right_arrow2"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_marginLeft="182dp"
-                            android:layout_marginTop="27dp"
-                            android:src="@drawable/arrow_dark_right" />
-                    </LinearLayout>
-
-
-                    <TextView
-                        android:id="@+id/validation_report"
-                        android:layout_width="162dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="158dp"
-                        android:layout_marginTop="62dp"
-                        android:gravity="center"
-                        android:text="0"
-                        android:textColor="#444c72"
-                        android:textSize="70sp" />
-
-                    <TextView
-                        android:layout_width="105dp"
-                        android:layout_height="22dp"
-                        android:layout_marginLeft="186dp"
-                        android:layout_marginTop="152dp"
-                        android:gravity="center"
-                        android:text="总有效报告"
-                        android:textColor="#444c72"
-                        android:textSize="17sp" />
-
-                </RelativeLayout>
-
-            </androidx.cardview.widget.CardView>
-
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_fragment_device_device3"
-                android:layout_width="341dp"
-                android:layout_height="217dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="479dp"
-                app:cardBackgroundColor="#ffffff"
-                app:cardCornerRadius="40dp"
-                app:cardElevation="5dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-
-                    <ImageView
-                        android:id="@+id/device_pink_point"
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginTop="32dp"
-                        android:src="@drawable/device_pink_point" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:layout_marginLeft="54dp"
-                        android:layout_marginTop="26dp"
-                        android:gravity="left"
-                        android:text="用户"
-                        android:textColor="#444c72"
-                        android:textSize="20sp" />
-
-                    <com.example.bajiesleep.ProgressBar3
-                        android:id="@+id/progress_bar3"
-                        android:layout_width="110dp"
-                        android:layout_height="110dp"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginTop="77dp"
-                        app:innerBackground="#ffaed3"
-                        app:outerBackground="#ccf5ff"
-                        app:progressTextColor1="#75d398"
-                        app:progressTextColor2="#b4b4b4"
-                        app:progressTextColor3="#b4b4b4"
-                        app:progressTextSize1="19sp"
-                        app:progressTextSize3="9sp"
-                        app:roundwidth="10dp"
-                        app:text1Style="bold" />
-
-                    <TextView
-
-                        android:id="@+id/tv_women"
-                        android:layout_width="26dp"
-                        android:layout_height="15dp"
-                        android:layout_marginLeft="61dp"
-                        android:layout_marginTop="144dp"
-                        android:gravity="center"
-                        android:text="233"
-                        android:textColor="#b4b4b4"
-                        android:textSize="11sp" />
-
-
-                    <TextView
-                        android:id="@+id/tv_men"
-                        android:layout_width="26dp"
-                        android:layout_height="15dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="144dp"
-                        android:layout_marginRight="230dp"
-                        android:gravity="center"
-
-                        android:text="123"
-                        android:textColor="#b4b4b4"
-                        android:textSize="11sp" />
-
-                    <LinearLayout
-                        android:id="@+id/user_liner_right"
-                        android:layout_width="240dp"
-                        android:layout_height="65dp"
-                        android:layout_alignParentRight="true"
-                        android:orientation="vertical">
-
-
-                        <ImageView
-                            android:id="@+id/right_arrow3"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_marginLeft="182dp"
-                            android:layout_marginTop="27dp"
-                            android:src="@drawable/arrow_dark_right" />
-                    </LinearLayout>
-
-
-                    <ImageView
-                        android:id="@+id/device_women_icon"
-                        android:layout_width="20dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="64dp"
-                        android:layout_marginTop="117dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/device_women_icon" />
-
-                    <ImageView
-                        android:id="@+id/device_men_icon"
-
-                        android:layout_width="20dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="117dp"
-                        android:layout_marginRight="233dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/device_men_icon" />
-
-                    <TextView
-                        android:id="@+id/validation_user"
-                        android:layout_width="162dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="158dp"
-                        android:layout_marginTop="62dp"
-                        android:gravity="center"
-                        android:text="0"
-                        android:textColor="#444c72"
-                        android:textSize="70sp" />
-
-                    <TextView
-                        android:layout_width="85dp"
-                        android:layout_height="22dp"
-                        android:layout_marginLeft="196dp"
-                        android:layout_marginTop="152dp"
-                        android:gravity="center"
-                        android:text="总用户"
-                        android:textColor="#444c72"
-                        android:textSize="17sp" />
-
-                </RelativeLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <View
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/testResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12313" />
+
+        <TextView
+            android:id="@+id/testdevStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/testResult" />
+
+
+
+
+        <HorizontalScrollView
+            android:id="@+id/hs_titles"
+            android:layout_width="373dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="18dp"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/device_fragment_horizontal_linear"
                 android:layout_width="match_parent"
-                android:layout_height="15dp"
-                android:layout_below="@id/cv_fragment_device_device3" />
+                android:layout_height="match_parent"
+                android:gravity="center"
+
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
 
 
-        </RelativeLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/hs_titles"
+            android:scrollbars="none">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_fragment_device_device"
+                    android:layout_width="341dp"
+                    android:layout_height="217dp"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginTop="14dp"
+                    app:cardBackgroundColor="#ffffff"
+                    app:cardCornerRadius="40dp"
+                    app:cardElevation="5dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
 
-    </ScrollView>
+                        <ImageView
+                            android:id="@+id/device_green_point"
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginTop="32dp"
+                            android:src="@drawable/device_point_green" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="54dp"
+                            android:layout_marginTop="26dp"
+                            android:gravity="left"
+                            android:text="设备"
+                            android:textColor="#444c72"
+                            android:textSize="20sp" />
+
+                        <com.example.bajiesleep.ProgressBar1
+                            android:id="@+id/progress_bar1"
+                            android:layout_width="110dp"
+                            android:layout_height="110dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginTop="77dp"
+                            app:innerBackground="#f0f2f8"
+                            app:outerBackground="#75d398"
+                            app:progressTextColor1="#75d398"
+                            app:progressTextColor2="#b4b4b4"
+                            app:progressTextColor3="#b4b4b4"
+                            app:progressTextSize1="19sp"
+                            app:progressTextSize3="9sp"
+                            app:roundwidth="10dp"
+                            app:text1Style="bold" />
+
+                        <TextView
+
+                            android:id="@+id/tv_devices1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="120dp"
+                            android:layout_marginRight="261dp"
+                            android:text="0"
+                            android:textColor="#75d398"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/tv_devices2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="81dp"
+                            android:layout_marginTop="120dp"
+                            android:text="/"
+                            android:textColor="#b4b4b4"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_devices3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="120dp"
+                            android:layout_toRightOf="@id/tv_devices2"
+                            android:text="0"
+                            android:textColor="#b4b4b4"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/tv_devices4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="60dp"
+                            android:layout_marginTop="142dp"
+                            android:text="闲置/总数"
+                            android:textColor="#b4b4b4"
+                            android:textSize="10sp" />
+                        <LinearLayout
+                            android:id="@+id/device_liner_right"
+                            android:layout_width="240dp"
+                            android:layout_height="65dp"
+                            android:layout_alignParentRight="true"
+                            android:orientation="vertical">
+
+
+                            <ImageView
+                                android:id="@+id/right_arrow1"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginLeft="182dp"
+                                android:layout_marginTop="27dp"
+                                android:src="@drawable/arrow_dark_right" />
+                        </LinearLayout>
+
+
+                        <Button
+                            android:id="@+id/btn_device"
+                            android:layout_width="139dp"
+                            android:layout_height="44dp"
+                            android:layout_marginLeft="172dp"
+                            android:layout_marginTop="77dp"
+                            android:background="@drawable/btn_device_background1"
+                            android:text="设备借还"
+                            android:textColor="#444c72"
+                            android:textSize="17sp" />
+
+                        <Button
+                            android:id="@+id/btn_add_patient"
+                            android:layout_width="139dp"
+                            android:layout_height="44dp"
+                            android:layout_marginLeft="172dp"
+                            android:layout_marginTop="134dp"
+                            android:background="@drawable/btn_device_background2"
+                            android:text="添加患者"
+                            android:textColor="#444c72"
+                            android:textSize="17sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_fragment_device_device2"
+                    android:layout_width="341dp"
+                    android:layout_height="217dp"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginTop="245dp"
+                    app:cardBackgroundColor="#ffffff"
+                    app:cardCornerRadius="40dp"
+                    app:cardElevation="5dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+
+                        <ImageView
+                            android:id="@+id/device_purple_point"
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginTop="32dp"
+                            android:src="@drawable/device_point_purple" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="54dp"
+                            android:layout_marginTop="26dp"
+                            android:gravity="left"
+                            android:text="报告"
+                            android:textColor="#444c72"
+                            android:textSize="20sp" />
+
+                        <com.example.bajiesleep.ProgressBar2
+                            android:id="@+id/progress_bar2"
+                            android:layout_width="110dp"
+                            android:layout_height="110dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginTop="77dp"
+                            app:innerBackground="#f0f2f8"
+                            app:outerBackground="#8a56ac"
+                            app:progressTextColor1="#75d398"
+                            app:progressTextColor2="#b4b4b4"
+                            app:progressTextColor3="#b4b4b4"
+                            app:progressTextSize1="19sp"
+                            app:progressTextSize3="9sp"
+                            app:roundwidth="10dp"
+                            app:text1Style="bold" />
+
+                        <TextView
+
+                            android:id="@+id/tv_report1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="120dp"
+                            android:layout_marginRight="261dp"
+                            android:text="0"
+                            android:textColor="#8a56ac"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/tv_report2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="81dp"
+                            android:layout_marginTop="120dp"
+                            android:text="/"
+                            android:textColor="#b4b4b4"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_report3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="120dp"
+                            android:layout_toRightOf="@id/tv_report2"
+                            android:text="0"
+                            android:textColor="#b4b4b4"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/tv_report4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="60dp"
+                            android:layout_marginTop="142dp"
+                            android:text="已收/应收"
+                            android:textColor="#b4b4b4"
+                            android:textSize="10sp" />
+
+                        <LinearLayout
+                            android:id="@+id/report_liner_right"
+                            android:layout_width="240dp"
+                            android:layout_height="65dp"
+                            android:layout_alignParentRight="true"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/right_arrow2"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginLeft="182dp"
+                                android:layout_marginTop="27dp"
+                                android:src="@drawable/arrow_dark_right" />
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:id="@+id/validation_report"
+                            android:layout_width="162dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="158dp"
+                            android:layout_marginTop="62dp"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#444c72"
+                            android:textSize="70sp" />
+
+                        <TextView
+                            android:layout_width="105dp"
+                            android:layout_height="22dp"
+                            android:layout_marginLeft="186dp"
+                            android:layout_marginTop="152dp"
+                            android:gravity="center"
+                            android:text="总有效报告"
+                            android:textColor="#444c72"
+                            android:textSize="17sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_fragment_device_device3"
+                    android:layout_width="341dp"
+                    android:layout_height="217dp"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginTop="479dp"
+                    app:cardBackgroundColor="#ffffff"
+                    app:cardCornerRadius="40dp"
+                    app:cardElevation="5dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+
+                        <ImageView
+                            android:id="@+id/device_pink_point"
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginTop="32dp"
+                            android:src="@drawable/device_pink_point" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="54dp"
+                            android:layout_marginTop="26dp"
+                            android:gravity="left"
+                            android:text="用户"
+                            android:textColor="#444c72"
+                            android:textSize="20sp" />
+
+                        <com.example.bajiesleep.ProgressBar3
+                            android:id="@+id/progress_bar3"
+                            android:layout_width="110dp"
+                            android:layout_height="110dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginTop="77dp"
+                            app:innerBackground="#ffaed3"
+                            app:outerBackground="#ccf5ff"
+                            app:progressTextColor1="#75d398"
+                            app:progressTextColor2="#b4b4b4"
+                            app:progressTextColor3="#b4b4b4"
+                            app:progressTextSize1="19sp"
+                            app:progressTextSize3="9sp"
+                            app:roundwidth="10dp"
+                            app:text1Style="bold" />
+
+                        <TextView
+
+                            android:id="@+id/tv_women"
+                            android:layout_width="26dp"
+                            android:layout_height="15dp"
+                            android:layout_marginLeft="61dp"
+                            android:layout_marginTop="144dp"
+                            android:gravity="center"
+                            android:text="233"
+                            android:textColor="#b4b4b4"
+                            android:textSize="11sp" />
+
+
+                        <TextView
+                            android:id="@+id/tv_men"
+                            android:layout_width="26dp"
+                            android:layout_height="15dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="144dp"
+                            android:layout_marginRight="230dp"
+                            android:gravity="center"
+
+                            android:text="123"
+                            android:textColor="#b4b4b4"
+                            android:textSize="11sp" />
+
+                        <LinearLayout
+                            android:id="@+id/user_liner_right"
+                            android:layout_width="240dp"
+                            android:layout_height="65dp"
+                            android:layout_alignParentRight="true"
+                            android:orientation="vertical">
+
+
+                            <ImageView
+                                android:id="@+id/right_arrow3"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginLeft="182dp"
+                                android:layout_marginTop="27dp"
+                                android:src="@drawable/arrow_dark_right" />
+                        </LinearLayout>
+
+
+                        <ImageView
+                            android:id="@+id/device_women_icon"
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="64dp"
+                            android:layout_marginTop="117dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/device_women_icon" />
+
+                        <ImageView
+                            android:id="@+id/device_men_icon"
+
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="117dp"
+                            android:layout_marginRight="233dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/device_men_icon" />
+
+                        <TextView
+                            android:id="@+id/validation_user"
+                            android:layout_width="162dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="158dp"
+                            android:layout_marginTop="62dp"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#444c72"
+                            android:textSize="70sp" />
+
+                        <TextView
+                            android:layout_width="85dp"
+                            android:layout_height="22dp"
+                            android:layout_marginLeft="196dp"
+                            android:layout_marginTop="152dp"
+                            android:gravity="center"
+                            android:text="总用户"
+                            android:textColor="#444c72"
+                            android:textSize="17sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:layout_below="@id/cv_fragment_device_device3" />
+
+
+            </RelativeLayout>
+
+
+        </ScrollView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/device_fragment_null"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/sleep_slices"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:src="@drawable/sleep_slices"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="134dp"/>
+        <TextView
+            android:layout_width="168dp"
+            android:layout_height="16dp"
+            android:text="服务器可能睡着了，请稍后再试"
+            android:textColor="#ff1e2c4e"
+            android:textSize="12sp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/sleep_slices"/>
+        <Button
+            android:id="@+id/sleep_slices_btn_device"
+            android:layout_width="250dp"
+            android:layout_height="52dp"
+            android:background="@drawable/sleep_slices_button"
+            android:text="重新加载"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="361dp"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+
+
 
 
 </RelativeLayout>

@@ -40,7 +40,7 @@ public class ListViewAdapter3 extends RecyclerView.Adapter<ListViewAdapter3.Inne
     public interface OnItemClickLitener3{
 
 
-        void onItemClick3(String trueName, String mobile, String uid, int position);
+        void onItemClick3(String trueName, String mobile, String uid, int position,View itemView);
     }
 
     public void setOnItemClickLitener3(ListViewAdapter3.OnItemClickLitener3 listener){
@@ -80,7 +80,7 @@ public class ListViewAdapter3 extends RecyclerView.Adapter<ListViewAdapter3.Inne
             @Override
             public void onClick(View view) {
                 if (mClickListener3 != null){
-                    mClickListener3.onItemClick3(trueName.get(position),mobile.get(position),uid.get(position),position );
+                    mClickListener3.onItemClick3(trueName.get(position),mobile.get(position),uid.get(position),position ,view);
                 }
             }
         });

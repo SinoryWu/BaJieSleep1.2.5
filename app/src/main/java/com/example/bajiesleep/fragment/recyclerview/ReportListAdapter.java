@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,12 +22,15 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bajiesleep.CustomDialogMessage;
+import com.example.bajiesleep.DialogTokenIntent;
 import com.example.bajiesleep.OnMultiClickListener;
 import com.example.bajiesleep.R;
 import com.example.bajiesleep.ReportListActivity;
 import com.example.bajiesleep.ReportListDialog;
 import com.example.bajiesleep.ReportPdfView;
+import com.example.bajiesleep.ReportPdfView1;
 import com.example.bajiesleep.ToastUtils;
+import com.example.bajiesleep.UserListAcivity;
 import com.example.bajiesleep.entity.ReportListResponse;
 
 import java.text.SimpleDateFormat;
@@ -51,7 +55,6 @@ public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.In
         notifyDataSetChanged();
     }
     public interface OnItemClickListener{
-
 
         void onItemClick(String url,String truename,String reportCreateTime);
     }
@@ -120,11 +123,7 @@ public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.In
     public class InnerHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView mTvUserName,mTvAhi,mTvDate,mTvSn,mTvSleepTime,mTvCreateTime,mTvQuality,mTvHospitalName;
         private RelativeLayout mRlListInfo,mRlEdit,mRlDownLoad,mRlDown,mRlUp,mRlItem;
-
-
         private ImageView down,up,mIvChildren;
-
-
 
         public InnerHolder(@NonNull View itemView) {
             super(itemView);
@@ -162,7 +161,6 @@ public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.In
         public void setData(int position, final ReportListResponse.DataBeanX.DataBean dataBeans, final Context context) {
 
             mIvChildren.setVisibility(View.GONE);
-
             if (dataBeans.getModeType() == 1){
                 mIvChildren.setVisibility(View.VISIBLE);
             }else if (dataBeans.getModeType() == 0){
@@ -180,20 +178,7 @@ public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.In
 
 
 
-            if (position == opened){
-                mRlListInfo.setVisibility(View.VISIBLE);
-                mRlEdit.setVisibility(View.VISIBLE);
-                mRlDownLoad.setVisibility(View.VISIBLE);
-                mRlUp.setVisibility(View.VISIBLE);
-                mRlDown.setVisibility(View.GONE);
 
-            }else {
-                mRlListInfo.setVisibility(View.GONE);
-                mRlUp.setVisibility(View.GONE);
-                mRlEdit.setVisibility(View.GONE);
-                mRlDownLoad.setVisibility(View.GONE);
-                mRlDown.setVisibility(View.VISIBLE);
-            }
 
 //            mRlDown.setOnClickListener(new View.OnClickListener() {
 //                @Override
@@ -277,15 +262,13 @@ public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.In
                         ToastUtils.showTextToast(context,"无报报告");
                     }
                 });
+
             }else if (dataBeans.getQuality() == 1){
                 if (dataBeans.getAhiLevel() == 1){
-
                     mTvAhi.setTextColor(Color.parseColor("#6cc291"));
                 }else if (dataBeans.getAhiLevel() == 2 ){
-
                     mTvAhi.setTextColor(Color.parseColor("#596afd"));
                 }else if (dataBeans.getAhiLevel() == 3){
-
                     mTvAhi.setTextColor(Color.parseColor("#f39920"));
                 }else if (dataBeans.getAhiLevel() == 4) {
                     mTvAhi.setTextColor(Color.parseColor("#f45c50"));
@@ -296,11 +279,14 @@ public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.In
                 mRlItem.setOnClickListener(new OnMultiClickListener() {
                     @Override
                     public void onMultiClick(View view) {
-                        Intent intent = new Intent(context, ReportPdfView.class);
+
+                        Intent intent = new Intent(context, ReportPdfView1.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("reportUrl",dataBeans.getReportUrl());
                         bundle.putString("reportTrueName",dataBeans.getTruename());
                         bundle.putString("reportCreateTime",timestamp2Date(String.valueOf(dataBeans.getCreateTime()),"MM月 dd日 HH:mm"));
+                        bundle.putString("reportID", String.valueOf(dataBeans.getId()));
+                        bundle.putString("hospitalId", String.valueOf(dataBeans.getHospitalid()));
                         intent.putExtras(bundle);
                         context.startActivity(intent);
                     }
@@ -318,6 +304,7 @@ public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.In
                         ToastUtils.showTextToast(context,"缺少血氧");
                     }
                 });
+
             }else if (dataBeans.getQuality() == 3){
                 mTvQuality.setText("无效报告");
                 mTvQuality.setTextColor(Color.parseColor("#f45c50"));
@@ -331,13 +318,36 @@ public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.In
                         ToastUtils.showTextToast(context,"无效报告");
                     }
                 });
+
             }
 
 
             mTvHospitalName.setText("机构："+dataBeans.getHospitalName());
 
 
+            if (position == opened){
 
+                mRlListInfo.setVisibility(View.VISIBLE);
+
+                mRlUp.setVisibility(View.VISIBLE);
+                mRlDown.setVisibility(View.GONE);
+
+                if (dataBeans.getQuality() == 0 || dataBeans.getQuality()==3 || dataBeans.getQuality() == 2){
+                    mRlEdit.setVisibility(View.GONE);
+                    mRlDownLoad.setVisibility(View.GONE);
+                }else {
+                    mRlEdit.setVisibility(View.VISIBLE);
+                    mRlDownLoad.setVisibility(View.VISIBLE);
+                }
+
+            }else {
+
+                mRlListInfo.setVisibility(View.GONE);
+                mRlUp.setVisibility(View.GONE);
+                mRlEdit.setVisibility(View.GONE);
+                mRlDownLoad.setVisibility(View.GONE);
+                mRlDown.setVisibility(View.VISIBLE);
+            }
 
         }
 

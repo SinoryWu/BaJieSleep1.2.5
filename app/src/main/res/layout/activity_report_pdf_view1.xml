@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    android:orientation="vertical"
-    tools:context=".ReportPdfView">
-
+    tools:context=".ReportPdfView1">
 
     <LinearLayout
         android:id="@+id/pdf_liner_left"
@@ -33,11 +31,82 @@
         android:textColor="#000000"
         android:textSize="17sp"
         android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/rl_web"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="45dp"
+        android:visibility="gone">
+
+        <WebView
+
+            android:id="@+id/pdf_webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </WebView>
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_alignParentBottom="true">
+            <ImageView
+                android:id="@+id/report_btn_send"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="580dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/big_download_icon"
+                android:visibility="visible" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+    android:id="@+id/rl_gone"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="45dp"
+    android:visibility="gone">
+
+    <ImageView
+        android:id="@+id/sleep_slices"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:src="@drawable/sleep_slices"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="134dp"/>
+    <TextView
+        android:layout_width="168dp"
+        android:layout_height="16dp"
+        android:text="服务器可能睡着了，请稍后再试"
+        android:textColor="#ff1e2c4e"
+        android:textSize="12sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/sleep_slices"/>
+    <Button
+        android:id="@+id/sleep_slices_btn"
+        android:layout_width="250dp"
+        android:layout_height="52dp"
+        android:background="@drawable/sleep_slices_button"
+        android:text="重新加载"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="361dp"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/rl_error"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="45dp"
         android:visibility="gone">
 
         <ImageView
@@ -96,15 +165,13 @@
                 android:layout_marginLeft="44dp"/>
         </RelativeLayout>
 
-
-
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="45dp"
         android:visibility="gone">
 
         <pl.droidsonroids.gif.GifImageView
@@ -123,81 +190,6 @@
             android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_web"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="45dp"
-       android:visibility="visible">
-
-        <WebView
-
-            android:id="@+id/pdf_webview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-        </WebView>
-
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_alignParentBottom="true">
-            <ImageView
-                android:id="@+id/report_btn_send"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="580dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/big_download_icon"
-                android:visibility="visible" />
-        </RelativeLayout>
-
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="48dp"
-        android:visibility="gone">
-        
-        <ImageView
-            android:id="@+id/sleep_slices"
-            android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:src="@drawable/sleep_slices"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="134dp"/>
-        <TextView
-            android:layout_width="168dp"
-            android:layout_height="16dp"
-            android:text="服务器可能睡着了，请稍后再试"
-            android:textColor="#ff1e2c4e"
-            android:textSize="12sp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/sleep_slices"/>
-        <Button
-            android:id="@+id/sleep_slices_btn"
-            android:layout_width="250dp"
-            android:layout_height="52dp"
-            android:background="@drawable/sleep_slices_button"
-            android:text="重新加载"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="361dp"
-            android:layout_centerHorizontal="true"/>
-        
-    </RelativeLayout>
-    
-    
-    
 
 
 </RelativeLayout>

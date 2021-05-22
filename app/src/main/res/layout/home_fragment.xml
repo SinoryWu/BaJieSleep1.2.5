@@ -132,8 +132,40 @@
         android:layout_marginTop="103dp"
         android:descendantFocusability="blocksDescendants"
         android:focusable="false">
-
     </com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView>
 
+    <RelativeLayout
+        android:id="@+id/home_fragment_sleep_slices"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="103dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/sleep_slices"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:src="@drawable/sleep_slices"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="134dp"/>
+        <TextView
+            android:layout_width="168dp"
+            android:layout_height="16dp"
+            android:text="服务器可能睡着了，请稍后再试"
+            android:textColor="#ff1e2c4e"
+            android:textSize="12sp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/sleep_slices"/>
+        <Button
+            android:id="@+id/sleep_slices_btn_home"
+            android:layout_width="250dp"
+            android:layout_height="52dp"
+            android:background="@drawable/sleep_slices_button"
+            android:text="重新加载"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="361dp"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

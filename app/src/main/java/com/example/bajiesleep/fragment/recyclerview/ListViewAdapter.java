@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bajiesleep.CustomDialogMessage;
 import com.example.bajiesleep.CustomDialogPhone;
+import com.example.bajiesleep.DialogTokenIntent;
+import com.example.bajiesleep.DialogWarning;
 import com.example.bajiesleep.OnMultiClickListener;
 import com.example.bajiesleep.R;
 import com.example.bajiesleep.ToastUtils;
@@ -40,7 +42,18 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.InnerH
 
     CustomDialogPhone customDialogPhone  ;
     CustomDialogMessage customDialogMessage = null ;
+    private OnItemClickListener mClickListener;
 
+    //设置回调接口
+    public interface OnItemClickListener{
+
+
+        void onItemClick(int reportStatus);
+    }
+
+    public void setOnItemClickLitener(OnItemClickListener listener){
+        this.mClickListener  = listener;
+    }
 //    private String mTitles[] = {
 //            "全部",
 //            "万康体检",
@@ -147,8 +160,25 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.InnerH
         }
 
 
-        public void setData(final DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBeans,Context context) {
+        public void setData(final DeviceListResponseV2.DataBeanXX.DataBeanX.DataBean dataBeans, final Context context) {
 
+
+            itemView.setOnClickListener(new OnMultiClickListener() {
+                @Override
+                public void onMultiClick(View view) {
+                    if (dataBeans.getReportStatus() == 1){
+                        final DialogWarning dialogWarning = new DialogWarning(context,R.style.CustomDialog);
+                        dialogWarning.setConfirm("我知道了", new DialogWarning.IOnConfirmListener() {
+                            @Override
+                            public void OnConfirm(DialogWarning dialog) {
+                                dialogWarning.dismiss();
+                            }
+                        });
+                        dialogWarning.show();
+                        dialogWarning.setCanceledOnTouchOutside(false);
+                    }
+                }
+            });
             Log.d("dataBeans", String.valueOf(dataBeans.getPowerStatus()));
             mIvChildren.setVisibility(View.GONE);
             mTVsn.setText(dataBeans.getSn());

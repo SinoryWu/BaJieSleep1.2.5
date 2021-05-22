@@ -95,7 +95,7 @@ public class DeviceRecoverDialog extends Dialog  {
                 bundle.putString("deviceState","stopDevice");
                 intent.putExtras(bundle);
                 getContext().startActivity(intent);
-                ((Activity) context).finish();
+//                ((Activity) context).finish();
                 dismiss();
             }
         });

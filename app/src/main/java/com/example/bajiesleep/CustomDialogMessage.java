@@ -229,9 +229,6 @@ public class CustomDialogMessage extends Dialog {
                 Log.d("messageres",res);
 
                 //封装java对象
-
-
-
                  final ArrayList<String> nameBeans = new ArrayList<>();
                  final ArrayList<String> contentBeans = new ArrayList<>();
 

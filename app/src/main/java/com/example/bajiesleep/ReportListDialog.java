@@ -13,14 +13,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.bajiesleep.entity.AppointReportResponse;
 import com.example.bajiesleep.entity.EditReortResponse;
-import com.example.bajiesleep.entity.PersonResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,7 +45,12 @@ public class ReportListDialog extends Dialog {
 
     String truename;
     String examine;
+    private IOnConfirmListener confirmListener;
 
+    public ReportListDialog setConfirm( IOnConfirmListener listener) {
+        this.confirmListener = listener;
+        return this;
+    }
     public void setHospitalId(String Id) {
         this.Id = Id;
     }
@@ -102,16 +105,23 @@ public class ReportListDialog extends Dialog {
         }
 
 
+
         getResAppointReport(Api.URL+"/v1/report/"+Id);
+
 
         mBtnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm.isActive()) {
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
                 dismiss();
-                InputMethodManager im = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                im.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 Log.d("mEtReport", String.valueOf(mEtReport.getText()));
-                getResEditReport(Api.URL+"/v1/report/"+Id+"/edit?truename="+mEtReport.getText()+"&hospitalid="+getHosIdToSp("hosid","")+"&examine="+mEtReview.getText());
+                getResEditReport(Api.URL+"/v2/report/"+Id+"/edit?truename="+mEtReport.getText()+"&hospitalid="+getHosIdToSp("hosid","")+"&examine="+mEtReview.getText());
+
+//
+
             }
         });
 
@@ -193,7 +203,7 @@ public class ReportListDialog extends Dialog {
                 ((Activity)context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
+                        Log.d("报告信息接口", res);
                         if (appointReportResponse.getCode() == 0){
 
                             truename = dataBean.getTruename();
@@ -326,7 +336,9 @@ public class ReportListDialog extends Dialog {
     }
 
 
-
+    public interface IOnConfirmListener{
+        void OnConfirm(DialogTokenIntent dialog);
+    }
 
 
 }

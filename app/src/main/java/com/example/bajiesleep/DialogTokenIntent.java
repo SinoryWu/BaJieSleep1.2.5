@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import java.util.Random;
+
 public class DialogTokenIntent extends Dialog implements View.OnClickListener {
 
 
@@ -20,7 +22,6 @@ public class DialogTokenIntent extends Dialog implements View.OnClickListener {
     private String title;
     private String message;
     private String confirm;
-
 
 
     public DialogTokenIntent setConfirm(String confirm, IOnConfirmListener listener) {

@@ -23,8 +23,7 @@
             android:textColor="#b3352641"
             android:textSize="17sp"
             android:text="有效"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"/>
+            android:layout_alignParentRight="true" />
         <View
             android:layout_width="match_parent"
             android:layout_height="20dp"

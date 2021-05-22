@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -95,7 +96,7 @@ public class DeviceFragment extends Fragment {
     public List<EquipmentResponse.DataBean> dataBeans = new ArrayList<>();
     public List<SearchDeviceScanResponse.DataBean> dataBeanSearch = new ArrayList<>();
     HospitalDeviceResponse.DataBean dataBean1 = new HospitalDeviceResponse.DataBean();
-    public TextView mTVTitles1;
+
     public EquipmentResponse.DataBean.DevStatusBean devStatusBean;
     private TextView mDevices1,mDevices3,mReport3,mReport2,mReport1,testDevice,mTvMale,mTvFemale,mTvUserNumber;
     ProgressBar1 progressBar1;
@@ -104,7 +105,8 @@ public class DeviceFragment extends Fragment {
     ProgressBar3 progressBar3;
     SearchDeviceScanResponse.DataBean dataBean2;
     int devStatus ;
-    public Button mBtnDevice,mBtnAddPatient;
+    public Button mBtnDevice,mBtnAddPatient,mBtnLoad;
+    private RelativeLayout mRlDevice,mRlNull;
     public TextView testResult;
 
     public HorizontalScrollView horizontalScrollView;
@@ -270,9 +272,20 @@ public class DeviceFragment extends Fragment {
         mCvDevice = getActivity().findViewById(R.id.cv_fragment_device_device);
         mCvReport = getActivity().findViewById(R.id.cv_fragment_device_device2);
         mCvUser = getActivity().findViewById(R.id.cv_fragment_device_device3);
-        mTVTitles1 = getActivity().findViewById(R.id.tv_titles1);
+
         horizontalScrollView = getActivity().findViewById(R.id.hs_titles);
-        mTVTitles1.setVisibility(View.GONE);
+        mRlDevice  = getActivity().findViewById(R.id.device_fragment_view);
+        mRlNull  = getActivity().findViewById(R.id.device_fragment_null);
+        mBtnLoad = getActivity().findViewById(R.id.sleep_slices_btn_device);
+        mRlNull.setVisibility(View.GONE);
+        mBtnLoad.setOnClickListener(new OnMultiClickListener() {
+            @Override
+            public void onMultiClick(View view) {
+                mRlDevice.setVisibility(View.VISIBLE);
+                mRlNull.setVisibility(View.GONE);
+                getResHosList(Api.URL+"/v1/hospital/resHosList");
+            }
+        });
         getResHosList(Api.URL+"/v1/hospital/resHosList");
 
 
@@ -454,6 +467,8 @@ public class DeviceFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mRlDevice.setVisibility(View.GONE);
+                        mRlNull.setVisibility(View.VISIBLE);
                         ToastUtils.showTextToast2(getContext(),"网络请求失败");
                     }
                 });
@@ -665,8 +680,9 @@ public class DeviceFragment extends Fragment {
                     public void run() {
                         ToastUtils.showTextToast2(getContext(),"网络请求失败");
                         refresh = "true";
-                        horizontalScrollView.setVisibility(View.GONE);
-                        mTVTitles1.setVisibility(View.VISIBLE);
+                        mRlDevice.setVisibility(View.GONE);
+                        mRlNull.setVisibility(View.VISIBLE);
+
                     }
                 });
             }
@@ -846,6 +862,8 @@ public class DeviceFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mRlDevice.setVisibility(View.GONE);
+                        mRlNull.setVisibility(View.VISIBLE);
                         ToastUtils.showTextToast2(getContext(),"网络请求失败");
                     }
                 });

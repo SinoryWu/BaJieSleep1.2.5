@@ -53,10 +53,24 @@ public class DeviceListActivity extends AppCompatActivity {
     private LinearLayout linearLeft;
     private EditText mEtSearch;
     private Button mBtnSearch;
-    private RelativeLayout mIvCleanSearch;
+    private RelativeLayout mIvCleanSearch,mRlNull;
     private TextView mTvDeviceNumber;
     CharSequence chars ;
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (dataBeans.size() > 0 ){
+            dataBeans.clear();
+            deviceListAdapter.notifyDataSetChanged();
+            getResDeviceList(Api.URL+"/v1/splDev?hospitalid="+getHosIdToSp("hosid",""));
+        }else {
+
+            getResDeviceList(Api.URL+"/v1/splDev?hospitalid="+getHosIdToSp("hosid",""));
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +82,9 @@ public class DeviceListActivity extends AppCompatActivity {
         mBtnSearch=findViewById(R.id.btn_device_list_search);
         mIvCleanSearch = findViewById(R.id.device_list_search_clean);
         mTvDeviceNumber = findViewById(R.id.tv_device_list_number);
+        mRlNull = findViewById(R.id.device_list_null);
+        mRlNull.setVisibility(View.GONE);
 
-        getResDeviceList(Api.URL+"/v1/splDev?hospitalid="+getHosIdToSp("hosid",""));
 
         linearLeft.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,14 +287,18 @@ public class DeviceListActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
                         if (deviceListResponse.getCode() == 0){
 
+                            Log.d("deviceliststart", "ok ");
                             mTvDeviceNumber.setText("共找到"+deviceListResponse.getData().size()+"台设备");
                             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DeviceListActivity.this);
                             recyclerView.setLayoutManager(linearLayoutManager);
                             deviceListAdapter = new DeviceListAdapter(dataBeans,DeviceListActivity.this);
                             recyclerView.setAdapter(deviceListAdapter);
-
+                            if (deviceListResponse.getData() == null || deviceListResponse.getData().size() == 0){
+                                mRlNull.setVisibility(VISIBLE);
+                            }
                         }else if (deviceListResponse.getCode() == 10010 || deviceListResponse.getCode() == 10004 ){
                             DialogTokenIntent dialogTokenIntent = new DialogTokenIntent(DeviceListActivity.this,R.style.CustomDialog);
                             dialogTokenIntent.setTitle("提示").setMessage("您好，您的登陆信息已过期，请重新登陆!").setConfirm("确认", new DialogTokenIntent.IOnConfirmListener() {

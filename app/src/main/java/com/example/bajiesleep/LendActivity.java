@@ -115,14 +115,15 @@ public class LendActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                if (deviceState.equals("lendDevice")){
-                    Intent intent = new Intent(LendActivity.this,DeviceListActivity.class);
-                    startActivity(intent);
-                    finish();
-                }else if (deviceState.equals("scanStop")){
-
-                    finish();
-                }
+                finish();
+//                if (deviceState.equals("lendDevice")){
+//                    Intent intent = new Intent(LendActivity.this,DeviceListActivity.class);
+//                    startActivity(intent);
+//                    finish();
+//                }else if (deviceState.equals("scanStop")){
+//
+//                    finish();
+//                }
 
             }
         });
@@ -342,8 +343,8 @@ public class LendActivity extends Activity {
 
                             if (deviceState.equals("lendDevice")){
                                 ToastUtils.showTextToast(LendActivity.this,"借出成功");
-                                Intent intent = new Intent(LendActivity.this,DeviceListActivity.class);
-                                startActivity(intent);
+//                                Intent intent = new Intent(LendActivity.this,DeviceListActivity.class);
+//                                startActivity(intent);
                                 finish();
                             }else if (deviceState.equals("scanStop")){
                                 String msg = lendDeviceResponse.getMsg();
