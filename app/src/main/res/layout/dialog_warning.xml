@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="296dp"
+    android:layout_height="246dp"
+    android:background="@drawable/dialog_wraning_background"
+
+    android:orientation="vertical">
+
+
+   <RelativeLayout
+       android:layout_width="wrap_content"
+       android:layout_height="30dp"
+       android:layout_marginTop="20dp"
+       android:layout_marginLeft="29dp">
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="30dp"
+           android:text="未收取的血氧数据"
+           android:textColor="#ffff5858"
+           android:textSize="23sp"
+           android:layout_marginLeft="33dp"/>
+       <ImageView
+           android:layout_width="26dp"
+           android:layout_height="27dp"
+           android:src="@drawable/dialog_warning_icon"
+           android:layout_centerVertical="true"/>
+       
+   </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="① 将戒指接通充电器，进入充电状态"
+        android:textColor="#ff000000"
+        android:textSize="14sp"
+        android:layout_marginTop="21dp"
+        android:layout_marginLeft="29dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="② 将设备接通电源，等待数据上传"
+        android:textColor="#ff000000"
+        android:textSize="14sp"
+        android:layout_marginLeft="29dp"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:text="*如附近有多个戒指，通电时请勿晃动任何戒指"
+        android:textColor="#ff707070"
+        android:textSize="12sp"
+        android:layout_marginTop="24dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:id="@+id/dialog_warning_btn"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:background="@drawable/dialog_warning_btn_background"
+        android:layout_marginTop="31dp"
+        android:text="我知道了"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        android:layout_gravity="center_horizontal"/>
+
+
+
+
+</LinearLayout>
