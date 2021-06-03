@@ -922,86 +922,89 @@ public class SearchUserRecyclerView extends AppCompatActivity {
                     searchUserInfoResponse.setMsg(msg);
                     searchUserInfoResponse.setData(dataBeanX);
 
-                    //第二层解析
-                    int current_page = datax.optInt("current_page");
-                    String first_page_url = datax.optString("first_page_url");
-                    int from = datax.optInt("from");
-                    int last_page = datax.optInt("last_page");
-                    String last_page_url= datax.optString("last_page_url");
-                    String next_page_url= datax.optString("next_page_url");
-                    String path= datax.optString("path");
-                    int per_page= datax.optInt("per_page");
-                    String prev_page_url = datax.optString("prev_page_url");
-                    int to= datax.optInt("to");
-                    int total= datax.optInt("total");
-                    JSONArray data = datax.optJSONArray("data");
+                    if (datax != null){
+                        //第二层解析
+                        int current_page = datax.optInt("current_page");
+                        String first_page_url = datax.optString("first_page_url");
+                        int from = datax.optInt("from");
+                        int last_page = datax.optInt("last_page");
+                        String last_page_url= datax.optString("last_page_url");
+                        String next_page_url= datax.optString("next_page_url");
+                        String path= datax.optString("path");
+                        int per_page= datax.optInt("per_page");
+                        String prev_page_url = datax.optString("prev_page_url");
+                        int to= datax.optInt("to");
+                        int total= datax.optInt("total");
+                        JSONArray data = datax.optJSONArray("data");
 
-                    //第二层封装
-                    dataBeanX.setCurrent_page(current_page);
-                    dataBeanX.setFirst_page_url(first_page_url);
-                    dataBeanX.setFrom(from);
-                    dataBeanX.setLast_page(last_page);
-                    dataBeanX.setLast_page_url(last_page_url);
-                    dataBeanX.setNext_page_url(next_page_url);
-                    dataBeanX.setPath(path);
-                    dataBeanX.setPer_page(per_page);
-                    dataBeanX.setPrev_page_url(prev_page_url);
-                    dataBeanX.setData(dataBeans);
+                        //第二层封装
+                        dataBeanX.setCurrent_page(current_page);
+                        dataBeanX.setFirst_page_url(first_page_url);
+                        dataBeanX.setFrom(from);
+                        dataBeanX.setLast_page(last_page);
+                        dataBeanX.setLast_page_url(last_page_url);
+                        dataBeanX.setNext_page_url(next_page_url);
+                        dataBeanX.setPath(path);
+                        dataBeanX.setPer_page(per_page);
+                        dataBeanX.setPrev_page_url(prev_page_url);
+                        dataBeanX.setData(dataBeans);
 
 
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject jsonObject1 = data.getJSONObject(i);
-                        if (jsonObject1 != null) {
-                            int id = jsonObject1.optInt("id");
-                            int uid = jsonObject1.optInt("uid");
-                            String truename = jsonObject1.optString("truename");
-                            String mobile = jsonObject1.optString("mobile");
-                            int create_time = jsonObject1.optInt("create_time");
-                            String sex = jsonObject1.optString("sex");
-                            boolean using = jsonObject1.optBoolean("using");
-                            JSONArray dataReport = jsonObject1.optJSONArray("report");
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject1 = data.getJSONObject(i);
+                            if (jsonObject1 != null) {
+                                int id = jsonObject1.optInt("id");
+                                int uid = jsonObject1.optInt("uid");
+                                String truename = jsonObject1.optString("truename");
+                                String mobile = jsonObject1.optString("mobile");
+                                int create_time = jsonObject1.optInt("create_time");
+                                String sex = jsonObject1.optString("sex");
+                                boolean using = jsonObject1.optBoolean("using");
+                                JSONArray dataReport = jsonObject1.optJSONArray("report");
 
-                            SearchUserInfoResponse.DataBeanX.DataBean  dataBean = new SearchUserInfoResponse.DataBeanX.DataBean();
+                                SearchUserInfoResponse.DataBeanX.DataBean  dataBean = new SearchUserInfoResponse.DataBeanX.DataBean();
 
-                           
-                            dataBean.setUsing(using);
-                            if (!dataBean.isUsing()){
-                                dataBean.setId(id);
-                                dataBean.setUid(uid);
-                                dataBean.setTruename(truename);
-                                dataBean.setMobile(mobile);
-                                dataBean.setCreate_time(create_time);
-                                dataBean.setSex(sex);
-                                dataBeans.add(dataBean);
 
-                            }
-
-                            for (int k = 0; k < dataReport.length(); k++) {
-                                JSONObject jsonObject2 = dataReport.getJSONObject(k);
-                                if (jsonObject2 != null) {
-                                    String sn = jsonObject2.optString("sn");
-                                    String ahi = jsonObject2.optString("ahi");
-                                    String report_id = jsonObject2.optString("report_id");
-                                    int quality = jsonObject2.optInt("quality");
-                                    int createTime = jsonObject2.optInt("createTime");
-                                    String reportUrl = jsonObject2.optString("reportUrl");
-                                    SearchUserInfoResponse.DataBeanX.DataBean.ReportBean  reportBean = new SearchUserInfoResponse.DataBeanX.DataBean.ReportBean();
-                                    reportBean.setSn(sn);
-                                    reportBean.setAhi(ahi);
-                                    reportBean.setReport_id(report_id);
-                                    reportBean.setQuality(quality);
-                                    reportBean.setCreateTime(createTime);
-                                    reportBean.setReportUrl(reportUrl);
-                                    reportBeans.add(reportBean);
+                                dataBean.setUsing(using);
+                                if (!dataBean.isUsing()){
+                                    dataBean.setId(id);
+                                    dataBean.setUid(uid);
+                                    dataBean.setTruename(truename);
+                                    dataBean.setMobile(mobile);
+                                    dataBean.setCreate_time(create_time);
+                                    dataBean.setSex(sex);
+                                    dataBeans.add(dataBean);
 
                                 }
 
+                                for (int k = 0; k < dataReport.length(); k++) {
+                                    JSONObject jsonObject2 = dataReport.getJSONObject(k);
+                                    if (jsonObject2 != null) {
+                                        String sn = jsonObject2.optString("sn");
+                                        String ahi = jsonObject2.optString("ahi");
+                                        String report_id = jsonObject2.optString("report_id");
+                                        int quality = jsonObject2.optInt("quality");
+                                        int createTime = jsonObject2.optInt("createTime");
+                                        String reportUrl = jsonObject2.optString("reportUrl");
+                                        SearchUserInfoResponse.DataBeanX.DataBean.ReportBean  reportBean = new SearchUserInfoResponse.DataBeanX.DataBean.ReportBean();
+                                        reportBean.setSn(sn);
+                                        reportBean.setAhi(ahi);
+                                        reportBean.setReport_id(report_id);
+                                        reportBean.setQuality(quality);
+                                        reportBean.setCreateTime(createTime);
+                                        reportBean.setReportUrl(reportUrl);
+                                        reportBeans.add(reportBean);
+
+                                    }
+
+                                }
+
+
                             }
 
-
                         }
-
                     }
+
 
 
 

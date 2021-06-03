@@ -342,6 +342,15 @@ public class UserListInfoResponse {
                 private int quality;
                 private int createTime;
                 private String reportUrl;
+                private int id;
+
+                public int getId() {
+                    return id;
+                }
+
+                public void setId(int id) {
+                    this.id = id;
+                }
 
                 public String getSn() {
                     return sn;

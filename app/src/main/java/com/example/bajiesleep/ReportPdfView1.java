@@ -77,6 +77,7 @@ public class ReportPdfView1 extends AppCompatActivity {
         reportCreateTime = intent.getStringExtra("reportCreateTime");
         reportID = intent.getStringExtra("reportID");
 
+
         hospitalId = intent.getStringExtra("hospitalId");
         mIvDownload = findViewById(R.id.report_btn_send);
         pdfView = findViewById(R.id.pdf_webview);
@@ -128,12 +129,10 @@ public class ReportPdfView1 extends AppCompatActivity {
         mRlButtonSlices.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRlWeb.setVisibility(View.GONE);
-                mRlError.setVisibility(View.GONE);
-                mRlError.setVisibility(View.GONE);
-                mRlLoading.setVisibility(View.VISIBLE);
-                getResAppointReport(Api.URL+"/v1/report/"+reportID);
 
+//                getResAppointReport(Api.URL+"/v1/report/"+"asdsad123");
+                getResAppointReport(Api.URL+"/v1/report/"+reportID);
+//                Log.d("ReportPDF", "onClick: ");
 
 
 
@@ -444,7 +443,7 @@ public class ReportPdfView1 extends AppCompatActivity {
                 L.e("OnResponse");
                 final String res = response.body().string();
                 L.e(res);
-
+                Log.d("ReportPdfView1123123", res);
 //                parseJSONWithGSON(res);
 
                 //封装java对象
@@ -459,17 +458,20 @@ public class ReportPdfView1 extends AppCompatActivity {
                     //第一层封装
                     appointReportResponse.setCode(code);
                     appointReportResponse.setMsg(msg);
-                    dataBean = new AppointReportResponse.DataBean();
-                    appointReportResponse.setData(dataBean);
+                    if (data!=null){
+                        dataBean = new AppointReportResponse.DataBean();
+                        appointReportResponse.setData(dataBean);
 
 
 
 //                    第二层解析
-                    String truename = data.optString("truename");
-                    String examine = data.optString("examine");
+                        String truename = data.optString("truename");
+                        String examine = data.optString("examine");
 
-                    dataBean.setTruename(truename);
-                    dataBean.setExamine(examine);
+                        dataBean.setTruename(truename);
+                        dataBean.setExamine(examine);
+                    }
+
 
 
 
@@ -485,6 +487,11 @@ public class ReportPdfView1 extends AppCompatActivity {
                         if (appointReportResponse.getCode() == 0){
 //                            ToastUtils.showTextToast(ReportPdfView1.this,"第一个接口请求成功");
                             Log.d("ReportPdfView1", "获取报告信息");
+
+                            mRlWeb.setVisibility(View.GONE);
+                            mRlError.setVisibility(View.GONE);
+                            mRlError.setVisibility(View.GONE);
+                            mRlLoading.setVisibility(View.VISIBLE);
                             getResEditReport(Api.URL+"/v2/report/"+reportID+"/edit?hospitalid="+hospitalId);
                         }else if(appointReportResponse.getCode() == 10004 || appointReportResponse.getCode() == 10010){
                             DialogTokenIntent dialogTokenIntent = new DialogTokenIntent(ReportPdfView1.this,R.style.CustomDialog);

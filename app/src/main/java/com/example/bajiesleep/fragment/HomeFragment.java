@@ -224,8 +224,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Log.d("asdasdasda", getTokenToSp("token",""));
-        Log.d("asdasdasda", getUidToSp("uid",""));
+
         mLinearTitles = getActivity().findViewById(R.id.home_fragment_horizontal_linear);
         mRecyclerInfo = getActivity().findViewById(R.id.rv_info);
         mTvTotalDevice = getActivity().findViewById(R.id.home_total_device);
@@ -4242,20 +4241,22 @@ public class HomeFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d("sad231321", String.valueOf(deviceListResponseV2.getCode()));
+                        Log.d("sad231321", String.valueOf(res));
                         Log.d("sad231321", String.valueOf(deviceListResponseV2.getMsg()));
                         Log.d("sad231321", String.valueOf(deviceListResponseV2));
                         if (deviceListResponseV2.getCode() == 0) {
 //
-                            mTvTotalDevice.setText("全部设备" + deviceListResponseV2.getData().getTotalNum() + "台");
-                            mTvOnLineDevice.setText("在线设备" + deviceListResponseV2.getData().getOnlineNum() + "台");
-                            adapter.notifyDataSetChanged();
+                            if (deviceListResponseV2.getData()!=null){
+                                mTvTotalDevice.setText("全部设备" + deviceListResponseV2.getData().getTotalNum() + "台");
+                                mTvOnLineDevice.setText("在线设备" + deviceListResponseV2.getData().getOnlineNum() + "台");
+                                adapter.notifyDataSetChanged();
 
 
+                                mRecyclerInfo.setPullLoadMoreCompleted();
 
-                            mRecyclerInfo.setPullLoadMoreCompleted();
+                                t = 0;
+                            }
 
-                            t = 0;
                         } else if (deviceListResponseV2.getCode() == 10004 || deviceListResponseV2.getCode() == 10010) {
                             if (dialogTokenIntent == null) {
                                 dialogTokenIntent = new DialogTokenIntent(getContext(), R.style.CustomDialog);

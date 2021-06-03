@@ -416,7 +416,9 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.InnerH
                                             int quality = jsonObject2.optInt("quality");
                                             int createTime = jsonObject2.optInt("createTime");
                                             String reportUrl = jsonObject2.optString("reportUrl");
+                                            int id1 = jsonObject2.optInt("id");
                                             UserListInfoResponse.DataBeanX.DataBean.ReportBean reportBean = new UserListInfoResponse.DataBeanX.DataBean.ReportBean();
+                                            reportBean.setId(id1);
                                             reportBean.setSn(sn);
                                             reportBean.setAhi(ahi);
                                             reportBean.setReport_id(report_id);

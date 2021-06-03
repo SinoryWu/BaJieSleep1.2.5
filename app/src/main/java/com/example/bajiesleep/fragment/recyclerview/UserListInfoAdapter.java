@@ -161,6 +161,7 @@ public class UserListInfoAdapter extends RecyclerView.Adapter<UserListInfoAdapte
                         bundle.putString("reportUrl",reportBeans.getReportUrl());
                         bundle.putString("reportTrueName",getReportNameToSp("reportName",""));
                         bundle.putString("reportCreateTime",data1);
+                        bundle.putString("reportID", String.valueOf(reportBeans.getId()));
                         intent.putExtras(bundle);
                         context.startActivity(intent);
                     }

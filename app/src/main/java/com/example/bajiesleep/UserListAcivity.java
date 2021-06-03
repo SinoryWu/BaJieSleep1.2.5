@@ -95,7 +95,7 @@ public class UserListAcivity extends AppCompatActivity {
             }
         });
 
-        getResUserList(Api.URL+"/v1/User/index?hospitalid="+getHosIdToSp("hosid","")+"&limit=15&page=1");
+        getResUserList(Api.URL+"/v2/User/index?hospitalid="+getHosIdToSp("hosid","")+"&limit=15&page=1");
 
         mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -332,7 +332,9 @@ public class UserListAcivity extends AppCompatActivity {
                                         int quality = jsonObject2.optInt("quality");
                                         int createTime = jsonObject2.optInt("createTime");
                                         String reportUrl = jsonObject2.optString("reportUrl");
+                                        int id1 = jsonObject2.optInt("id");
 
+                                        reportBean.setId(id1);
                                         reportBean.setSn(sn);
                                         reportBean.setAhi(ahi);
                                         reportBean.setReport_id(report_id);
@@ -594,7 +596,9 @@ public class UserListAcivity extends AppCompatActivity {
                                         int quality = jsonObject2.optInt("quality");
                                         int createTime = jsonObject2.optInt("createTime");
                                         String reportUrl = jsonObject2.optString("reportUrl");
+                                        int id1 = jsonObject2.optInt("id");
 
+                                        reportBean.setId(id1);
                                         reportBean.setSn(sn);
                                         reportBean.setAhi(ahi);
                                         reportBean.setReport_id(report_id);
@@ -854,7 +858,9 @@ public class UserListAcivity extends AppCompatActivity {
                                         int quality = jsonObject2.optInt("quality");
                                         int createTime = jsonObject2.optInt("createTime");
                                         String reportUrl = jsonObject2.optString("reportUrl");
+                                        int id1 = jsonObject2.optInt("id");
 
+                                        reportBean.setId(id1);
                                         reportBean.setSn(sn);
                                         reportBean.setAhi(ahi);
                                         reportBean.setReport_id(report_id);
@@ -1091,7 +1097,9 @@ public class UserListAcivity extends AppCompatActivity {
                                         int quality = jsonObject2.optInt("quality");
                                         int createTime = jsonObject2.optInt("createTime");
                                         String reportUrl = jsonObject2.optString("reportUrl");
+                                        int id1 = jsonObject2.optInt("id");
 
+                                        reportBean.setId(id1);
                                         reportBean.setSn(sn);
                                         reportBean.setAhi(ahi);
                                         reportBean.setReport_id(report_id);

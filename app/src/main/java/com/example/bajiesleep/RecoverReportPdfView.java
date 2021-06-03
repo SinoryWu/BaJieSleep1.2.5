@@ -453,14 +453,17 @@ public class RecoverReportPdfView extends AppCompatActivity  implements OnPageCh
                     dataBean = new AppointReportResponse.DataBean();
                     appointReportResponse.setData(dataBean);
 
+                    if (data !=null){
+//                        第二层解析
+                        String truename = data.optString("truename");
+                        String examine = data.optString("examine");
+
+                        dataBean.setTruename(truename);
+                        dataBean.setExamine(examine);
+                    }
 
 
-//                    第二层解析
-                    String truename = data.optString("truename");
-                    String examine = data.optString("examine");
-
-                    dataBean.setTruename(truename);
-                    dataBean.setExamine(examine);
+//
 
 
 

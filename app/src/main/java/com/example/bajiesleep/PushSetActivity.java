@@ -437,17 +437,20 @@ public class PushSetActivity extends AppCompatActivity {
                     pushSetResponse.setMsg(msg);
                     pushSetResponse.setData(dataBean);
 
-                    int devOnline = data.optInt("devOnline");
-                    int ringOnline = data.optInt("ringOnline");
-                    int getReport = data.optInt("getReport");
-                    String hosHeadpic = data.optString("hosHeadpic");
+                    if (data!=null){
+                        int devOnline = data.optInt("devOnline");
+                        int ringOnline = data.optInt("ringOnline");
+                        int getReport = data.optInt("getReport");
+                        String hosHeadpic = data.optString("hosHeadpic");
 
 
 
-                    dataBean.setDevOnline(devOnline);
-                    dataBean.setRingOnline(ringOnline);
-                    dataBean.setGetReport(getReport);
-                    dataBean.setHosHeadpic(hosHeadpic);
+                        dataBean.setDevOnline(devOnline);
+                        dataBean.setRingOnline(ringOnline);
+                        dataBean.setGetReport(getReport);
+                        dataBean.setHosHeadpic(hosHeadpic);
+                    }
+
 
 
 
