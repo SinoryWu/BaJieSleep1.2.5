@@ -26,6 +26,7 @@ import com.example.bajiesleep.entity.DeviceListResponse;
 import com.example.bajiesleep.entity.SearchDeviceScanResponse1;
 import com.example.bajiesleep.fragment.recyclerview.DeviceListAdapter;
 import com.example.bajiesleep.fragment.recyclerview.ListViewAdapter2;
+import com.example.bajiesleep.util.GetShp;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -201,6 +202,7 @@ public class DeviceListActivity extends AppCompatActivity {
                 .url(url)
                 .addHeader("token", getTokenToSp("token",""))
                 .addHeader("uid",getUidToSp("uid",""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call =   okHttpClient.newCall(request);
@@ -343,6 +345,7 @@ public class DeviceListActivity extends AppCompatActivity {
                 .url(url)
                 .addHeader("token", getTokenToSp("token",""))
                 .addHeader("uid",getUidToSp("uid",""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call =   okHttpClient.newCall(request);

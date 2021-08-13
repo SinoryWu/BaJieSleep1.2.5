@@ -31,6 +31,7 @@ import androidx.core.content.FileProvider;
 import com.example.bajiesleep.entity.AppointReportResponse;
 import com.example.bajiesleep.entity.EditReortResponse;
 import com.example.bajiesleep.util.GetFileSize;
+import com.example.bajiesleep.util.GetShp;
 import com.joanzapata.pdfview.PDFView;
 import com.joanzapata.pdfview.listener.OnDrawListener;
 import com.joanzapata.pdfview.listener.OnLoadCompleteListener;
@@ -313,6 +314,7 @@ public class RecoverReportPdfView extends AppCompatActivity  implements OnPageCh
                 .url(url)
                 .addHeader("token", getTokenToSp("token",""))
                 .addHeader("uid",getUidToSp("uid",""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call =   okHttpClient.newCall(request);
@@ -408,6 +410,7 @@ public class RecoverReportPdfView extends AppCompatActivity  implements OnPageCh
                 .url(url)
                 .addHeader("token", getTokenToSp("token",""))
                 .addHeader("uid",getUidToSp("uid",""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call =   okHttpClient.newCall(request);

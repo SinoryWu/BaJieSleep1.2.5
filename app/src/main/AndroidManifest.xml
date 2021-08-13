@@ -34,7 +34,8 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
 
     <application
         android:name="com.example.jpushdemo.ExampleApplication"
@@ -60,19 +61,19 @@
         <activity
             android:name=".ReportPdfView"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden|adjustNothing"/>
         <activity
             android:name=".ReportListActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden|adjustNothing"/>
         <activity
             android:name=".ReportWebViewActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden|adjustNothing"/>
         <activity
             android:name=".InfoActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden"/> <!-- For test only 测试的主程序 -->
+            android:windowSoftInputMode="stateHidden|adjustNothing"/> <!-- For test only 测试的主程序 -->
         <activity
             android:name="com.example.jpushdemo.MainActivity"
             android:label="@string/app_name" /> <!-- For test only 测试高级功能 -->
@@ -227,25 +228,25 @@
             android:name=".txt.UserLinkActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden|adjustNothing"/>
         <activity
             android:name=".txt.PrivateLinkActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden|adjustNothing"/>
         <activity
             android:name=".TestActivity"
             android:theme="@style/AppTimePicker"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden|adjustNothing"/>
         <activity
             android:name=".PushSetActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden|adjustNothing"></activity>
         <activity
             android:name=".UserInterfaceActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden|adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -256,44 +257,45 @@
             android:name=".AddPatient"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden|adjustNothing"/>
         <activity
             android:name=".LoginActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden|adjustNothing"
+            />
         <activity android:name=".TestWebView" />
         <activity
             android:name=".SearchUserRecyclerView"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".RecoverDeviceActivity"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden|adjustNothing"/>
         <activity
             android:name=".ScanActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/ScanTheme"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden|adjustNothing"/>
         <activity
             android:name=".UserListAcivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden|adjustNothing"/>
         <activity
             android:name=".LendActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTimePicker"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden|adjustNothing"></activity>
         <activity
             android:name=".DeviceListActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden|adjustNothing"/>
         <activity
             android:name=".RecoverReportPdfView"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden|adjustNothing"/>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" /> <!-- 屏幕适配 -->

@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 
 import com.example.bajiesleep.entity.SearchUserInfoResponse;
 import com.example.bajiesleep.fragment.recyclerview.ListViewAdapter3;
+import com.example.bajiesleep.util.GetShp;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
 import org.json.JSONArray;
@@ -161,6 +162,7 @@ public class SearchUserRecyclerView extends AppCompatActivity {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -416,6 +418,8 @@ public class SearchUserRecyclerView extends AppCompatActivity {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
+
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -623,6 +627,7 @@ public class SearchUserRecyclerView extends AppCompatActivity {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -875,6 +880,7 @@ public class SearchUserRecyclerView extends AppCompatActivity {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);

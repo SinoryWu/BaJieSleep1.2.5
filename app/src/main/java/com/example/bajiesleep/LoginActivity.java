@@ -1,15 +1,22 @@
 package com.example.bajiesleep;
 
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,8 +26,11 @@ import com.example.bajiesleep.entity.LoginResponse;
 import com.example.bajiesleep.entity.SendMessageResponse;
 import com.example.bajiesleep.txt.PrivateLinkActivity;
 import com.example.bajiesleep.txt.UserLinkActivity;
+import com.example.bajiesleep.util.GetShp;
 import com.example.jpushdemo.ExampleUtil;
+import com.example.jpushdemo.MyReceiver;
 import com.google.gson.Gson;
+import com.liulishuo.filedownloader.i.IFileDownloadIPCCallback;
 
 import org.json.JSONObject;
 
@@ -45,42 +55,86 @@ public class LoginActivity extends BaseActivity {
     private TimeCount time;
     private TextView mTvPrivateLink, mTvUserAgreeLink;
     private CheckBox mCb1;
-
+//    HookMacAddressUtils hookMacAddressUtils;
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
+    private PushReceiverViewModel pushReceiverViewModel;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        String useragent = new WebView(this).getSettings().getUserAgentString();
 
+//        Log.d("userAgent234234", useragent);
+//        WifiManager wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+//        WifiInfo winfo = wifi.getConnectionInfo();
+//
+//        String mac =  winfo.getMacAddress();
+//        String mac =  winfo.getMacAddress();
+//        Log.d("mac", mac);
+//        hookMacAddressUtils = HookMacAddressUtils.INSTANCE;
+//        hookMacAddressUtils.hookMacAddress(getApplicationContext());
+//        hookMacAddressUtils.closeHookMacAddress();
+        String userAgent = System.getProperty("http.agent");
+
+        saveStringToSp("user_agent",userAgent);
+//        Log.d("userAgent", GetShp.getUserAgent(this));
+        pushReceiverViewModel = new ViewModelProvider(LoginActivity.this,new ViewModelProvider.NewInstanceFactory()).get(PushReceiverViewModel.class);
         initView();
+
         time = new TimeCount(60000, 1000);
         mBtnCatchInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String account = mEtAccount.getText().toString().trim();
+                if (mCb1.isChecked()){
+                    String account = mEtAccount.getText().toString().trim();
 
-                if (account.length() >0){
-                    time.start();
-                    codePost(account);
+                    if (account.length() >0){
+                        time.start();
+                        codePost(account);
+                    }else {
+                        ToastUtils.showTextToast2(LoginActivity.this,"请输入手机号");
+                    }
+
                 }else {
-                    ToastUtils.showTextToast2(LoginActivity.this,"请输入手机号");
+                    ToastUtils.showTextToast2(LoginActivity.this, "请勾选阅读并同意《隐私声明》《用户协议》");
+
                 }
 
 
             }
         });
 
+        mCb1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+//                    pushReceiverViewModel.number.postValue(1);
+
+                    JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+                    JPushInterface.init(getApplicationContext());
+//                    myReceiver.onReceive(LoginActivity.this,getIntent());
+                }else {
+//                    pushReceiverViewModel.number.postValue(2);
+                }
+            }
+        });
         mBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String account = mEtAccount.getText().toString().trim();
-                String code = mEtVerificationCode.getText().toString().trim();
-                String RegId = JPushInterface.getRegistrationID(getApplicationContext());
-                loginPost(account,code,RegId);
-                Log.d("RegId",RegId);
+                if (mCb1.isChecked()){
+                    String account = mEtAccount.getText().toString().trim();
+                    String code = mEtVerificationCode.getText().toString().trim();
+                    String RegId = JPushInterface.getRegistrationID(getApplicationContext());
+                    loginPost(account,code,RegId);
+                    saveStringToJpush("jpushkey","1");
+                    Log.d("RegId",RegId);
+                }else {
+                    ToastUtils.showTextToast2(LoginActivity.this, "请勾选阅读并同意《隐私声明》《用户协议》");
+                }
+
 
 //                Intent intent = new Intent(LoginActivity.this,UserInterfaceActivity.class);
 //                startActivity(intent);
@@ -265,7 +319,7 @@ public class LoginActivity extends BaseActivity {
             map.put("code", code);//111
             map.put("reg_id",regId);
 //        String url = (ApiConfig.BASE_URl+ApiConfig.LOGIN);
-            String url = Api.URL+"/v1/login/check";
+            String url = Api.URL+"/v2/login/check";
             L.e( String.valueOf(map));
 
             postResLogin(url, map);
@@ -299,7 +353,9 @@ public class LoginActivity extends BaseActivity {
 
         RequestBody requestBodyJson = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonStr);
 
+        Log.d("useragent", GetShp.getUserAgent(getApplicationContext()));
         Request request = new Request.Builder()
+                .addHeader("user-agent",GetShp.getUserAgent(getApplicationContext()))
                 .url(url)
                 .post(requestBodyJson)
                 .build();
@@ -367,6 +423,13 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
+    protected void saveStringToJpush(String key, String val) {
+        SharedPreferences sp = getSharedPreferences("sp", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(key, val);
+        editor.commit();
+    }
+
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -376,6 +439,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         Log.d("loginactivity","onDestroy");
     }
 

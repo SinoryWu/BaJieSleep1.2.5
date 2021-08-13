@@ -20,6 +20,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.example.bajiesleep.entity.StopDeviceResponse;
+import com.example.bajiesleep.util.GetShp;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -184,6 +185,7 @@ public class DeviceStopDialog extends Dialog implements View.OnClickListener {
                 .post(requestBodyJson)
                 .addHeader("token",getTokenToSp("token",""))
                 .addHeader("uid",getUidToSp("uid",""))
+                .addHeader("user-agent", GetShp.getUserAgent(context))
                 .build();
         //3.将request封装为call
         Call call =   okHttpClient.newCall(request);

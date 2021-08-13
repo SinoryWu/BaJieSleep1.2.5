@@ -20,6 +20,7 @@ import com.example.bajiesleep.entity.RecoverResponse;
 import com.example.bajiesleep.entity.SearchDeviceScanResponse1;
 import com.example.bajiesleep.fragment.DeviceFragment;
 import com.example.bajiesleep.fragment.recyclerview.ListViewAdapter2;
+import com.example.bajiesleep.util.GetShp;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -158,6 +159,7 @@ public class AddPatient extends AppCompatActivity {
                 .url(url)
                 .addHeader("token", getTokenToSp("token",""))
                 .addHeader("uid",getUidToSp("uid",""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call =   okHttpClient.newCall(request);

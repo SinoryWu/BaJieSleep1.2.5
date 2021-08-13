@@ -59,6 +59,9 @@ public class BaseActivity extends AppCompatActivity {
         editor.commit();
     }
 
+
+
+
     public String getTokenToSp(String key, String val){
         SharedPreferences sp1 = getSharedPreferences("sp", MODE_PRIVATE);
         String token = sp1.getString("token","没有token");

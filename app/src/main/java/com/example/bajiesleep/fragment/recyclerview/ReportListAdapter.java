@@ -306,6 +306,34 @@ public class ReportListAdapter extends RecyclerView.Adapter<ReportListAdapter.In
                 });
 
             }else if (dataBeans.getQuality() == 3){
+                mTvQuality.setText("睡眠时间过短");
+                mTvQuality.setTextColor(Color.parseColor("#f45c50"));
+                mRlEdit.setVisibility(View.GONE);
+                mRlDownLoad.setVisibility(View.GONE);
+                mTvAhi.setTextColor(Color.parseColor("#817889"));
+                mTvAhi.setText("AHI:--");
+                mRlItem.setOnClickListener(new OnMultiClickListener() {
+                    @Override
+                    public void onMultiClick(View view) {
+                        ToastUtils.showTextToast(context,"睡眠时间过短");
+                    }
+                });
+
+            }else if (dataBeans.getQuality() == 4){
+                mTvQuality.setText("检测时间过短");
+                mTvQuality.setTextColor(Color.parseColor("#f45c50"));
+                mRlEdit.setVisibility(View.GONE);
+                mRlDownLoad.setVisibility(View.GONE);
+                mTvAhi.setTextColor(Color.parseColor("#817889"));
+                mTvAhi.setText("AHI:--");
+                mRlItem.setOnClickListener(new OnMultiClickListener() {
+                    @Override
+                    public void onMultiClick(View view) {
+                        ToastUtils.showTextToast(context,"检测时间过短");
+                    }
+                });
+
+            }else if (dataBeans.getQuality() == 5){
                 mTvQuality.setText("无效报告");
                 mTvQuality.setTextColor(Color.parseColor("#f45c50"));
                 mRlEdit.setVisibility(View.GONE);

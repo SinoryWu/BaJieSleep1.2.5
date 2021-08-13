@@ -140,6 +140,22 @@
 
         </WebView>
 
+        <RelativeLayout
+            android:id="@+id/rl_web_progress"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="185dp"
+            android:background="@drawable/web_progress_background"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:visibility="visible">
+            <ProgressBar
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                style="?android:attr/progressBarStyle"
+                android:indeterminateTint="#000000"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
 
 
         <RelativeLayout
@@ -156,6 +172,8 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/big_download_icon"
                 android:visibility="visible" />
+
+
         </RelativeLayout>
 
 

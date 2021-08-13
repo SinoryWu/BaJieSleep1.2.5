@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.bajiesleep.fragment.DeviceFragment;
 import com.example.bajiesleep.fragment.HomeFragment;
 import com.example.bajiesleep.fragment.UserFragment;
+import com.example.bajiesleep.util.HookUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,11 @@ public class UserInterfaceActivity extends FragmentActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+//        HookUtils.hookMacAddress("Z-Application",getApplicationContext());
+//        HookUtils.hookMacAddress("Z-Activity",UserInterfaceActivity.this);
+        String userAgent = System.getProperty("http.agent");
+//        Log.d("userAgent", userAgent);
+        saveStringToSp("user_agent",userAgent);
         if (getTokenToSp("token","") == null){
             Intent intent = new Intent(UserInterfaceActivity.this,LoginActivity.class);
             startActivity(intent);
@@ -358,6 +363,12 @@ public class UserInterfaceActivity extends FragmentActivity implements View.OnCl
         super.onRestart();
         Log.d("userinterface","onRestart");
     }
-
+    protected void saveStringToSp(String key, String val) {
+        SharedPreferences sp = getSharedPreferences("sp", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(key, val);
+        editor.putString(key, val);
+        editor.commit();
+    }
 
 }

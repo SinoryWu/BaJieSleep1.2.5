@@ -25,6 +25,7 @@ import com.bumptech.glide.request.target.Target;
 import com.example.bajiesleep.entity.HospitalListResponsePushSet;
 import com.example.bajiesleep.entity.PushSetResponse;
 import com.example.bajiesleep.entity.SwitchPushResponse;
+import com.example.bajiesleep.util.GetShp;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -205,6 +206,7 @@ public class PushSetActivity extends AppCompatActivity {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -390,6 +392,7 @@ public class PushSetActivity extends AppCompatActivity {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -659,6 +662,7 @@ public class PushSetActivity extends AppCompatActivity {
                 .put(requestBodyJson)
                 .addHeader("token",getTokenToSp("token",""))
                 .addHeader("uid",getUidToSp("uid",""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call =   okHttpClient.newCall(request);

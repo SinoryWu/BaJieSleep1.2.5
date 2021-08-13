@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.bajiesleep.entity.LendDeviceResponse;
 import com.example.bajiesleep.fragment.HomeFragment;
+import com.example.bajiesleep.util.GetShp;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -301,6 +302,7 @@ public class LendActivity extends Activity {
                 .post(requestBodyJson)
                 .addHeader("token",getTokenToSp("token",""))
                 .addHeader("uid",getUidToSp("uid",""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call =   okHttpClient.newCall(request);

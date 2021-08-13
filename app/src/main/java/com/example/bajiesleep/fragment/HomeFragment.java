@@ -46,6 +46,7 @@ import com.example.bajiesleep.entity.DeviceListResponseV2;
 import com.example.bajiesleep.entity.EquipmentResponse;
 import com.example.bajiesleep.entity.HospitalListResponse1;
 import com.example.bajiesleep.fragment.recyclerview.ListViewAdapter;
+import com.example.bajiesleep.util.GetShp;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
 
@@ -199,10 +200,10 @@ public class HomeFragment extends Fragment {
                 } else {
                     String text = String.valueOf(mEtSearch.getText().toString()).replaceAll(" ", "");
                     if (hospitalsId== null) {
-
+                        adapter.notifyDataSetChanged();
                         getResEquipmentSearchNumber(Api.URL + "/v2/device?limit=10" + "&keywords=" + text);
                     } else {
-
+                        adapter.notifyDataSetChanged();
                         getResEquipmentHosIdSearchNumber(Api.URL + "/v2/device?limit=10" + "&keywords=" + text + "&hospitalid=" + hospitalsId);
                     }
 
@@ -368,14 +369,14 @@ public class HomeFragment extends Fragment {
                     if (hospitalsId == null) {
 
 //                        Log.d("23ad", "o");
-//                        adapter.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();
 
 
                         getResEquipmentSearchNumber(Api.URL + "/v2/device?limit=10&keywords="+text);
 
                     } else {
                         Log.d("23ad", "p");
-
+                        adapter.notifyDataSetChanged();
                         getResEquipmentHosIdSearchNumber(Api.URL + "/v2/device?limit=10&keywords=" + text + "&hospitalid=" + hospitalsId);
 
                     }
@@ -464,6 +465,7 @@ public class HomeFragment extends Fragment {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -650,6 +652,7 @@ public class HomeFragment extends Fragment {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -957,6 +960,7 @@ public class HomeFragment extends Fragment {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -1213,6 +1217,8 @@ public class HomeFragment extends Fragment {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -1456,6 +1462,7 @@ public class HomeFragment extends Fragment {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -1664,6 +1671,7 @@ public class HomeFragment extends Fragment {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -1872,6 +1880,7 @@ public class HomeFragment extends Fragment {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -1900,6 +1909,7 @@ public class HomeFragment extends Fragment {
 //                                adapter.notifyDataSetChanged();
                                 dataBeansv2.clear();
 
+                                adapter.notifyDataSetChanged();
 
                                 String text = String.valueOf(mEtSearch.getText().toString()).replaceAll(" ", "");
                                 getResEquipmentHosIdSearchNumber(Api.URL + "/v2/device?limit=10" + "&keywords=" + text + "&hospitalid=" + hospitalsId);
@@ -2082,7 +2092,7 @@ public class HomeFragment extends Fragment {
                                     mIvOnLineDevice.setImageResource(R.drawable.home_radio_button_false);
                                     mIvToTalDevice.setImageResource(R.drawable.home_radio_button_true);
                                     dataBeansv2.clear();
-//                                    adapter.notifyDataSetChanged();
+                                    adapter.notifyDataSetChanged();
 
                                     getResEquipmentHosIdSearchTotal(Api.URL + "/v2/device?limit=10" + "&keywords=" + text + "&hospitalid=" + hospitalsId);
                                 }
@@ -2112,7 +2122,7 @@ public class HomeFragment extends Fragment {
                                 mIvOnLineDevice.setImageResource(R.drawable.home_radio_button_false);
                                 mIvToTalDevice.setImageResource(R.drawable.home_radio_button_true);
                                 dataBeansv2.clear();
-//                                    adapter.notifyDataSetChanged();
+                                    adapter.notifyDataSetChanged();
 
                                 getResEquipmentHosIdSearchTotal(Api.URL + "/v2/device?limit=10" + "&keywords=" + text + "&hospitalid=" + hospitalsId);
                             } else if (performNum == 2) {
@@ -2183,6 +2193,7 @@ public class HomeFragment extends Fragment {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -2429,6 +2440,7 @@ public class HomeFragment extends Fragment {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -2674,6 +2686,7 @@ public class HomeFragment extends Fragment {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -2879,6 +2892,7 @@ public class HomeFragment extends Fragment {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -3085,6 +3099,7 @@ public class HomeFragment extends Fragment {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -3388,6 +3403,7 @@ public class HomeFragment extends Fragment {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -3639,6 +3655,7 @@ public class HomeFragment extends Fragment {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -3882,6 +3899,7 @@ public class HomeFragment extends Fragment {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -4088,6 +4106,7 @@ public class HomeFragment extends Fragment {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -4331,7 +4350,7 @@ public class HomeFragment extends Fragment {
                         mRecyclerInfo.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
                             @Override
                             public void onRefresh() {
-
+                                adapter.notifyDataSetChanged();
                                 dataBeansv2.clear();
 
 
@@ -4517,7 +4536,7 @@ public class HomeFragment extends Fragment {
                                     mIvOnLineDevice.setImageResource(R.drawable.home_radio_button_false);
                                     mIvToTalDevice.setImageResource(R.drawable.home_radio_button_true);
                                     dataBeansv2.clear();
-//                                    adapter.notifyDataSetChanged();
+                                    adapter.notifyDataSetChanged();
                                     getResEquipmentSearchTotal(Api.URL + "/v2/device?limit=10" + "&keywords=" + text);
                                 }
                             });
@@ -4545,7 +4564,7 @@ public class HomeFragment extends Fragment {
                                 mIvOnLineDevice.setImageResource(R.drawable.home_radio_button_false);
                                 mIvToTalDevice.setImageResource(R.drawable.home_radio_button_true);
                                 dataBeansv2.clear();
-//                                    adapter.notifyDataSetChanged();
+                                    adapter.notifyDataSetChanged();
                                 getResEquipmentSearchTotal(Api.URL + "/v2/device?limit=10" + "&keywords=" + text);
                             } else if (performNum == 2) {
                                 t = 0;

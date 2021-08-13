@@ -21,6 +21,7 @@ import com.example.bajiesleep.entity.RecoverResponse;
 import com.example.bajiesleep.entity.ReportListResponse;
 import com.example.bajiesleep.fragment.recyclerview.ListViewAdapter4;
 import com.example.bajiesleep.fragment.recyclerview.ReportListAdapter;
+import com.example.bajiesleep.util.GetShp;
 import com.google.gson.Gson;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
@@ -89,6 +90,9 @@ public class RecoverDeviceActivity extends Activity {
         mTvDeviceState.setVisibility(View.GONE);
         mTvDvSn.setText(deviceSn);
 
+        Log.d("token", getTokenToSp("token", ""));
+        Log.d("uid", getUidToSp("uid", ""));
+        Log.d("hosid", hosid);
 
 
         mIvDvFalse.setOnClickListener(new View.OnClickListener() {
@@ -172,6 +176,7 @@ public class RecoverDeviceActivity extends Activity {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -376,6 +381,7 @@ public class RecoverDeviceActivity extends Activity {
                 .post(requestBodyJson)
                 .addHeader("token",getTokenToSp("token",""))
                 .addHeader("uid",getUidToSp("uid",""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call =   okHttpClient.newCall(request);
@@ -468,6 +474,7 @@ public class RecoverDeviceActivity extends Activity {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);

@@ -210,6 +210,9 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.InnerH
 //            }
 
 
+            Log.d("uselist", String.valueOf(dataBean));
+
+
 
 
 

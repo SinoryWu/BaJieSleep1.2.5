@@ -28,6 +28,7 @@ import com.example.bajiesleep.fragment.recyclerview.ListViewAdapter3;
 import com.example.bajiesleep.fragment.recyclerview.ReportListAdapter;
 import com.example.bajiesleep.fragment.recyclerview.UserListAdapter;
 import com.example.bajiesleep.fragment.recyclerview.UserListInfoAdapter;
+import com.example.bajiesleep.util.GetShp;
 import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
 import org.json.JSONArray;
@@ -78,6 +79,8 @@ public class UserListAcivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list_acivity);
+
+
         linearLeft  = findViewById(R.id.user_liner_left);
         recyclerView = findViewById(R.id.user_list_recyclerview);
         mTvListMember = findViewById(R.id.tv_user_list_member);
@@ -97,6 +100,7 @@ public class UserListAcivity extends AppCompatActivity {
 
         getResUserList(Api.URL+"/v2/User/index?hospitalid="+getHosIdToSp("hosid","")+"&limit=15&page=1");
 
+        Log.d("hosid", getHosIdToSp("hosid",""));
         mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
@@ -195,6 +199,7 @@ public class UserListAcivity extends AppCompatActivity {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -320,6 +325,7 @@ public class UserListAcivity extends AppCompatActivity {
 
                                 List<String> reporturl = new ArrayList<>();
                                 List<String> reportcreateTime = new ArrayList<>();
+                                List<Integer> quality1 = new ArrayList<>();
 
 
 
@@ -345,18 +351,19 @@ public class UserListAcivity extends AppCompatActivity {
 
                                         reportBeans.add(reportBean);
 
-
+                                        reporturl.add(reportBean.getReportUrl());
+                                        reportcreateTime.add(String.valueOf(reportBean.getCreateTime()));
                                         if (reportBean.getQuality() == 1 ){
-                                            dataBean.setQuality(1);
-                                            reporturl.add(reportBean.getReportUrl());
-                                            reportcreateTime.add(String.valueOf(reportBean.getCreateTime()));
+//                                            dataBean.setQuality(1);
+                                            quality1.add(1);
+
 
 //                                        dataBean.setReportUrl(reportBean.getReportUrl());
                                         }else {
-                                            dataBean.setQuality(2);
+                                            quality1.add(2);
+
+//                                            dataBean.setQuality(2);
                                         }
-
-
 
 
 
@@ -369,10 +376,25 @@ public class UserListAcivity extends AppCompatActivity {
                                 String[] urls = reporturl.toArray(new String[reporturl.size()]);
 //
                                 String[] reportcreateTimes  = reportcreateTime.toArray(new String[reportcreateTime.size()]);
-                                for (int j =0;j<urls.length;j++){
-                                    dataBean.setReportUrl(urls[0]);
-                                    dataBean.setReportCreateTime(reportcreateTimes[0]);
+
+                                Log.d("quality1", String.valueOf(quality1));
+                                int a = 0;
+                                if (quality1.size()>0){
+                                    for (int j =0;j<quality1.size();j++){
+                                        if (quality1.get(j ) == 1){
+                                            a = j;
+//                                            continue;
+                                        }
+
+                                    }
+                                    dataBean.setQuality(quality1.get(a));
+                                    dataBean.setReportUrl(urls[a]);
+                                    dataBean.setReportCreateTime(reportcreateTimes[a]);
+
+                                }else {
+                                    dataBean.setQuality(2);
                                 }
+
 
 
 
@@ -401,12 +423,13 @@ public class UserListAcivity extends AppCompatActivity {
 
                         Log.d("getPrev_page_url", String.valueOf(dataBeanX.getPrev_page_url()));
 
+
                         if (userListResponse.getCode() == 0){
 
                             mTvListMember.setText("共找到"+dataBeanX.getTotal()+"名用户");
 
 
-
+//                            Log.d(" quality1", String.valueOf(quality1));
 
 
                             recyclerView.setLinearLayout();
@@ -471,6 +494,7 @@ public class UserListAcivity extends AppCompatActivity {
 
     private void getResUserList2(String url) {
 
+
         //1.拿到okhttp对象
         OkHttpClient okHttpClient = new OkHttpClient();
 
@@ -480,6 +504,7 @@ public class UserListAcivity extends AppCompatActivity {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -584,6 +609,7 @@ public class UserListAcivity extends AppCompatActivity {
                                 UserListResponse.DataBeanX.DataBean.ReportBean  reportBean = new UserListResponse.DataBeanX.DataBean.ReportBean();
                                 List<String> reporturl = new ArrayList<>();
                                 List<String> reportcreateTime = new ArrayList<>();
+                                List<Integer> quality1 = new ArrayList<>();
 
 
 
@@ -609,15 +635,18 @@ public class UserListAcivity extends AppCompatActivity {
 
                                         reportBeans.add(reportBean);
 
-
+                                        reporturl.add(reportBean.getReportUrl());
+                                        reportcreateTime.add(String.valueOf(reportBean.getCreateTime()));
                                         if (reportBean.getQuality() == 1){
-                                            dataBean.setQuality(1);
-                                            reporturl.add(reportBean.getReportUrl());
-                                            reportcreateTime.add(String.valueOf(reportBean.getCreateTime()));
+//                                            dataBean.setQuality(1);
+
+                                            quality1.add(1);
+
 
 //                                        dataBean.setReportUrl(reportBean.getReportUrl());
                                         }else {
-                                            dataBean.setQuality(2);
+                                            quality1.add(2);
+//                                            dataBean.setQuality(2);
                                         }
 
 
@@ -633,15 +662,27 @@ public class UserListAcivity extends AppCompatActivity {
                                 String[] urls = reporturl.toArray(new String[reporturl.size()]);
 //
                                 String[] reportcreateTimes  = reportcreateTime.toArray(new String[reportcreateTime.size()]);
-                                for (int j =0;j<urls.length;j++){
-                                    dataBean.setReportUrl(urls[0]);
-                                    dataBean.setReportCreateTime(reportcreateTimes[0]);
+                                int a = 0;
+                                if (quality1.size()>0){
+                                    for (int j =0;j<quality1.size();j++){
+                                        if (quality1.get(j ) == 1){
+                                            a = j;
+                                            Log.d("quality", String.valueOf(a));
+                                            break;
+                                        }
+                                    }
+                                    dataBean.setQuality(quality1.get(a));
+                                    dataBean.setReportUrl(urls[a]);
+                                    dataBean.setReportCreateTime(reportcreateTimes[a]);
+
+                                }else {
+                                    dataBean.setQuality(2);
                                 }
 
 
 
                                 dataBeans.add(dataBean);
-
+                                Log.d("quality", String.valueOf(quality1));
 
                             }
 
@@ -666,6 +707,7 @@ public class UserListAcivity extends AppCompatActivity {
 
                         if (userListResponse.getCode() == 0){
 
+                            Log.d("dataBeans", String.valueOf(dataBeans));
                             recyclerView.setLinearLayout();
 
                             userListAdapter  = new UserListAdapter(dataBeans,UserListAcivity.this);
@@ -743,6 +785,7 @@ public class UserListAcivity extends AppCompatActivity {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -846,6 +889,7 @@ public class UserListAcivity extends AppCompatActivity {
                                 UserListResponse.DataBeanX.DataBean.ReportBean  reportBean = new UserListResponse.DataBeanX.DataBean.ReportBean();
                                 List<String> reporturl = new ArrayList<>();
                                 List<String> reportcreateTime = new ArrayList<>();
+                                List<Integer> quality1 = new ArrayList<>();
 
 
 
@@ -873,15 +917,19 @@ public class UserListAcivity extends AppCompatActivity {
 
 
                                         Log.d("repisdda", String.valueOf(reportBean.getQuality()));
+                                        reporturl.add(reportBean.getReportUrl());
+                                        reportcreateTime.add(String.valueOf(reportBean.getCreateTime()));
 
                                         if (reportBean.getQuality() == 1 ){
-                                            dataBean.setQuality(1);
-                                            reporturl.add(reportBean.getReportUrl());
-                                            reportcreateTime.add(String.valueOf(reportBean.getCreateTime()));
+//                                            dataBean.setQuality(1);
+
+                                            quality1.add(1);
+
 
 //                                        dataBean.setReportUrl(reportBean.getReportUrl());
                                         }else {
-                                            dataBean.setQuality(2);
+                                            quality1.add(2);
+//                                            dataBean.setQuality(2);
                                         }
 
 
@@ -897,11 +945,20 @@ public class UserListAcivity extends AppCompatActivity {
                                 String[] urls = reporturl.toArray(new String[reporturl.size()]);
 //
                                 String[] reportcreateTimes  = reportcreateTime.toArray(new String[reportcreateTime.size()]);
-                                for (int j =0;j<urls.length;j++){
-                                    dataBean.setReportUrl(urls[0]);
-                                    dataBean.setReportCreateTime(reportcreateTimes[0]);
+                                int a = 0;
+                                if (quality1.size()>0){
+                                    for (int j =0;j<quality1.size();j++){
+                                        if (quality1.get(j ) == 1){
+                                            a = j;
+                                            break;
+                                        }
+                                    }
+                                    dataBean.setQuality(quality1.get(a));
+                                    dataBean.setReportUrl(urls[a]);
+                                    dataBean.setReportCreateTime(reportcreateTimes[a]);
+                                }else {
+                                    dataBean.setQuality(2);
                                 }
-
 
 
                                 dataBeans.add(dataBean);
@@ -982,6 +1039,7 @@ public class UserListAcivity extends AppCompatActivity {
                 .url(url)
                 .addHeader("token", getTokenToSp("token", ""))
                 .addHeader("uid", getUidToSp("uid", ""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call = okHttpClient.newCall(request);
@@ -1085,6 +1143,7 @@ public class UserListAcivity extends AppCompatActivity {
                                 UserListResponse.DataBeanX.DataBean.ReportBean  reportBean = new UserListResponse.DataBeanX.DataBean.ReportBean();
                                 List<String> reporturl = new ArrayList<>();
                                 List<String> reportcreateTime = new ArrayList<>();
+                                List<Integer> quality1 = new ArrayList<>();
 
 
 
@@ -1110,15 +1169,17 @@ public class UserListAcivity extends AppCompatActivity {
 
                                         reportBeans.add(reportBean);
 
-
+                                        reporturl.add(reportBean.getReportUrl());
+                                        reportcreateTime.add(String.valueOf(reportBean.getCreateTime()));
                                         if (reportBean.getQuality() == 1){
-                                            dataBean.setQuality(1);
-                                            reporturl.add(reportBean.getReportUrl());
-                                            reportcreateTime.add(String.valueOf(reportBean.getCreateTime()));
+//                                            dataBean.setQuality(1);
+                                            quality1.add(1);
+
 
 //                                        dataBean.setReportUrl(reportBean.getReportUrl());
                                         }else {
-                                            dataBean.setQuality(2);
+                                            quality1.add(2);
+//                                            dataBean.setQuality(2);
                                         }
 
 
@@ -1134,11 +1195,21 @@ public class UserListAcivity extends AppCompatActivity {
                                 String[] urls = reporturl.toArray(new String[reporturl.size()]);
 //
                                 String[] reportcreateTimes  = reportcreateTime.toArray(new String[reportcreateTime.size()]);
-                                for (int j =0;j<urls.length;j++){
-                                    dataBean.setReportUrl(urls[0]);
-                                    dataBean.setReportCreateTime(reportcreateTimes[0]);
-                                }
+                                int a = 0;
+                                if (quality1.size()>0){
+                                    for (int j =0;j<quality1.size();j++){
+                                        if (quality1.get(j ) == 1){
+                                            a = j;
+                                            break;
+                                        }
 
+                                    }
+                                    dataBean.setQuality(quality1.get(a));
+                                    dataBean.setReportUrl(urls[a]);
+                                    dataBean.setReportCreateTime(reportcreateTimes[a]);
+                                }else {
+                                    dataBean.setQuality(2);
+                                }
 
 
                                 dataBeans.add(dataBean);

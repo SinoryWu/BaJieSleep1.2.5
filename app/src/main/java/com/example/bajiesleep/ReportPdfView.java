@@ -2,29 +2,24 @@ package com.example.bajiesleep;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,19 +28,11 @@ import android.widget.TextView;
 
 import com.example.bajiesleep.util.GetFileSize;
 import com.joanzapata.pdfview.PDFView;
-import com.joanzapata.pdfview.listener.OnDrawListener;
-import com.joanzapata.pdfview.listener.OnLoadCompleteListener;
-import com.joanzapata.pdfview.listener.OnPageChangeListener;
-import com.liulishuo.filedownloader.BaseDownloadTask;
-import com.liulishuo.filedownloader.FileDownloadListener;
-import com.liulishuo.filedownloader.FileDownloader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-
-import pl.droidsonroids.gif.GifImageView;
 
 public class ReportPdfView extends AppCompatActivity  {
 
@@ -56,12 +43,12 @@ public class ReportPdfView extends AppCompatActivity  {
     String reportTrueName;
     String reportCreateTime;
     private ImageView mIvDownload;
-    private RelativeLayout mRlWeb, mRlError, mRlLoading, mRlButtonSlices,mRlSleepSlices;
+    private RelativeLayout mRlWeb, mRlError, mRlLoading, mRlButtonSlices,mRlSleepSlices,mRlProgressBar;
     private TextView loadingText;
     private Button mBtnSleepSlices;
     private TimeCount time;
     int i = 0;
-
+    DialogProgress dialogProgress;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -69,6 +56,7 @@ public class ReportPdfView extends AppCompatActivity  {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_pdf_view);
+        dialogProgress = new DialogProgress(ReportPdfView.this,R.style.CustomDialog);
         final Window window=getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(Color.parseColor("#ffffff"));
@@ -88,6 +76,7 @@ public class ReportPdfView extends AppCompatActivity  {
         loadingText = findViewById(R.id.tv_loading);
         mRlSleepSlices= findViewById(R.id.rl_gone);
         mBtnSleepSlices = findViewById(R.id.sleep_slices_btn);
+        mRlProgressBar = findViewById(R.id.rl_web_progress);
 
         pdfView.setWebChromeClient(new WebChromeClient());
         WebSettings webSettings = pdfView.getSettings();
@@ -102,7 +91,26 @@ public class ReportPdfView extends AppCompatActivity  {
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setDisplayZoomControls(false);
+        pdfView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                mRlProgressBar.setVisibility(View.VISIBLE);
+            }
 
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mRlProgressBar.setVisibility(View.GONE);
+                    }
+                },1500);
+//                dialogProgress.dismiss();
+            }
+        });
 //        mRlError.setVisibility(View.GONE);
 //        mRlSleepSlices.setVisibility(View.GONE);
 //        mRlLoading.setVisibility(View.GONE);

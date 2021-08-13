@@ -37,7 +37,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="45dp"
-        android:visibility="gone">
+        android:visibility="visible">
+
 
         <WebView
 
@@ -48,6 +49,22 @@
 
         </WebView>
 
+        <RelativeLayout
+            android:id="@+id/rl_web1_progress"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="185dp"
+            android:background="@drawable/web_progress_background"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:visibility="gone">
+            <ProgressBar
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                style="?android:attr/progressBarStyle"
+                android:indeterminateTint="#000000"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
 
 
         <RelativeLayout

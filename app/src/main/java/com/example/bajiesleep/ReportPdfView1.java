@@ -7,11 +7,13 @@ import androidx.core.content.FileProvider;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -19,6 +21,7 @@ import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +32,7 @@ import android.widget.Toast;
 import com.example.bajiesleep.entity.AppointReportResponse;
 import com.example.bajiesleep.entity.EditReortResponse;
 import com.example.bajiesleep.util.GetFileSize;
+import com.example.bajiesleep.util.GetShp;
 import com.joanzapata.pdfview.PDFView;
 
 import org.json.JSONException;
@@ -56,16 +60,20 @@ public class ReportPdfView1 extends AppCompatActivity {
     String reportID;
     String hospitalId;
     private ImageView mIvDownload;
-    private RelativeLayout mRlWeb, mRlError, mRlLoading, mRlButtonSlices,mRlSleepSlices;
+    private RelativeLayout mRlWeb, mRlError, mRlLoading, mRlButtonSlices,mRlSleepSlices,mRlProgressBar;
     private TextView loadingText;
     private Button mBtnSleepSlices;
     private TimeCount time;
-
+//    DialogProgress dialogProgress ;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_pdf_view1);
+
+//        dialogProgress = new DialogProgress(ReportPdfView1.this,R.style.CustomDialog);
+//        dialogProgress.show();
+
         Log.d("请求的url", getTokenToSp("token",""));
         Log.d("请求的url", getUidToSp("uid",""));
         final Window window=getWindow();
@@ -90,6 +98,7 @@ public class ReportPdfView1 extends AppCompatActivity {
         loadingText = findViewById(R.id.tv_loading);
         mRlSleepSlices= findViewById(R.id.rl_gone);
         mBtnSleepSlices = findViewById(R.id.sleep_slices_btn);
+        mRlProgressBar = findViewById(R.id.rl_web1_progress);
         pdfView.setWebChromeClient(new WebChromeClient());
         WebSettings webSettings = pdfView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -103,6 +112,27 @@ public class ReportPdfView1 extends AppCompatActivity {
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setDisplayZoomControls(false);
+        pdfView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                mRlProgressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mRlProgressBar.setVisibility(View.GONE);
+                    }
+                },1500);
+//                dialogProgress.dismiss();
+            }
+        });
+
 
         linearLeft.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -320,6 +350,7 @@ public class ReportPdfView1 extends AppCompatActivity {
                 .url(url)
                 .addHeader("token", getTokenToSp("token",""))
                 .addHeader("uid",getUidToSp("uid",""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call =   okHttpClient.newCall(request);
@@ -416,6 +447,7 @@ public class ReportPdfView1 extends AppCompatActivity {
                 .url(url)
                 .addHeader("token", getTokenToSp("token",""))
                 .addHeader("uid",getUidToSp("uid",""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call =   okHttpClient.newCall(request);

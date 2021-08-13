@@ -2,10 +2,16 @@ package com.example.bajiesleep.txt;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,18 +31,43 @@ import java.io.UnsupportedEncodingException;
 public class PrivateLinkActivity extends AppCompatActivity {
     private TextView mTvPrivateLink;
     private LinearLayout linearLeft;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_private_link);
-        mTvPrivateLink =findViewById(R.id.private_tv_private_link);
+//        WifiManager wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+//        WifiInfo winfo = wifi.getConnectionInfo();
+//        String mac =  winfo.getMacAddress();
+////        String mac =  winfo.getMacAddress();
+//        Log.d("mac", mac);
+//        setContentView(R.layout.activity_private_link);
+//        mTvPrivateLink =findViewById(R.id.private_tv_private_link);
         linearLeft=findViewById(R.id.liner_left_private_link);
-        mTvPrivateLink.setMovementMethod(new ScrollingMovementMethod());
+        webView = findViewById(R.id.private_link_web);
+//        mTvPrivateLink.setMovementMethod(new ScrollingMovementMethod());
+//
+//        InputStream inputStream = getResources().openRawResource(R.raw.private_link);
+//        String string = TxtReader.getString(inputStream);
+//        mTvPrivateLink.setText(string);
 
-        InputStream inputStream = getResources().openRawResource(R.raw.private_link);
-        String string = TxtReader.getString(inputStream);
-        mTvPrivateLink.setText(string);
+        webView.setWebChromeClient(new WebChromeClient());
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setAllowFileAccess(true);
+        webSettings.setAllowFileAccessFromFileURLs(true);
+        webSettings.setAllowUniversalAccessFromFileURLs(true);
+
+//        webSettings.setJavaScriptEnabled(true);
+        webSettings.setSupportZoom(true);
+        webSettings.setBuiltInZoomControls(true);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setDisplayZoomControls(false);
+
+        webView.clearCache(true);
+        webView.clearFormData();
+        webView.loadUrl("https://www.bajiesleep.com/yinsixieyi.html");
 
         linearLeft.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +81,6 @@ public class PrivateLinkActivity extends AppCompatActivity {
 
 
     public static class TxtReader {
-
 
         /**
          * 通过一个InputStream获取内容

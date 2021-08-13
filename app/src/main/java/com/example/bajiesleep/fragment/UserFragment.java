@@ -31,6 +31,7 @@ import com.example.bajiesleep.entity.LoginDataResponse;
 import com.example.bajiesleep.entity.LoginOutResponse;
 import com.example.bajiesleep.entity.LoginResponse;
 import com.example.bajiesleep.entity.PersonResponse;
+import com.example.bajiesleep.util.GetShp;
 import com.example.bajiesleep.util.TokenCodeUtil;
 import com.google.gson.Gson;
 
@@ -127,6 +128,7 @@ public class UserFragment extends Fragment  {
                 .url(url)
                 .addHeader("token", getTokenToSp("token",""))
                 .addHeader("uid",getUidToSp("uid",""))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
                 .build();
         //3.将request封装为call
         Call call =   okHttpClient.newCall(request);
@@ -293,6 +295,7 @@ public class UserFragment extends Fragment  {
                 .post(requestBodyJson)
                 .addHeader("token",getTokenToSp("token",""))
                 .addHeader("uid",getUidToSp("uid",""))
+                .addHeader("user-agent", GetShp.getUserAgent(requireContext()))
                 .build();
         //3.将request封装为call
         Call call =   okHttpClient.newCall(request);

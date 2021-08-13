@@ -32,7 +32,9 @@ import com.example.bajiesleep.entity.SearchDeviceScanResponse;
 import com.example.bajiesleep.entity.SearchDeviceScanResponse1;
 import com.example.bajiesleep.entity.TestBean;
 import com.example.bajiesleep.fragment.recyclerview.ListViewAdapter2;
+import com.example.bajiesleep.util.GetShp;
 import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.CaptureActivity;
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
@@ -150,7 +152,8 @@ public class ScanActivity extends AppCompatActivity {
         buttonSwitchScan = findViewById(R.id.button_switch2);
         recyclerView = findViewById(R.id.scan_recycler_view);
 
-
+//        Intent intent = new Intent(ScanActivity.this, CaptureActivity.class);
+//        startActivity(intent);
 
         capture = new CaptureManager(this, barcodeScannerView);
 
@@ -375,6 +378,7 @@ public class ScanActivity extends AppCompatActivity {
                 .url(url)
                 .addHeader("token", getTokenToSp("token",""))
                 .addHeader("uid",getUidToSp("uid",""))
+                .addHeader("user-agent", GetShp.getUserAgent(getApplicationContext()))
                 .build();
         //3.将request封装为call
         Call call =   okHttpClient.newCall(request);

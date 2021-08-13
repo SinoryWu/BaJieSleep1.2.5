@@ -1,8 +1,10 @@
 package com.example.jpushdemo;
 
+import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -25,8 +27,11 @@ import cn.jpush.android.api.JPushInterface;
 public class MyReceiver extends BroadcastReceiver {
 	private static final String TAG = "JIGUANG-Example";
 
+
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
+
 		try {
 			Bundle bundle = intent.getExtras();
 			Logger.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
@@ -65,7 +70,11 @@ public class MyReceiver extends BroadcastReceiver {
 
 		}
 
+
+
 	}
+
+
 
 	// 打印所有的 intent extra 数据
 	private static String printBundle(Bundle bundle) {
@@ -122,4 +131,12 @@ public class MyReceiver extends BroadcastReceiver {
 			LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
 		}
 	}
+
+
+	public String getjpushkeyToSp(String key, String val,Context context){
+		SharedPreferences sp1 = context.getSharedPreferences("sp", context.MODE_PRIVATE);
+		String token = sp1.getString("token","没有token");
+		return token;
+	}
+
 }

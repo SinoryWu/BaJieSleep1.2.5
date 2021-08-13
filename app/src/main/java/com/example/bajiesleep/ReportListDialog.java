@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 
 import com.example.bajiesleep.entity.AppointReportResponse;
 import com.example.bajiesleep.entity.EditReortResponse;
+import com.example.bajiesleep.util.GetShp;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -140,6 +141,7 @@ public class ReportListDialog extends Dialog {
                 .url(url)
                 .addHeader("token", getTokenToSp("token",""))
                 .addHeader("uid",getUidToSp("uid",""))
+                .addHeader("user-agent", GetShp.getUserAgent(context))
                 .build();
         //3.将request封装为call
         Call call =   okHttpClient.newCall(request);
@@ -255,6 +257,7 @@ public class ReportListDialog extends Dialog {
                 .url(url)
                 .addHeader("token", getTokenToSp("token",""))
                 .addHeader("uid",getUidToSp("uid",""))
+                .addHeader("user-agent", GetShp.getUserAgent(context))
                 .build();
         //3.将request封装为call
         Call call =   okHttpClient.newCall(request);
