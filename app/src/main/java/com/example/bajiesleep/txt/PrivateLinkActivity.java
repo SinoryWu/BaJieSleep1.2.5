@@ -41,7 +41,7 @@ public class PrivateLinkActivity extends AppCompatActivity {
 //        String mac =  winfo.getMacAddress();
 ////        String mac =  winfo.getMacAddress();
 //        Log.d("mac", mac);
-//        setContentView(R.layout.activity_private_link);
+        setContentView(R.layout.activity_private_link);
 //        mTvPrivateLink =findViewById(R.id.private_tv_private_link);
         linearLeft=findViewById(R.id.liner_left_private_link);
         webView = findViewById(R.id.private_link_web);

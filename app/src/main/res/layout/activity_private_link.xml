@@ -39,15 +39,19 @@
     </RelativeLayout>
 
 
-    <TextView
-        android:background="#f7f7f7"
-        android:id="@+id/private_tv_private_link"
-        android:layout_margin="5dp"
+<!--    <TextView-->
+<!--        android:id="@+id/private_tv_private_link"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_margin="5dp"-->
+<!--        android:background="#f7f7f7"-->
+<!--        android:text="hello"-->
+<!--        android:textColor="#000000"-->
+<!--        android:textSize="14sp"-->
+<!--        android:textStyle="normal" />-->
+    <WebView
+        android:id="@+id/private_link_web"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textStyle="normal"
-        android:textSize="14sp"
-        android:textColor="#000000"
-        android:text="hello"/>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

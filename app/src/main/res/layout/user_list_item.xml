@@ -71,7 +71,6 @@
                     android:id="@+id/user_list_hospital"
                     android:layout_width="wrap_content"
                     android:layout_height="15dp"
-                    android:text="机构：杭州道奇医疗器械有限公司"
                     android:textSize="12sp"
                     android:textColor="#817889"
                     android:layout_marginLeft="34dp"/>

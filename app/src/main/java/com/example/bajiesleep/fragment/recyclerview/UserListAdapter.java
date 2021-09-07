@@ -27,6 +27,7 @@ import com.example.bajiesleep.ReportPdfView1;
 import com.example.bajiesleep.ToastUtils;
 import com.example.bajiesleep.entity.UserListInfoResponse;
 import com.example.bajiesleep.entity.UserListResponse;
+import com.example.bajiesleep.util.GetShp;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -286,7 +287,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.InnerH
             }
 
             mTvUserName.setText(dataBean.getTruename());
-
+            mTvUserHospital.setText("机构："+dataBean.getHospitalName());
 
             String data = timestamp2Date(String.valueOf(dataBean.getCreate_time()), "yyyy-MM-dd");
             mTvDate.setText(data);
@@ -309,6 +310,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.InnerH
                     .url(url)
                     .addHeader("token", getTokenToSp("token", ""))
                     .addHeader("uid", getUidToSp("uid", ""))
+                    .addHeader("user-agent", GetShp.getUserAgent(context))
                     .build();
             //3.将request封装为call
             Call call = okHttpClient.newCall(request);

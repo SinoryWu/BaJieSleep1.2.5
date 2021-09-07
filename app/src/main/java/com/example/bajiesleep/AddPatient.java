@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.bajiesleep.entity.RecoverResponse;
@@ -44,7 +45,7 @@ public class AddPatient extends AppCompatActivity {
     private EditText mEtName,mEtAge,mEtHeight,mEtWeight,mEtMobile;
     private Button mBtnAdd;
     DeviceFragment deviceFragment ;
-
+    private RelativeLayout mRlProgressBar;
     RecoverResponse recoverResponse = new RecoverResponse();
     int a ;
     @Override
@@ -62,8 +63,8 @@ public class AddPatient extends AppCompatActivity {
         mEtWeight=findViewById(R.id.add_et_weight);
         mEtMobile = findViewById(R.id.add_et_phone);
         mBtnAdd=findViewById(R.id.add_add);
-
-
+        mBtnAdd.setClickable(true);
+        mRlProgressBar.setVisibility(View.GONE);
 
         mTvBtnId.setVisibility(View.GONE);
         mTvSex.setVisibility(View.GONE);
@@ -115,6 +116,9 @@ public class AddPatient extends AppCompatActivity {
                     if (mEtMobile.getText().length() < 11){
                         ToastUtils.showTextToast(AddPatient.this,"请输入正确手机号");
                     }else {
+                        mRlProgressBar.setVisibility(View.VISIBLE);
+                        mBtnAdd.setClickable(false);
+                        mBtnAdd.setBackground(getResources().getDrawable(R.drawable.add_button_background_false));
                         getResRecover(Api.URL+"/v1/user/create?sex="+mTvSex.getText()+"&age="+mEtAge.getText().toString()+"&height="+mEtHeight.getText().toString()+"&weight="+mEtWeight.getText().toString()+"&hospitalid="+getHosIdToSp("hosid","")+"&truename="+mEtName.getText().toString()+"&mobile="+mEtMobile.getText().toString());
                     }
 
@@ -211,6 +215,7 @@ public class AddPatient extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (recoverResponse.getCode() == 0){
+                            mRlProgressBar.setVisibility(View.GONE);
                             ToastUtils.showTextToast(AddPatient.this,"添加成功");
                             finish();
                         }else if (recoverResponse.getCode() == 10003){
