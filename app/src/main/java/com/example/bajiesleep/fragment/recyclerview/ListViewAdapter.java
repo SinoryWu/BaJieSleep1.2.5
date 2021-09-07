@@ -48,6 +48,7 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.InnerH
     public interface OnItemClickListener{
 
 
+
         void onItemClick(int reportStatus);
     }
 
